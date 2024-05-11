@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { SignedIn, SignedOut, SignInWithMetamaskButton, SignOutButton } from '@clerk/nextjs'
 
@@ -12,6 +13,9 @@ const Home = () => {
           </SignInWithMetamaskButton>
         </SignedOut>
         <SignedIn>
+          <Link href={'/profile'}>
+            <Button>Profile</Button>
+          </Link>
           <SignOutButton>
             <Button>Sign Out</Button>
           </SignOutButton>

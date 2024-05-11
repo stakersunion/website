@@ -1,5 +1,6 @@
-import { Inter as FontSans } from 'next/font/google'
 import '@/app/globals.css'
+import { ClerkProvider } from '@clerk/nextjs'
+import { Inter as FontSans } from 'next/font/google'
 import { cn } from '@/utils/shadcn'
 
 const fontSans = FontSans({
@@ -14,14 +15,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang={'en'}
-      suppressHydrationWarning
-    >
-      <head />
-      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html
+        lang={'en'}
+        suppressHydrationWarning
+      >
+        <head />
+        <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

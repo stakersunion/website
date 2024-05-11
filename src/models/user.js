@@ -10,6 +10,25 @@ const userSchema = mongoose.Schema(
     name: {
       type: String,
     },
+    email: {
+      type: String,
+    },
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user',
+    },
+    addresses: [
+      {
+        address: {
+          type: String,
+        },
+        type: {
+          type: String,
+          enum: ['withdrawal', 'deposit'],
+        },
+      },
+    ],
   },
   {
     timestamps: true,

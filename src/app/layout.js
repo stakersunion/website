@@ -1,5 +1,6 @@
 import '@/app/globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
+import Providers from '@/app/providers'
 import { Inter as FontSans } from 'next/font/google'
 import { cn } from '@/utils/shadcn'
 
@@ -15,16 +16,20 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
-      <html
-        lang={'en'}
-        suppressHydrationWarning
-      >
-        <head />
-        <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <Providers>
+      <ClerkProvider>
+        <html
+          lang={'en'}
+          suppressHydrationWarning
+        >
+          <head />
+          <body
+            className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}
+          >
+            {children}
+          </body>
+        </html>
+      </ClerkProvider>
+    </Providers>
   )
 }

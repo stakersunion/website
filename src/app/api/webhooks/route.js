@@ -59,6 +59,7 @@ export async function POST(req) {
         id: id,
       })
       await newUser.save()
+      return new NextResponse('User created', { status: 200 })
     case 'user.deleted':
       await User.findOneAndDelete({
         id: id,

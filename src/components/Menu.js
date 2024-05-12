@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -9,7 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { CircleUserRound } from 'lucide-react'
+import { SignOutButton } from '@clerk/nextjs'
+import { CircleUserRound, UserRound, LogOut } from 'lucide-react'
 import { useUser } from '@/utils/query/user'
 import { Loader2 } from 'lucide-react'
 
@@ -33,10 +35,24 @@ const Menu = () => {
       <DropdownMenuContent>
         <DropdownMenuLabel>Welcome {user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
+        <Link href={'/profile'}>
+          <DropdownMenuItem>
+            <UserRound
+              strokeWidth={1}
+              className={'w-4 h-4 mr-2'}
+            />
+            <span>Profile</span>
+          </DropdownMenuItem>
+        </Link>
+        <SignOutButton>
+          <DropdownMenuItem>
+            <LogOut
+              strokeWidth={1}
+              className={'w-4 h-4 mr-2'}
+            />
+            <span>Log Out</span>
+          </DropdownMenuItem>
+        </SignOutButton>
       </DropdownMenuContent>
     </DropdownMenu>
   )

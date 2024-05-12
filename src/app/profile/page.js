@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
+import { Title } from '@/components'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -39,13 +40,9 @@ const Profile = () => {
     updateUser(values)
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
   return (
-    <div>
-      <h1>Profile</h1>
+    <div className={'container'}>
+      <Title>Profile</Title>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -60,10 +57,11 @@ const Profile = () => {
                 <FormControl>
                   <Input
                     placeholder={'John Smith'}
+                    disabled={isLoading}
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>This is your public display name.</FormDescription>
+                <FormDescription>Your public display name.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -77,10 +75,11 @@ const Profile = () => {
                 <FormControl>
                   <Input
                     placeholder={'test@example.com'}
+                    disabled={isLoading}
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>This is your preferred contact email.</FormDescription>
+                <FormDescription>Your preferred contact email.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

@@ -4,7 +4,7 @@ import { DataClient } from '@0xsplits/splits-sdk'
 
 const publicClient = createPublicClient({
   chain: holesky,
-  transport: http('https://holesky.infura.io/v3/aed4a0f5b3594f9ead0f3bf1de9255ba'),
+  transport: http(),
 })
 
 const dataClient = new DataClient({

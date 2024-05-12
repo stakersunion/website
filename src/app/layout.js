@@ -2,6 +2,7 @@ import '@/app/globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import Providers from '@/app/providers'
 import { Inter as FontSans } from 'next/font/google'
+import { Header } from '@/components'
 import { cn } from '@/utils/shadcn'
 
 const fontSans = FontSans({
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
           <body
             className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}
           >
+            <Header />
             {children}
           </body>
         </html>

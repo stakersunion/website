@@ -4,7 +4,7 @@ import { SignedIn, SignedOut, SignInWithMetamaskButton, SignOutButton } from '@c
 
 const Home = () => {
   return (
-    <div>
+    <div className={'container'}>
       Home
       <div>
         <SignedOut>

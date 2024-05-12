@@ -1,6 +1,7 @@
 import '@/app/globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import Providers from '@/app/providers'
+import NextTopLoader from 'nextjs-toploader'
 import { Inter as FontSans } from 'next/font/google'
 import { Header } from '@/components'
 import { cn } from '@/utils/shadcn'
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
           <body
             className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}
           >
+            <NextTopLoader color={'#ffffff'} showSpinner={false} />
             <Header />
             {children}
           </body>

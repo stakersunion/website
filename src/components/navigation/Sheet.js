@@ -45,9 +45,7 @@ const Sheet = () => {
           {Object.values(routes).map((route) => (
             <SheetItem
               key={route.path}
-              path={route.path}
-              icon={route.icon}
-              title={route.title}
+              route={route}
               variant={pathname === route.path ? 'active' : 'default'}
             />
           ))}

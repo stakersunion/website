@@ -30,9 +30,7 @@ const Sidebar = () => {
         {Object.values(routes).map((route) => (
           <SidebarItem
             key={route.path}
-            path={route.path}
-            icon={route.icon}
-            title={route.title}
+            route={route}
             variant={pathname === route.path ? 'active' : 'default'}
           />
         ))}

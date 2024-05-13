@@ -17,17 +17,18 @@ const itemVariants = cva(
   }
 )
 
-const SheetItem = ({ path, icon, title, variant }) => {
+const SheetItem = ({ route, variant }) => {
   return (
     <Link
-      href={path}
+      href={route.path}
+      target={route.target}
       className={itemVariants({ variant })}
     >
       <FontAwesomeIcon
-        icon={icon}
+        icon={route.icon}
         className={'w-5 h-5'}
       />
-      {title}
+      {route.title}
     </Link>
   )
 }

@@ -18,25 +18,26 @@ const itemVariants = cva(
   }
 )
 
-const SidebarItem = ({ path, icon, title, variant }) => {
+const SidebarItem = ({ route, variant }) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <Link
-          href={path}
+          href={route.path}
+          target={route.target}
           className={
             itemVariants({ variant }) +
             'flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8'
           }
         >
           <FontAwesomeIcon
-            icon={icon}
+            icon={route.icon}
             className={'w-4 h-4'}
           />
-          <span className={'sr-only'}>{title}</span>
+          <span className={'sr-only'}>{route.title}</span>
         </Link>
       </TooltipTrigger>
-      <TooltipContent side={'right'}>{title}</TooltipContent>
+      <TooltipContent side={'right'}>{route.title}</TooltipContent>
     </Tooltip>
   )
 }

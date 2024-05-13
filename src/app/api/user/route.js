@@ -7,7 +7,7 @@ export async function GET() {
   const { id } = await currentUser()
 
   if (!id) {
-    return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    return NextResponse.json({ error: 'Not logged in' }, { status: 401 })
   } else {
     await connect()
     const user = await User.findOne({ id })

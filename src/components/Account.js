@@ -7,13 +7,17 @@ import {
   SignedOut,
   SignInWithMetamaskButton,
 } from '@clerk/nextjs'
-import { Loader2 } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const Account = () => {
   return (
     <>
       <ClerkLoading>
-        <Loader2 className={'h-4 w-4 animate-spin'} />
+        <FontAwesomeIcon
+          icon={faLoader}
+          className={'h-4 w-4 animate-spin'}
+        />
       </ClerkLoading>
       <ClerkLoaded>
         <SignedOut>

@@ -6,7 +6,8 @@ import Providers from '@/app/providers'
 import { Toaster } from '@/components/ui/sonner'
 import NextTopLoader from 'nextjs-toploader'
 import { Inter as FontSans } from 'next/font/google'
-import { AccountMenu, Sidebar, Sheet } from '@/components/navigation'
+import { Sidebar, Sheet } from '@/components/navigation'
+import { Account } from '@/components/header'
 import { cn } from '@/utils/shadcn'
 config.autoAddCss = false
 
@@ -47,7 +48,7 @@ export default function RootLayout({ children }) {
                   <div className={'relative ml-auto flex-1 md:grow-0'}>
                     <Sheet />
                   </div>
-                  <AccountMenu />
+                  <Account />
                 </header>
                 <main>{children}</main>
                 <Toaster />

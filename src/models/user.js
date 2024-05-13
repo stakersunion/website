@@ -27,6 +27,10 @@ const userSchema = mongoose.Schema(
           type: String,
           enum: ['withdrawal', 'deposit'],
         },
+        verified: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
   },

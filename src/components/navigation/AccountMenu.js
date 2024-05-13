@@ -66,13 +66,13 @@ const AccountMenu = () => {
             <DropdownMenuContent>
               <DropdownMenuLabel>Welcome {user?.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Link href={routes.profile.path}>
+              <Link href={routes.account.path}>
                 <DropdownMenuItem>
                   <FontAwesomeIcon
                     icon={faUserCircle}
                     className={'w-4 h-4 mr-2 fa-fw'}
                   />
-                  <span>Profile</span>
+                  <span>Account</span>
                 </DropdownMenuItem>
               </Link>
               <SignOutButton>

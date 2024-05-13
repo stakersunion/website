@@ -16,7 +16,7 @@ const Home = () => {
         <Card>
           <CardHeader>
             <CardTitle>Members</CardTitle>
-            <CardDescription>Number of active Stakers Union Members</CardDescription>
+            <CardDescription>Number of Active Stakers Union Members</CardDescription>
           </CardHeader>
           <CardContent>
             {loadingMetadata ? (

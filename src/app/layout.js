@@ -3,6 +3,7 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import Providers from '@/app/providers'
+import { Toaster } from '@/components/ui/sonner'
 import NextTopLoader from 'nextjs-toploader'
 import { Inter as FontSans } from 'next/font/google'
 import { AccountMenu, Sidebar, Sheet } from '@/components/navigation'
@@ -49,6 +50,7 @@ export default function RootLayout({ children }) {
                   <AccountMenu />
                 </header>
                 <main>{children}</main>
+                <Toaster />
               </div>
             </div>
           </body>

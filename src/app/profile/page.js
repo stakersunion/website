@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
 import {
   Form,
@@ -16,8 +17,9 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useUser, useUpdateUser } from '@/utils/query/user'
+import { toast } from 'sonner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLoader, faCheck } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const Profile = () => {
   const { data: user, isLoading, isError } = useUser()
@@ -40,6 +42,12 @@ const Profile = () => {
   const onSubmit = (values) => {
     updateUser(values)
   }
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Profile updated successfully')
+    }
+  }, [isSuccess])
 
   return (
     <div className={'container'}>
@@ -85,29 +93,18 @@ const Profile = () => {
               </FormItem>
             )}
           />
-          <div className={'flex flex-row items-center'}>
-            <Button
-              disabled={isLoading || isPending}
-              type={'submit'}
-            >
-              {isPending && (
-                <FontAwesomeIcon
-                  icon={faLoader}
-                  className={'mr-2 h-4 w-4 animate-spin'}
-                />
-              )}
-              Submit
-            </Button>
-            {isSuccess && (
-              <div className={'flex flex-row items-center'}>
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  className={'ml-4 h-4 w-4 text-muted-foreground'}
-                />
-                <p class={'text-sm text-muted-foreground ml-2'}>Saved</p>
-              </div>
+          <Button
+            disabled={isLoading || isPending}
+            type={'submit'}
+          >
+            {isPending && (
+              <FontAwesomeIcon
+                icon={faLoader}
+                className={'mr-2 h-4 w-4 animate-spin'}
+              />
             )}
-          </div>
+            Submit
+          </Button>
         </form>
       </Form>
     </div>

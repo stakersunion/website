@@ -57,6 +57,7 @@ export async function POST(req) {
     case 'user.created':
       const newUser = new User({
         id: id,
+        address: evt.data.web3_wallets[0].web3_wallet,
       })
       await newUser.save()
       return new NextResponse('User created', { status: 200 })

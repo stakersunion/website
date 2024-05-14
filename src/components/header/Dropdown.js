@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -10,6 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { faUser } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import {
+  faLoader,
   faUserCircle,
   faArrowRightFromBracket,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/regular'
@@ -18,15 +22,41 @@ import { useUser } from '@/utils/query/user'
 import { useQueryClient } from '@tanstack/react-query'
 import { useClerk } from '@clerk/nextjs'
 import routes from '@/utils/routes'
+import { mainnet } from '@/utils/chains'
 
 const Dropdown = () => {
-  const { data: user } = useUser()
+  const { data: user, isLoading } = useUser()
+  const [ensName, setEnsName] = useState('')
   const queryClient = useQueryClient()
   const { signOut } = useClerk()
 
   const handleSignout = () => {
     signOut()
     queryClient.removeQueries()
+  }
+
+  useEffect(() => {
+    if (!user) return
+    const fetchEnsName = async () => {
+      const ensName = await mainnet.getEnsName({
+        address: user.address,
+      })
+      setEnsName(ensName)
+    }
+    fetchEnsName()
+  }, [user])
+
+  if (isLoading) {
+    return (
+      <Avatar>
+        <AvatarFallback>
+          <FontAwesomeIcon
+            icon={faLoader}
+            className={'h-4 w-4 animate-spin'}
+          />
+        </AvatarFallback>
+      </Avatar>
+    )
   }
 
   return (
@@ -43,7 +73,7 @@ const Dropdown = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Welcome {user?.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>Welcome {ensName || user?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href={routes.account.path}>
           <DropdownMenuItem>

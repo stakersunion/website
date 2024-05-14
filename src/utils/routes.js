@@ -9,6 +9,7 @@ const routes = {
     children: {
       profile: { path: '/account/profile', title: 'Profile' },
       addresses: { path: '/account/addresses', title: 'Addresses' },
+      validators: { path: '/account/validators', title: 'Validators' },
     },
   },
   proposal: {

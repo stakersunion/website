@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { Title } from '@/components'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { usePathname } from 'next/navigation'
+import { Title } from '@/components'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import routes from '@/utils/routes'
 
 const AccountLayout = ({ children }) => {

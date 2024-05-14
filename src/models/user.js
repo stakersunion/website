@@ -7,6 +7,10 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    address: {
+      type: String,
+      require: true,
+    },
     name: {
       type: String,
     },
@@ -27,9 +31,10 @@ const userSchema = mongoose.Schema(
           type: String,
           enum: ['withdrawal', 'deposit'],
         },
-        verified: {
-          type: Boolean,
-          default: false,
+        status: {
+          type: String,
+          enum: ['pending', 'approved', 'rejected'],
+          default: 'pending',
         },
       },
     ],

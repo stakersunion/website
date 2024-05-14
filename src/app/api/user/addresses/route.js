@@ -19,7 +19,6 @@ export async function PUT(req) {
       user.addresses.push({
         address: body.address,
         type: body.type,
-        verified: false,
       })
       await user.save()
     }

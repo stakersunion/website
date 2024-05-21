@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "tunnel": "ngrok http --domain=buzzard-smashing-instantly.ngrok-free.app 3000",
+    "ngrok": "ngrok http --domain=buzzard-smashing-instantly.ngrok-free.app 3000",
+    "lt": "lt -p 3000",
     "lint": "next lint"
   },
   "dependencies": {

@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Submit } from '@/components/addresses'
+import { Create } from '@/components/addresses'
 import { useUser } from '@/utils/query/user'
 
 const Addresses = () => {
@@ -23,7 +23,7 @@ const Addresses = () => {
   return (
     <div>
       <div className={'flex justify-end mb-6'}>
-        <Submit />
+        <Create />
       </div>
       <Table>
         <TableCaption>A list of your submitted addresses.</TableCaption>

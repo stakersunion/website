@@ -1,3 +1,3 @@
-import Submit from '@/components/addresses/Submit'
+import Create from '@/components/addresses/Create'
 
-export { Submit }
+export { Create }

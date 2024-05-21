@@ -138,6 +138,27 @@ const SubmitAddress = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name={'validators'}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Validators</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={'Enter indices separated by commas (e.g., 1, 2, 3)'}
+                        disabled={isPending}
+                        {...field}
+                        onChange={(e) => {
+                          const indices = e.target.value.split(',').map((s) => s.trim())
+                          field.onChange(indices)
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button
                 disabled={isPending}
                 type={'submit'}

@@ -4,7 +4,7 @@ import connect from '@/utils/mongoose'
 import User from '@/models/user'
 
 export async function GET() {
-  const { id } = await currentUser()
+  const { id } = (await currentUser()) ?? {}
 
   if (!id) {
     return NextResponse.json({ error: 'Not logged in' }, { status: 401 })
@@ -16,7 +16,7 @@ export async function GET() {
 }
 
 export async function PUT(req) {
-  const { id } = await currentUser()
+  const { id } = (await currentUser()) ?? {}
   const body = await req.json()
 
   if (!id) {

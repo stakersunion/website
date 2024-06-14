@@ -13,13 +13,16 @@ const Sidebar = () => {
     >
       <nav className={'flex flex-col items-center gap-4 px-2 sm:py-5'}>
         <Logo />
-        {Object.values(routes).map((route) => (
-          <SidebarItem
-            key={route.path}
-            route={route}
-            variant={pathname === route.path ? 'active' : 'default'}
-          />
-        ))}
+        {Object.values(routes).map((route) => {
+          if (route.hidden) return
+          return (
+            <SidebarItem
+              key={route.path}
+              route={route}
+              variant={pathname === route.path ? 'active' : 'default'}
+            />
+          )
+        })}
       </nav>
     </aside>
   )

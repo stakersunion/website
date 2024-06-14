@@ -18,6 +18,13 @@ const routes = {
     icon: faPage,
     target: '_blank',
   },
+  admin: {
+    path: '/admin',
+    hidden: true,
+    children: {
+      users: { path: '/admin/users', title: 'Users' },
+    },
+  },
 }
 
 export default routes

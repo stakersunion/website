@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
 import {
@@ -18,7 +19,8 @@ import { useForm } from 'react-hook-form'
 import { useUser, useUpdateUser } from '@/utils/query/user'
 import { toast } from 'sonner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import { faLoader, faArrowRight } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import routes from '@/utils/routes'
 
 const Profile = () => {
   const { data: user, isLoading, isError } = useUser()
@@ -91,18 +93,33 @@ const Profile = () => {
               </FormItem>
             )}
           />
-          <Button
-            disabled={isLoading || isPending}
-            type={'submit'}
-          >
-            {isPending && (
-              <FontAwesomeIcon
-                icon={faLoader}
-                className={'mr-2 h-4 w-4 animate-spin'}
-              />
-            )}
-            Save
-          </Button>
+          <div className={'flex flex-1'}>
+            <Button
+              disabled={isLoading || isPending}
+              type={'submit'}
+            >
+              {isPending && (
+                <FontAwesomeIcon
+                  icon={faLoader}
+                  className={'mr-2 h-4 w-4 animate-spin'}
+                />
+              )}
+              Save
+            </Button>
+
+            <Button
+              disabled={!user?.name}
+              className={'ml-auto'}
+            >
+              <Link href={routes.account.children.addresses.path}>
+                Manage Addresses
+                <FontAwesomeIcon
+                  icon={faArrowRight}
+                  className={'ml-2'}
+                />
+              </Link>
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

@@ -26,7 +26,7 @@ const Profile = () => {
 
   const formSchema = z.object({
     name: z.string().min(2).max(50),
-    email: z.string().email().optional().or(z.literal('')),
+    email: z.string().email(),
   })
 
   const form = useForm({

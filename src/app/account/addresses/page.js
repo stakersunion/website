@@ -1,14 +1,7 @@
 'use client'
 
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import DataTable from '@/components/addresses/table/DataTable'
+import { columns } from '@/components/addresses/table/columns'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Create } from '@/components/addresses'
 import { useUser } from '@/utils/query/user'
@@ -25,32 +18,10 @@ const Addresses = () => {
       <div className={'flex justify-end mb-6'}>
         <Create />
       </div>
-      <Table>
-        <TableCaption>A list of your submitted addresses.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className={'w-2/3'}>Address</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead>Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {!user.addresses.length && (
-            <TableRow>
-              <TableCell colSpan={3}>No addresses found.</TableCell>
-            </TableRow>
-          )}
-          {user.addresses.map((address) => {
-            return (
-              <TableRow key={address.id}>
-                <TableCell>{address.address}</TableCell>
-                <TableCell>{address.type}</TableCell>
-                <TableCell>{address.status}</TableCell>
-              </TableRow>
-            )
-          })}
-        </TableBody>
-      </Table>
+      <DataTable
+        columns={columns}
+        data={user?.addresses || []}
+      />
     </div>
   )
 }

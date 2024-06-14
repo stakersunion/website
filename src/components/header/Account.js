@@ -2,6 +2,17 @@
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { ClerkLoading, ClerkLoaded, SignedIn, SignedOut, useClerk } from '@clerk/nextjs'
 import { Dropdown } from '@/components/header'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -33,7 +44,24 @@ const Account = () => {
       </ClerkLoading>
       <ClerkLoaded>
         <SignedOut>
-          <Button onClick={handleSignIn}>Sign In</Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button>Sign In</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Sign in with Ethereum</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Stakers Union uses Ethereum for authentication. The authentication wallet can be
+                  any address and does not have to be your deposit or withdrawal address.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleSignIn}>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </SignedOut>
         <SignedIn>
           <Dropdown />

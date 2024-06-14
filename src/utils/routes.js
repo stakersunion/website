@@ -19,7 +19,8 @@ const routes = {
     target: '_blank',
   },
   admin: {
-    path: '/admin',
+    path: '/admin/users',
+    title: 'Admin',
     hidden: true,
     children: {
       users: { path: '/admin/users', title: 'Users' },

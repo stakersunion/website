@@ -4,7 +4,7 @@ import { useUsers } from '@/utils/query/admin/users'
 import { Skeleton } from '@/components/ui/skeleton'
 import { DataTable, columns } from '@/components/admin/users/table'
 
-const Users = () => {
+const UsersTable = () => {
   const { data: users, isLoading } = useUsers()
 
   if (isLoading) {
@@ -19,4 +19,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default UsersTable

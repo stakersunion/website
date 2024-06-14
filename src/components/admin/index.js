@@ -1,3 +1,3 @@
-import Users from '@/components/admin/Users'
+import UsersTable from '@/components/admin/UsersTable'
 
-export { Users }
+export { UsersTable }

@@ -22,6 +22,14 @@ const userSchema = mongoose.Schema(
       enum: ['user', 'admin'],
       default: 'user',
     },
+    multipliers: [
+      {
+        location: {
+          type: String,
+          enum: ['home', 'remote'],
+        },
+      },
+    ],
     addresses: [
       {
         address: {
@@ -31,6 +39,39 @@ const userSchema = mongoose.Schema(
           type: String,
           enum: ['withdrawal', 'deposit'],
         },
+        validators: [
+          {
+            index: {
+              type: Number,
+            },
+            performance: [
+              {
+                proposals: {
+                  type: Number,
+                },
+                attestations: {
+                  type: Number,
+                },
+                sync: {
+                  type: Number,
+                },
+              },
+            ],
+            commitment: [
+              {
+                entry: {
+                  type: String,
+                  enum: ['genesis', 'pre-merge', 'post-merge'],
+                },
+              },
+              {
+                kzg: {
+                  type: Boolean,
+                },
+              },
+            ],
+          },
+        ],
         status: {
           type: String,
           enum: ['pending', 'approved', 'rejected'],

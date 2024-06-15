@@ -24,8 +24,18 @@ const routes = {
     hidden: true,
     children: {
       users: { path: '/admin/users', title: 'Users' },
+      view: { path: '/admin/users/[id]/view', title: 'User', hidden: true },
+      edit: { path: '/admin/users/[id]/edit', title: 'Edit', hidden: true },
     },
   },
 }
 
-export default routes
+const getRoute = ({ path, params }) => {
+  let generatedPath = path
+  for (const [key, value] of Object.entries(params)) {
+    generatedPath = generatedPath.replace(`[${key}]`, value)
+  }
+  return generatedPath
+}
+
+export { routes, getRoute }

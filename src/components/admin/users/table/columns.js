@@ -10,18 +10,15 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faLock } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { UpdateRole } from '@/components/admin/users/table'
-import routes from '@/utils/routes'
+import { routes, getRoute } from '@/utils/routes'
 
 const columns = [
   {
     accessorKey: 'id',
     header: 'ID',
     cell: ({ row }) => {
-      return (
-        <Link href={`${routes.admin.children.users.path}/${row.original.id}`}>
-          {row.original.id}
-        </Link>
-      )
+      let path = getRoute({ path: routes.admin.children.view.path, params: { id: row.original.id } })
+      return <Link href={path}>{row.original.id}</Link>
     },
   },
   {

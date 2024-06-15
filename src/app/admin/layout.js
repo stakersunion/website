@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { Title } from '@/components'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import routes from '@/utils/routes'
+import { routes } from '@/utils/routes'
 
 const AdminLayout = ({ children }) => {
   const pathname = usePathname()
@@ -18,6 +18,7 @@ const AdminLayout = ({ children }) => {
       <Tabs className={'mb-6'}>
         <TabsList>
           {Object.values(routes.admin.children).map((route) => {
+            if (route.hidden) return
             return (
               <Link
                 key={route.path}

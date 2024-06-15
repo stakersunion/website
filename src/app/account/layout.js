@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Title } from '@/components'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import routes from '@/utils/routes'
+import { routes } from '@/utils/routes'
 
 const AccountLayout = ({ children }) => {
   const pathname = usePathname()

@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import { Logo, SidebarItem } from '@/components/navigation'
-import routes from '@/utils/routes'
+import { routes } from '@/utils/routes'
 
 const Sidebar = () => {
   const pathname = usePathname()

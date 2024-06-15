@@ -8,7 +8,7 @@ import { useUser as useClerk } from '@clerk/nextjs'
 import { useUser } from '@/utils/query/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserGear } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
-import routes from '@/utils/routes'
+import { routes } from '@/utils/routes'
 
 const Setup = () => {
   const { isLoaded: clerkLoaded, isSignedIn } = useClerk()

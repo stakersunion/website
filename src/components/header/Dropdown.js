@@ -23,7 +23,7 @@ import { useUser } from '@/utils/query/user'
 import { useQueryClient } from '@tanstack/react-query'
 import { useClerk } from '@clerk/nextjs'
 import useRole from '@/utils/roles'
-import routes from '@/utils/routes'
+import { routes } from '@/utils/routes'
 import { mainnet } from '@/utils/chains'
 
 const Dropdown = () => {

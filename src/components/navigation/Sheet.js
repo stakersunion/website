@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Logo, SheetItem } from '@/components/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
-import routes from '@/utils/routes'
+import { routes } from '@/utils/routes'
 
 const Sheet = () => {
   const pathname = usePathname()

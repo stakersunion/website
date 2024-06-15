@@ -15,4 +15,24 @@ const useUser = ({ id }) => {
   })
 }
 
-export { useUser }
+const useUpdateUser = ({ id }) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (data) => {
+      try {
+        return await api.put('/admin/user', {
+          id,
+          name: data.name,
+          email: data.email,
+        })
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({ queryKey: ['user', id] })
+    },
+  })
+}
+
+export { useUser, useUpdateUser }

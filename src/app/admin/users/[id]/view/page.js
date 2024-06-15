@@ -81,15 +81,17 @@ const User = ({ params }) => {
         <Separator className={'my-4'} />
       </CardContent>
       <CardFooter className={'gap-4'}>
-        <Link href={routes.admin.children.users.path}>
-          <Button>
-            <FontAwesomeIcon
-              icon={faArrowLeft}
-              className={'mr-2'}
-            />
-            Back
-          </Button>
-        </Link>
+        <div className={'flex-1'}>
+          <Link href={routes.admin.children.users.path}>
+            <Button>
+              <FontAwesomeIcon
+                icon={faArrowLeft}
+                className={'mr-2'}
+              />
+              Back
+            </Button>
+          </Link>
+        </div>
         <Link href={getRoute({ path: routes.admin.children.edit.path, params: { id } })}>
           <Button>
             <FontAwesomeIcon

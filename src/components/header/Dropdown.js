@@ -15,12 +15,14 @@ import { faUser } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import {
   faLoader,
   faUserCircle,
+  faLock,
   faArrowRightFromBracket,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/regular'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useUser } from '@/utils/query/user'
 import { useQueryClient } from '@tanstack/react-query'
 import { useClerk } from '@clerk/nextjs'
+import useRole from '@/utils/roles'
 import routes from '@/utils/routes'
 import { mainnet } from '@/utils/chains'
 
@@ -29,6 +31,7 @@ const Dropdown = () => {
   const [ensName, setEnsName] = useState('')
   const queryClient = useQueryClient()
   const { signOut } = useClerk()
+  const role = useRole()
 
   const handleSignout = () => {
     signOut()
@@ -84,6 +87,17 @@ const Dropdown = () => {
             <span>Account</span>
           </DropdownMenuItem>
         </Link>
+        {role === 'admin' && (
+          <Link href={routes.admin.path}>
+            <DropdownMenuItem>
+              <FontAwesomeIcon
+                icon={faLock}
+                className={'w-4 h-4 mr-2 fa-fw'}
+              />
+              <span>Admin</span>
+            </DropdownMenuItem>
+          </Link>
+        )}
         <DropdownMenuItem onClick={handleSignout}>
           <FontAwesomeIcon
             icon={faArrowRightFromBracket}

@@ -1,9 +1,9 @@
-import { auth } from '@clerk/nextjs/server'
+import { useClerk } from '@clerk/nextjs'
 
-const checkRole = (role) => {
-  const { sessionClaims } = auth()
-
-  return sessionClaims?.metadata.role === role
+const useRole = () => {
+  const { user } = useClerk()
+  if (!user) return null
+  return user.publicMetadata.role
 }
 
-export { checkRole }
+export default useRole

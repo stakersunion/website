@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -9,11 +10,19 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faLock } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { UpdateRole } from '@/components/admin/users/table'
+import routes from '@/utils/routes'
 
 const columns = [
   {
     accessorKey: 'id',
     header: 'ID',
+    cell: ({ row }) => {
+      return (
+        <Link href={`${routes.admin.children.users.path}/${row.original.id}`}>
+          {row.original.id}
+        </Link>
+      )
+    },
   },
   {
     accessorKey: 'address',

@@ -1,4 +1,4 @@
-import { UsersTable } from '@/components/admin'
+import { UsersTable } from '@/components/admin/users'
 
 const Users = async () => {
   return <UsersTable />

@@ -1,15 +1,15 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { Title } from '@/components'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import routes from '@/utils/routes'
 
 const AdminLayout = ({ children }) => {
   const pathname = usePathname()
-  const currentRoute = Object.values(routes.admin.children).find(
-    (route) => route.path === pathname
+  const currentRoute = Object.values(routes.admin.children).find((route) =>
+    pathname.startsWith(route.path)
   )
 
   return (

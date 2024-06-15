@@ -6,8 +6,10 @@ const isUserRoute = createRouteMatcher(['/account(.*)'])
 
 const isAdminRoute = createRouteMatcher(['/admin(.*)'])
 
+const isAdminAPIRoute = createRouteMatcher(['/api/admin(.*)'])
+
 export default clerkMiddleware((auth, req) => {
-  if (isAdminRoute(req)) {
+  if (isAdminRoute(req) || isAdminAPIRoute(req)) {
     const admin = auth().sessionClaims.metadata.role === 'admin'
 
     if (admin) {

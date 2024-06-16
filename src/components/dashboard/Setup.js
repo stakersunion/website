@@ -33,11 +33,11 @@ const Setup = () => {
             <div className={'flex-1 flex-col'}>
               <AlertTitle>Complete Account Setup</AlertTitle>
               <AlertDescription>
-                Go to your account page to complete the setup and begin the verification process.
+                Get started with the verification process to become a Stakers Union member.
               </AlertDescription>
             </div>
-            <Link href={routes.account.path}>
-              <Button>Account Setup</Button>
+            <Link href={routes.account.children.profile.path}>
+              <Button>Begin Setup</Button>
             </Link>
           </div>
         </Alert>

@@ -18,6 +18,7 @@ const AccountLayout = ({ children }) => {
       <Tabs className={'mb-6'}>
         <TabsList>
           {Object.values(routes.account.children).map((route) => {
+            if (route.hidden) return null
             return (
               <Link
                 key={route.path}

@@ -34,6 +34,9 @@ const userSchema = mongoose.Schema(
           type: String,
           enum: ['withdrawal', 'deposit'],
         },
+        signature: {
+          type: String,
+        },
         validators: [
           {
             index: {

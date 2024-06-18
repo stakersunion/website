@@ -6,6 +6,16 @@ const nextConfig = {
         destination: '/admin/users',
         permanent: true,
       },
+      {
+        source: '/account',
+        destination: '/account/profile',
+        permanent: true,
+      },
+      {
+        source: '/apply',
+        destination: '/apply/profile',
+        permanent: true,
+      },
     ]
   },
 }

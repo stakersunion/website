@@ -12,6 +12,23 @@ const routes = {
       validators: { path: '/account/validators', title: 'Validators' },
     },
   },
+  apply: {
+    path: '/apply',
+    title: 'Apple',
+    hidden: true,
+    children: {
+      profile: {
+        path: '/apply/profile',
+        title: 'Profile',
+        description: 'Set up account information',
+      },
+      addresses: {
+        path: '/apply/addresses',
+        title: 'Addresses',
+        description: 'Submit signature for address verification',
+      },
+    },
+  },
   proposal: {
     path: 'https://docs.stakersunion.com',
     title: 'Proposal',

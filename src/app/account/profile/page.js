@@ -1,128 +1,33 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect } from 'react'
-import { Input } from '@/components/ui/input'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { ProfileForm } from '@/components/user'
 import { Button } from '@/components/ui/button'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { useUser, useUpdateUser } from '@/utils/query/user'
-import { toast } from 'sonner'
+import { useUser } from '@/utils/query/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLoader, faArrowRight } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import { faArrowRight } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { routes } from '@/utils/routes'
 
 const Profile = () => {
-  const { data: user, isLoading, isError } = useUser()
-  const { mutate: updateUser, isPending, isSuccess } = useUpdateUser()
-
-  const formSchema = z.object({
-    name: z.string().min(2).max(50),
-    email: z.string().email(),
-  })
-
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-    },
-    values: user,
-  })
-
-  const onSubmit = (values) => {
-    updateUser(values)
-  }
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success('Profile updated successfully')
-    }
-  }, [isSuccess])
+  const { data: user } = useUser()
 
   return (
-    <div>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className={'space-y-8'}
+    <ProfileForm
+      extraActions={
+        <Button
+          disabled={!user?.name}
+          className={'ml-auto'}
         >
-          <FormField
-            control={form.control}
-            name={'name'}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={'John Smith'}
-                    disabled={isLoading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>Your public display name.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name={'email'}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={'test@example.com'}
-                    disabled={isLoading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>Your preferred contact email.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className={'flex flex-1'}>
-            <Button
-              disabled={isLoading || isPending}
-              type={'submit'}
-            >
-              {isPending && (
-                <FontAwesomeIcon
-                  icon={faLoader}
-                  className={'mr-2 h-4 w-4 animate-spin'}
-                />
-              )}
-              Save
-            </Button>
-
-            <Button
-              disabled={!user?.name}
-              className={'ml-auto'}
-            >
-              <Link href={routes.account.children.addresses.path}>
-                Manage Addresses
-                <FontAwesomeIcon
-                  icon={faArrowRight}
-                  className={'ml-2'}
-                />
-              </Link>
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </div>
+          <Link href={routes.account.children.addresses.path}>
+            Manage Addresses
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              className={'ml-2'}
+            />
+          </Link>
+        </Button>
+      }
+    />
   )
 }
 

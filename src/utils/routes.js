@@ -22,11 +22,16 @@ const routes = {
         title: 'Profile',
         description: 'Set up account information',
       },
-      addresses: {
-        path: '/apply/addresses',
-        title: 'Addresses',
-        description: 'Submit signature for address verification',
+      eligibility: {
+        path: '/apply/eligibility',
+        title: 'Eligibility',
+        description: 'Submit signature to prove ownership of eligible address',
       },
+      independent: {
+        path: '/apply/independent',
+        title: 'Independent Operation',
+        description: 'Select schedule for proving independent operation',
+      }
     },
   },
   proposal: {

@@ -1,4 +1,4 @@
-import { Tailwind, Font, Html, Body } from '@react-email/components'
+import { Tailwind, Font, Html, Body, Section, Img } from '@react-email/components'
 import * as React from 'react'
 
 const EmailLayout = ({ children }) => {
@@ -15,7 +15,18 @@ const EmailLayout = ({ children }) => {
         fontStyle={'normal'}
       />
       <Tailwind>
-        <Body>{children}</Body>
+        <Body className={'bg-black'}>
+          <Section>
+            <Img
+              src={'https://stakersunion.com/logo.png'}
+              alt={'Stakers Union Logo'}
+              width={'150'}
+              height={'150'}
+              className={'mx-auto'}
+              />
+          </Section>
+          {children}
+        </Body>
       </Tailwind>
     </Html>
   )

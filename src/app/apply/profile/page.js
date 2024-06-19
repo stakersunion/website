@@ -8,8 +8,9 @@ const ApplyProfile = () => {
   const router = useRouter()
 
   const onSubmit = () => {
-    router.push(routes.apply.children.addresses.path)
+    router.push(routes.apply.children.eligibility.path)
   }
+
   return (
     <div>
       <ProfileForm

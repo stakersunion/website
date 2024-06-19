@@ -19,7 +19,7 @@ import {
   faArrowRightFromBracket,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/regular'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useUser } from '@/utils/query/user'
+import { useProfile } from '@/utils/query/user/profile'
 import { useQueryClient } from '@tanstack/react-query'
 import { useClerk } from '@clerk/nextjs'
 import useRole from '@/utils/roles'
@@ -27,7 +27,7 @@ import { routes } from '@/utils/routes'
 import { mainnet } from '@/utils/chains'
 
 const Dropdown = () => {
-  const { data: user, isLoading } = useUser()
+  const { data: profile, isLoading } = useProfile()
   const [ensName, setEnsName] = useState('')
   const queryClient = useQueryClient()
   const { signOut } = useClerk()
@@ -39,15 +39,15 @@ const Dropdown = () => {
   }
 
   useEffect(() => {
-    if (!user) return
+    if (!profile) return
     const fetchEnsName = async () => {
       const ensName = await mainnet.getEnsName({
-        address: user.address,
+        address: profile.address,
       })
       setEnsName(ensName)
     }
     fetchEnsName()
-  }, [user])
+  }, [profile])
 
   if (isLoading) {
     return (
@@ -66,7 +66,7 @@ const Dropdown = () => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src={user?.profilePhoto} />
+          <AvatarImage src={profile?.profilePhoto} />
           <AvatarFallback>
             <FontAwesomeIcon
               icon={faUser}
@@ -76,7 +76,7 @@ const Dropdown = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Welcome {ensName || user?.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>Welcome {ensName || profile?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href={routes.account.path}>
           <DropdownMenuItem>

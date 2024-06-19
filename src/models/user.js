@@ -7,15 +7,17 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    address: {
-      type: String,
-      require: true,
-    },
-    name: {
-      type: String,
-    },
-    email: {
-      type: String,
+    profile: {
+      address: {
+        type: String,
+        require: true,
+      },
+      name: {
+        type: String,
+      },
+      email: {
+        type: String,
+      },
     },
     multipliers: [
       {
@@ -29,13 +31,19 @@ const userSchema = mongoose.Schema(
       {
         address: {
           type: String,
+          required: true,
         },
         type: {
           type: String,
           enum: ['withdrawal', 'deposit'],
+          required: true,
         },
         signature: {
           type: String,
+          required: true,
+        },
+        schedule: {
+          type: Date,
         },
         validators: [
           {
@@ -62,18 +70,13 @@ const userSchema = mongoose.Schema(
                   enum: ['genesis', 'pre-merge', 'post-merge'],
                 },
               },
-              {
-                kzg: {
-                  type: Boolean,
-                },
-              },
             ],
           },
         ],
         status: {
           type: String,
-          enum: ['pending', 'approved', 'rejected'],
-          default: 'pending',
+          enum: ['submitted', 'pending', 'approved', 'rejected'],
+          default: 'submitted',
         },
       },
     ],

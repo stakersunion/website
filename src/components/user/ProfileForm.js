@@ -15,14 +15,14 @@ import { Button } from '@/components/ui/button'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useUser, useUpdateUser } from '@/utils/query/user'
+import { useProfile, useUpdateProfile } from '@/utils/query/user/profile'
 import { toast } from 'sonner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = null }) => {
-  const { data: user, isLoading } = useUser()
-  const { mutateAsync: updateUser, isPending, isSuccess } = useUpdateUser()
+  const { data: profile, isLoading } = useProfile()
+  const { mutateAsync: updateProfile, isPending, isSuccess } = useUpdateProfile()
 
   const formSchema = z.object({
     name: z.string().min(2).max(50),
@@ -35,11 +35,11 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
       name: '',
       email: '',
     },
-    values: user,
+    values: profile,
   })
 
   const onSubmit = async (values) => {
-    await updateUser(values)
+    await updateProfile(values)
     callback()
   }
 

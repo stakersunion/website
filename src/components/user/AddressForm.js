@@ -23,7 +23,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { isAddress } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { useSubmitAddress } from '@/utils/query/addresses'
+import { useSubmitAddress } from '@/utils/query/user/addresses'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
@@ -50,6 +50,7 @@ const AddressForm = ({ callback = () => {}, submitText = 'Submit', extraActions 
   })
 
   const onSubmit = async (values) => {
+    console.log(values)
     await submitAddress(values)
     callback()
   }

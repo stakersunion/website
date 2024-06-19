@@ -5,14 +5,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { useUser as useClerk } from '@clerk/nextjs'
-import { useUser } from '@/utils/query/user'
+import { useProfile } from '@/utils/query/user/profile'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserGear } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { routes } from '@/utils/routes'
 
 const Setup = () => {
   const { isLoaded: clerkLoaded, isSignedIn } = useClerk()
-  const { data: user, isLoading: loadingUser } = useUser()
+  const { data: profile, isLoading: loadingUser } = useProfile()
 
   // Check if clerk is loading
   if (!clerkLoaded) {
@@ -25,7 +25,7 @@ const Setup = () => {
       return <Skeleton className={'h-20'} />
     }
     // Show alert if user is signed in, user data is loaded and user has not completed setup
-    else if (!user?.name) {
+    else if (!profile?.name) {
       return (
         <Alert>
           <FontAwesomeIcon icon={faUserGear} />
@@ -36,7 +36,7 @@ const Setup = () => {
                 Get started with the verification process to become a Stakers Union member.
               </AlertDescription>
             </div>
-            <Link href={routes.account.children.profile.path}>
+            <Link href={routes.apply.path}>
               <Button>Begin Setup</Button>
             </Link>
           </div>

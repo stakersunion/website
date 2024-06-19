@@ -3,7 +3,7 @@ import api from '@/utils/api'
 
 const useProfile = () => {
   return useQuery({
-    queryKey: ['user'],
+    queryKey: ['profile'],
     queryFn: async () => {
       try {
         return await api.get('/user/profile')
@@ -29,7 +29,7 @@ const useUpdateProfile = () => {
       }
     },
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ['user'] })
+      queryClient.invalidateQueries({ queryKey: ['profile'] })
     },
   })
 }

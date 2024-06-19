@@ -23,7 +23,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileCircleInfo } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useUser } from '@/utils/query/user'
-import { useUpdateSchedule } from '@/utils/query/addresses'
+import { useUpdateSchedule } from '@/utils/query/user/addresses'
 import { generateSchedule, getCurrentTimezone } from '@/utils/schedule'
 import { routes } from '@/utils/routes'
 

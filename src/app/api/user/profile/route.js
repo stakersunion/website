@@ -10,8 +10,8 @@ export async function GET() {
     return NextResponse.json({ error: 'Not logged in' }, { status: 401 })
   } else {
     await connect()
-    const { profile } = await User.findOne({ id })
-    return NextResponse.json(profile, { status: 200 })
+    const user = await User.findOne({ id })
+    return NextResponse.json(user.profile, { status: 200 })
   }
 }
 

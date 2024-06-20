@@ -5,25 +5,25 @@ import { useRouter } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { AddressForm } from '@/components/user'
+import { SignatureForm } from '@/components/apply'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileCircleInfo } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { routes } from '@/utils/routes'
-import { useUser } from '@/utils/query/user'
+import { useVerification } from '@/utils/query/user/verification'
 
 const ApplyEligibility = () => {
-  const { data: user, isLoading } = useUser()
+  const { data: verification, isLoading: loadingVerification } = useVerification()
   const router = useRouter()
 
   const onSubmit = () => {
-    router.push(routes.apply.children.eligibility.path)
+    router.push(routes.apply.children.independent.path)
   }
 
-  if (isLoading) {
+  if (loadingVerification) {
     return <Skeleton className={'h-[400px]'} />
   }
 
-  if (user.addresses && user.addresses.some((address) => address.status === 'submitted')) {
+  if (verification.signature.value && verification.signature.status === 'pending') {
     return (
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />
@@ -36,8 +36,7 @@ const ApplyEligibility = () => {
     )
   }
 
-  if (user.addresses && user.addresses.some((address) => address.status === 'pending')) {
-    let pending = user.addresses.find((address) => address.status === 'pending')
+  if (verification?.signature.status === 'approved') {
     return (
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />
@@ -49,12 +48,7 @@ const ApplyEligibility = () => {
               process.
             </AlertDescription>
           </div>
-          <Link
-            href={{
-              pathname: routes.apply.children.independent.path,
-              query: { address: pending.address },
-            }}
-          >
+          <Link href={routes.apply.children.independent.path}>
             <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Verify</Button>
           </Link>
         </div>
@@ -81,7 +75,7 @@ const ApplyEligibility = () => {
         </div>
       </Alert>
       <div className={'my-6'}>
-        <AddressForm
+        <SignatureForm
           callback={onSubmit}
           submitText={'Save and Continue'}
         />

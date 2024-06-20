@@ -27,6 +27,33 @@ const userSchema = mongoose.Schema(
         },
       },
     ],
+    verification: {
+      signature: {
+        value: { type: String },
+        status: {
+          type: String,
+          enum: ['pending', 'approved', 'rejected'],
+          default: 'pending',
+        },
+      },
+      schedule: {
+        value: { type: Date },
+        status: {
+          type: String,
+          enum: ['pending', 'approved', 'rejected'],
+          default: 'pending',
+        },
+      },
+      photo: {
+        value: { type: String },
+        status: {
+          type: String,
+          enum: ['pending', 'approved', 'rejected'],
+          default: 'pending',
+        },
+      },
+      default: {},
+    },
     addresses: [
       {
         address: {
@@ -44,6 +71,9 @@ const userSchema = mongoose.Schema(
         },
         schedule: {
           type: Date,
+        },
+        residential: {
+          type: String,
         },
         validators: [
           {

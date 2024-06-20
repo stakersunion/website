@@ -23,12 +23,13 @@ const useSubmitAddress = () => {
   })
 }
 
-const useUpdateSchedule = () => {
+const useUpdateSchedule = ({ address }) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (data) => {
       try {
-        return await api.put('/user/addresses', {
+        return await api.put('/user/addresses/schedule', {
+          address,
           schedule: data.schedule,
         })
       } catch (error) {

@@ -37,6 +37,7 @@ const ApplyEligibility = () => {
   }
 
   if (user.addresses && user.addresses.some((address) => address.status === 'pending')) {
+    let pending = user.addresses.find((address) => address.status === 'pending')
     return (
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />
@@ -48,7 +49,12 @@ const ApplyEligibility = () => {
               process.
             </AlertDescription>
           </div>
-          <Link href={routes.apply.children.eligibility.path}>
+          <Link
+            href={{
+              pathname: routes.apply.children.independent.path,
+              query: { address: pending.address },
+            }}
+          >
             <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Verify</Button>
           </Link>
         </div>

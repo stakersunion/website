@@ -1,7 +1,8 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import {
@@ -21,7 +22,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileCircleInfo } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import { faFileCircleInfo, faCamera } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useUser } from '@/utils/query/user'
 import { useUpdateSchedule } from '@/utils/query/user/addresses'
 import { generateSchedule, getCurrentTimezone } from '@/utils/schedule'
@@ -29,14 +30,27 @@ import { routes } from '@/utils/routes'
 
 const ApplyIndependent = () => {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const address = searchParams.get('address')
+
   const { data: user, isLoading } = useUser()
-  const { mutateAsync: updateSchedule } = useUpdateSchedule()
+  const { mutateAsync: updateSchedule } = useUpdateSchedule({ address })
   const [selectedDate, setSelectedDate] = useState(null)
   const [schedule, setSchedule] = useState([])
 
   useEffect(() => {
     setSchedule(generateSchedule())
   }, [])
+
+  const handleChange = (value) => {
+    setSelectedDate(value)
+  }
+
+  const handleSubmit = async (value) => {
+    const date = new Date(value)
+    const convertedDate = date.toISOString()
+    await updateSchedule({ schedule: convertedDate })
+  }
 
   if (isLoading) {
     return <Skeleton className={'h-[400px]'} />
@@ -46,15 +60,45 @@ const ApplyIndependent = () => {
     router.push(routes.apply.children.eligibility.path)
   }
 
-  const handleChange = (value) => {
-    setSelectedDate(value)
-  }
-
-  const handleSubmit = async (value) => {
-    console.log(value)
-    const date = new Date(value)
-    const convertedDate = date.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
-    await updateSchedule({ schedule: convertedDate })
+  if (user.addresses.some((address) => address.schedule != null)) {
+    return (
+      <Alert>
+        <FontAwesomeIcon icon={faFileCircleInfo} />
+        <div className={'flex flex-wrap items-center'}>
+          <div className={'ml-1 mt-1 mr-4 flex-1'}>
+            <AlertTitle>You're Scheduled</AlertTitle>
+            <AlertDescription>
+              You are scheduled to disable attestations on{' '}
+              <strong>
+                {new Date(user.addresses[0].schedule).toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                })}
+              </strong>
+              . You will receive an update after your verification is complete.
+            </AlertDescription>
+          </div>
+          <Link
+            href={{
+              pathname: routes.apply.children.residential.path,
+              query: { address },
+            }}
+          >
+            <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>
+              <FontAwesomeIcon
+                icon={faCamera}
+                className={'mr-2'}
+              />
+              Continue
+            </Button>
+          </Link>
+        </div>
+      </Alert>
+    )
   }
 
   return (

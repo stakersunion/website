@@ -50,7 +50,6 @@ const AddressForm = ({ callback = () => {}, submitText = 'Submit', extraActions 
   })
 
   const onSubmit = async (values) => {
-    console.log(values)
     await submitAddress(values)
     callback()
   }

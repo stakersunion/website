@@ -25,13 +25,18 @@ const routes = {
       eligibility: {
         path: '/apply/eligibility',
         title: 'Eligibility',
-        description: 'Submit signature to prove ownership of eligible address',
+        description: 'Sign the Stakers Union oath',
       },
       independent: {
         path: '/apply/independent',
         title: 'Independent Operation',
-        description: 'Select schedule for proving independent operation',
-      }
+        description: 'Schedule verification of node operation',
+      },
+      residential: {
+        path: '/apply/residential',
+        title: 'Residential Operation',
+        description: 'Submit a photo of your home node',
+      },
     },
   },
   proposal: {

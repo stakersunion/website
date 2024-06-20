@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileCircleInfo } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useUser } from '@/utils/query/user'
 import { routes } from '@/utils/routes'
+import { UploadButton } from '@uploadthing/react'
 
 const ApplyResidential = () => {
   const searchParams = useSearchParams()
@@ -49,6 +50,17 @@ const ApplyResidential = () => {
           <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Detailed Instructions</Button>
         </div>
       </Alert>
+      <UploadButton
+        endpoint={'residential'}
+        url={'/api/upload'}
+        onClientUploadComplete={(res) => {
+          console.log('Files: ', res)
+          alert('Upload Completed')
+        }}
+        onUploadError={(error) => {
+          alert(`ERROR! ${error.message}`)
+        }}
+      />
     </div>
   )
 }

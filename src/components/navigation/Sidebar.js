@@ -14,12 +14,19 @@ const Sidebar = () => {
       <nav className={'flex flex-col items-center gap-4 px-2 sm:py-5'}>
         <Logo />
         {Object.values(routes).map((route) => {
+          let active = false
+          if (!route.path.startsWith('http')) {
+            const splitPath = pathname.split('/')
+            const splitRoutePath = route.path.split('/')
+            active = splitPath[1] === splitRoutePath[1]
+          }
+
           if (route.hidden) return
           return (
             <SidebarItem
               key={route.path}
               route={route}
-              variant={pathname === route.path ? 'active' : 'default'}
+              variant={active ? 'active' : 'default'}
             />
           )
         })}

@@ -3,7 +3,7 @@ import { faPage, faGauge, faUser } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/
 const routes = {
   home: { path: '/', title: 'Dashboard', icon: faGauge },
   account: {
-    path: '/account/profile',
+    path: '/account',
     title: 'Account',
     icon: faUser,
     children: {

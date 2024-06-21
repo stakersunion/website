@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
@@ -7,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileCircleInfo } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { PhotoForm } from '@/components/apply'
 import { useVerification, useUpdateVerification } from '@/utils/query/user/verification'
+import { routes } from '@/utils/routes'
 
 const ApplyResidential = () => {
   const { data: verification, isLoading } = useVerification()
@@ -15,12 +18,31 @@ const ApplyResidential = () => {
     return <Skeleton className={'h-[400px]'} />
   }
 
+  // Address not yet verified, redirect to eligibility page
+  if (verification.eligibility.status !== 'approved') {
+    redirect(routes.apply.children.eligibility.path)
+  }
+
+  // Photo has been submitted and is pending
+  if (verification.residential.photo && verification.residential.status === 'pending') {
+    return (
+      <Alert>
+        <FontAwesomeIcon icon={faFileCircleInfo} />
+        <AlertTitle>Photo Pending</AlertTitle>
+        <AlertDescription>
+          You have submitted a photo that is pending approval. You will be notified by email when
+          your photo has been approved.
+        </AlertDescription>
+      </Alert>
+    )
+  }
+
   return (
     <div>
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />
         <div className={'flex flex-wrap items-center'}>
-          <div className={'ml-1 mt-1 mr-2 flex-1'}>
+          <div className={'ml-1 mt-1 mr-6 flex-1'}>
             <AlertTitle>Instructions</AlertTitle>
             <AlertDescription>
               <ol className={'mt-2 ml-4 list-decimal'}>

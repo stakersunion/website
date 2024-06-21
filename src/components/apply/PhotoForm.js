@@ -24,10 +24,11 @@ const PhotoForm = () => {
     <UploadDropzone
       appearance={{
         button:
-          'rounded-md text-sm font-medium bg-primary hover:bg-primary/90 text-primary-foreground',
+          'w-full rounded-md text-sm font-medium bg-primary hover:bg-primary/90 text-primary-foreground ut-uploading:bg-primary/90',
         label: 'text-sm text-primary hover:text-primary/90',
-        container: 'border-2 border-input rounded-md p-4',
-        icon: 'text-primary',
+        container: 'my-6 border-2 border-input border-dashed rounded-md p-4',
+        uploadIcon: 'text-primary',
+        allowedContent: 'text-muted-foreground',
       }}
       endpoint={'residential'}
       url={'/api/upload'}

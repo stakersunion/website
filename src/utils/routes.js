@@ -8,6 +8,7 @@ const routes = {
     icon: faUser,
     children: {
       profile: { path: '/account/profile', title: 'Profile' },
+      status: { path: '/account/status', title: 'Status' },
       addresses: { path: '/account/addresses', title: 'Addresses' },
       validators: { path: '/account/validators', title: 'Validators' },
     },

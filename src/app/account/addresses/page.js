@@ -3,11 +3,10 @@
 import DataTable from '@/components/addresses/table/DataTable'
 import { columns } from '@/components/addresses/table/columns'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Create } from '@/components/addresses'
 import { useUser } from '@/utils/query/user'
 
 const Addresses = () => {
-  const { data: user, isLoading, isError } = useUser()
+  const { data: user, isLoading } = useUser()
 
   if (isLoading) {
     return <Skeleton className={'h-[300px]'} />
@@ -15,9 +14,6 @@ const Addresses = () => {
 
   return (
     <div>
-      <div className={'flex justify-end mb-6'}>
-        <Create />
-      </div>
       <DataTable
         columns={columns}
         data={user?.addresses || []}

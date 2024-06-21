@@ -28,31 +28,30 @@ const userSchema = mongoose.Schema(
       },
     ],
     verification: {
-      signature: {
-        value: { type: String },
+      eligibility: {
+        signature: { type: String },
         status: {
           type: String,
           enum: ['pending', 'approved', 'rejected'],
           default: 'pending',
         },
       },
-      schedule: {
-        value: { type: Date },
+      independent: {
+        schedule: { type: Date },
         status: {
           type: String,
           enum: ['pending', 'approved', 'rejected'],
           default: 'pending',
         },
       },
-      photo: {
-        value: { type: String },
+      residential: {
+        photo: { type: String },
         status: {
           type: String,
           enum: ['pending', 'approved', 'rejected'],
           default: 'pending',
         },
       },
-      default: {},
     },
     addresses: [
       {
@@ -103,11 +102,6 @@ const userSchema = mongoose.Schema(
             ],
           },
         ],
-        status: {
-          type: String,
-          enum: ['submitted', 'pending', 'approved', 'rejected'],
-          default: 'submitted',
-        },
       },
     ],
   },

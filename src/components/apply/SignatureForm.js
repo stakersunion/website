@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const SignatureForm = ({ callback = () => {}, submitText = 'Submit', extraActions = null }) => {
-  const { mutateAsync: submitSignature, isPending, isSuccess, error } = useUpdateVerification()
+  const { mutateAsync: updateVerification, isPending, isSuccess, error } = useUpdateVerification()
 
   const formSchema = z.object({
     signature: z.string().url(),
@@ -34,7 +34,7 @@ const SignatureForm = ({ callback = () => {}, submitText = 'Submit', extraAction
   })
 
   const onSubmit = async (values) => {
-    await submitSignature({ ...values, status: 'pending' })
+    await updateVerification({ ...values, status: 'pending' })
     callback()
   }
 

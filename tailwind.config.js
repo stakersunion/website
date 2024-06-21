@@ -1,4 +1,6 @@
-module.exports = {
+import { withUt } from 'uploadthing/tw'
+
+export default withUt({
   content: [
     './pages/**/*.{js,jsx}',
     './components/**/*.{js,jsx}',
@@ -72,4 +74,4 @@ module.exports = {
     },
   },
   plugins: [require('tailwindcss-animate')],
-}
+})

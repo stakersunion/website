@@ -24,18 +24,18 @@ export async function PUT(req) {
   } else {
     await connect()
     const user = await User.findOneAndUpdate(
-      {
-        id,
-      },
+      { id },
       {
         $set: {
-          'verification.signature.value': body.signature,
-          'verification.schedule.value': body.schedule,
-          'verification.photo.value': body.photo,
+          'verification.eligibility.signature': body.signature,
+          'verification.independent.schedule': body.schedule,
+          'verification.residential.photo': body.photo,
         },
       },
       { new: true }
     )
+
+    console.log('After Update:', user.verification)
 
     return NextResponse.json(user, { status: 200 })
   }

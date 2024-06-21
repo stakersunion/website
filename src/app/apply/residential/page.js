@@ -1,30 +1,15 @@
 'use client'
 
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileCircleInfo } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
-import { useUser } from '@/utils/query/user'
-import { routes } from '@/utils/routes'
-import { UploadButton } from '@uploadthing/react'
+import { PhotoForm } from '@/components/apply'
+import { useVerification, useUpdateVerification } from '@/utils/query/user/verification'
 
 const ApplyResidential = () => {
-  const searchParams = useSearchParams()
-  const address = searchParams.get('address')
-
-  const { data: user, isLoading } = useUser()
+  const { data: verification, isLoading } = useVerification()
 
   if (isLoading) {
     return <Skeleton className={'h-[400px]'} />
@@ -50,17 +35,7 @@ const ApplyResidential = () => {
           <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Detailed Instructions</Button>
         </div>
       </Alert>
-      <UploadButton
-        endpoint={'residential'}
-        url={'/api/upload'}
-        onClientUploadComplete={(res) => {
-          console.log('Files: ', res)
-          alert('Upload Completed')
-        }}
-        onUploadError={(error) => {
-          alert(`ERROR! ${error.message}`)
-        }}
-      />
+      <PhotoForm />
     </div>
   )
 }

@@ -12,18 +12,14 @@ import { routes } from '@/utils/routes'
 import { useVerification } from '@/utils/query/user/verification'
 
 const ApplyEligibility = () => {
-  const { data: verification, isLoading: loadingVerification } = useVerification()
+  const { data: verification, isLoading } = useVerification()
   const router = useRouter()
 
-  const onSubmit = () => {
-    router.push(routes.apply.children.independent.path)
-  }
-
-  if (loadingVerification) {
+  if (isLoading) {
     return <Skeleton className={'h-[400px]'} />
   }
 
-  if (verification.signature.value && verification.signature.status === 'pending') {
+  if (verification.eligibility.signature && verification.eligibility.status === 'pending') {
     return (
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />
@@ -36,20 +32,20 @@ const ApplyEligibility = () => {
     )
   }
 
-  if (verification?.signature.status === 'approved') {
+  if (verification.eligibility.status === 'approved') {
     return (
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />
         <div className={'flex flex-wrap items-center'}>
           <div className={'ml-1 mt-1 mr-2 flex-1'}>
-            <AlertTitle>Verification Pending</AlertTitle>
+            <AlertTitle>Signature Approved</AlertTitle>
             <AlertDescription>
-              Your signature has been approved, proceed to the verification step to complete the
-              process.
+              Your signature has been approved, proceed to the next step for Proof of Independent
+              Operation.
             </AlertDescription>
           </div>
           <Link href={routes.apply.children.independent.path}>
-            <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Verify</Button>
+            <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Next</Button>
           </Link>
         </div>
       </Alert>
@@ -75,10 +71,7 @@ const ApplyEligibility = () => {
         </div>
       </Alert>
       <div className={'my-6'}>
-        <SignatureForm
-          callback={onSubmit}
-          submitText={'Save and Continue'}
-        />
+        <SignatureForm submitText={'Save and Continue'} />
       </div>
     </div>
   )

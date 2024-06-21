@@ -49,10 +49,10 @@ const ScheduleForm = ({ callback = () => {}, submitText = 'Schedule' }) => {
   }
 
   const handleSubmit = async ({ schedule }) => {
-    // const date = new Date(schedule)
-    // const convertedDate = date.toISOString()
-    // await updateVerification({ schedule: convertedDate })
-    // callback()
+    const date = new Date(schedule)
+    const convertedDate = date.toISOString()
+    await updateVerification({ schedule: convertedDate })
+    callback()
   }
 
   return (

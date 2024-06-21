@@ -34,7 +34,7 @@ const SignatureForm = ({ callback = () => {}, submitText = 'Submit', extraAction
   })
 
   const onSubmit = async (values) => {
-    await updateVerification({ ...values, status: 'pending' })
+    await updateVerification(values)
     callback()
   }
 

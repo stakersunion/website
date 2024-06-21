@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
@@ -13,12 +12,12 @@ import { useVerification } from '@/utils/query/user/verification'
 
 const ApplyEligibility = () => {
   const { data: verification, isLoading } = useVerification()
-  const router = useRouter()
 
   if (isLoading) {
     return <Skeleton className={'h-[400px]'} />
   }
 
+  // Signature has been submitted and is pending
   if (verification.eligibility.signature && verification.eligibility.status === 'pending') {
     return (
       <Alert>
@@ -32,12 +31,13 @@ const ApplyEligibility = () => {
     )
   }
 
-  if (verification.eligibility.status === 'approved') {
+  // Signature has been submitted and is approved
+  if (verification.eligibility.signature && verification.eligibility.status === 'approved') {
     return (
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />
         <div className={'flex flex-wrap items-center'}>
-          <div className={'ml-1 mt-1 mr-2 flex-1'}>
+          <div className={'ml-1 mt-1 mr-6 flex-1'}>
             <AlertTitle>Signature Approved</AlertTitle>
             <AlertDescription>
               Your signature has been approved, proceed to the next step for Proof of Independent
@@ -57,7 +57,7 @@ const ApplyEligibility = () => {
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />
         <div className={'flex flex-wrap items-center'}>
-          <div className={'ml-1 mt-1 mr-2 flex-1'}>
+          <div className={'ml-1 mt-1 mr-6 flex-1'}>
             <AlertTitle>Instructions</AlertTitle>
             <AlertDescription>
               <ol className={'mt-2 ml-4 list-decimal'}>

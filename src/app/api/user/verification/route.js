@@ -34,9 +34,6 @@ export async function PUT(req) {
       },
       { new: true }
     )
-
-    console.log('After Update:', user.verification)
-
     return NextResponse.json(user, { status: 200 })
   }
 }

@@ -29,7 +29,7 @@ const ApplyIndependent = () => {
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />
         <div className={'flex flex-wrap items-center'}>
-          <div className={'ml-1 mt-1 mr-2 flex-1'}>
+          <div className={'ml-1 mt-1 mr-6 flex-1'}>
             <AlertTitle>You're Scheduled</AlertTitle>
             <AlertDescription>
               You are scheduled to disable attestations on{' '}
@@ -60,7 +60,7 @@ const ApplyIndependent = () => {
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />
         <div className={'flex flex-wrap items-center'}>
-          <div className={'ml-1 mt-1 mr-2 flex-1'}>
+          <div className={'ml-1 mt-1 mr-6 flex-1'}>
             <AlertTitle>Instructions</AlertTitle>
             <AlertDescription>
               <ol className={'mt-2 ml-4 list-decimal'}>

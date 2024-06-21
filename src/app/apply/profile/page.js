@@ -12,12 +12,10 @@ const ApplyProfile = () => {
   }
 
   return (
-    <div>
-      <ProfileForm
-        callback={onSubmit}
-        submitText={'Save and Continue'}
-      />
-    </div>
+    <ProfileForm
+      callback={onSubmit}
+      submitText={'Save and Continue'}
+    />
   )
 }
 

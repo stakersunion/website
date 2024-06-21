@@ -17,6 +17,9 @@ import {
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useUpdateVerification } from '@/utils/query/user/verification'
@@ -24,22 +27,32 @@ import { generateSchedule, getCurrentTimezone } from '@/utils/schedule'
 
 const ScheduleForm = ({ callback = () => {}, submitText = 'Schedule' }) => {
   const { mutateAsync: updateVerification, isPending } = useUpdateVerification()
-  const [selectedDate, setSelectedDate] = useState(null)
   const [schedule, setSchedule] = useState([])
 
   useEffect(() => {
     setSchedule(generateSchedule())
   }, [])
 
-  const handleChange = (value) => {
-    setSelectedDate(value)
+  const formSchema = z.object({
+    schedule: z.date({ message: 'Please select a date' }),
+  })
+
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      schedule: '',
+    },
+  })
+
+  const handleSelect = (value) => {
+    form.setValue('schedule', value)
   }
 
-  const handleSubmit = async (value) => {
-    const date = new Date(value)
-    const convertedDate = date.toISOString()
-    await updateVerification({ schedule: convertedDate })
-    callback()
+  const handleSubmit = async ({ schedule }) => {
+    // const date = new Date(schedule)
+    // const convertedDate = date.toISOString()
+    // await updateVerification({ schedule: convertedDate })
+    // callback()
   }
 
   return (
@@ -75,7 +88,7 @@ const ScheduleForm = ({ callback = () => {}, submitText = 'Schedule' }) => {
                 <AccordionContent>
                   <ToggleGroup
                     type={'single'}
-                    onValueChange={handleChange}
+                    onValueChange={handleSelect}
                   >
                     <div className={'w-full grid grid-cols-2 gap-4'}>
                       {date.times.map((time, timeIndex) => {
@@ -106,7 +119,7 @@ const ScheduleForm = ({ callback = () => {}, submitText = 'Schedule' }) => {
       <CardFooter>
         <Button
           disabled={isPending}
-          onClick={() => handleSubmit(selectedDate)}
+          onClick={form.handleSubmit(handleSubmit)}
         >
           {isPending && (
             <FontAwesomeIcon
@@ -116,6 +129,9 @@ const ScheduleForm = ({ callback = () => {}, submitText = 'Schedule' }) => {
           )}
           {submitText}
         </Button>
+        <div className={'text-sm ml-4 text-muted-foreground'}>
+          {form.formState.errors.schedule?.message}
+        </div>
       </CardFooter>
     </Card>
   )

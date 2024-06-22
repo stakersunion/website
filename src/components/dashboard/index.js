@@ -1,3 +1,3 @@
-import Setup from '@/components/dashboard/Setup'
+import Status from '@/components/dashboard/Status'
 
-export { Setup }
+export { Status }

@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Title } from '@/components'
-import { Setup } from '@/components/dashboard'
+import { Status } from '@/components/dashboard'
 import { useSplitsMetadata, useSplitsBalance } from '@/utils/query/splits'
 
 const Home = () => {
@@ -13,7 +13,7 @@ const Home = () => {
   return (
     <div className={'container'}>
       <Title>Dashboard</Title>
-      <Setup />
+      <Status />
       <div className={'my-6 grid grid-cols-1 md:grid-cols-3 gap-4'}>
         <Card>
           <CardHeader>

@@ -13,7 +13,7 @@ const EmailBasic = ({
     <EmailLayout>
       <Heading
         as={'h1'}
-        className={'my-2 tracking-tight'}
+        style={{ margin: '0.5rem 0', letterSpacing: '-0.015625rem' }}
       >
         {title}
       </Heading>

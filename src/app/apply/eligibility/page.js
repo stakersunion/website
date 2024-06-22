@@ -18,7 +18,7 @@ const ApplyEligibility = () => {
   }
 
   // Signature has been submitted and is pending
-  if (verification.eligibility.signature && verification.eligibility.status === 'pending') {
+  if (verification.eligibility.status === 'pending') {
     return (
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />
@@ -32,7 +32,7 @@ const ApplyEligibility = () => {
   }
 
   // Signature has been submitted and is approved
-  if (verification.eligibility.signature && verification.eligibility.status === 'approved') {
+  if (verification.eligibility.status === 'approved') {
     return (
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />

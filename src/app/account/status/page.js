@@ -5,9 +5,10 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faCircleCheck,
-  faCircleMinus,
-  faCircleX,
+  faHourglassHalf,
+  faCheck,
+  faMinus,
+  faX,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useVerification } from '@/utils/query/user/verification'
 
@@ -19,9 +20,10 @@ const Status = () => {
   }
 
   const icon = {
-    pending: faCircleMinus,
-    approved: faCircleCheck,
-    rejected: faCircleX,
+    incomplete: faMinus,
+    pending: faHourglassHalf,
+    approved: faCheck,
+    rejected: faX,
   }
 
   return (

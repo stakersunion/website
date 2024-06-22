@@ -24,7 +24,7 @@ const ApplyIndependent = () => {
   }
 
   // Schedule has been set and is pending
-  if (verification.independent.status === 'pending') {
+  if (verification.independent.schedule && verification.independent.status === 'pending') {
     return (
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />

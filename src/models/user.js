@@ -32,24 +32,24 @@ const userSchema = mongoose.Schema(
         signature: { type: String },
         status: {
           type: String,
-          enum: ['incomplete', 'pending', 'approved', 'rejected'],
-          default: 'incomplete',
+          enum: ['pending', 'approved', 'rejected'],
+          default: 'pending',
         },
       },
       independent: {
         schedule: { type: Date },
         status: {
           type: String,
-          enum: ['incomplete', 'pending', 'approved', 'rejected'],
-          default: 'incomplete',
+          enum: ['pending', 'approved', 'rejected'],
+          default: 'pending',
         },
       },
       residential: {
         photo: { type: String },
         status: {
           type: String,
-          enum: ['incomplete', 'pending', 'approved', 'rejected'],
-          default: 'incomplete',
+          enum: ['pending', 'approved', 'rejected'],
+          default: 'pending',
         },
       },
     },

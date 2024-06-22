@@ -140,13 +140,6 @@ const User = ({ params }) => {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                               onClick={() => {
-                                handleStatusChange({ step: step.key, status: 'incomplete' })
-                              }}
-                            >
-                              Pending
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => {
                                 handleStatusChange({ step: step.key, status: 'pending' })
                               }}
                             >

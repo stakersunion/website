@@ -24,7 +24,7 @@ const ApplyResidential = () => {
   }
 
   // Photo has been submitted and is pending
-  if (verification.residential.status === 'pending') {
+  if (verification.residential.photo && verification.residential.status === 'pending') {
     return (
       <Alert>
         <FontAwesomeIcon icon={faFileCircleInfo} />

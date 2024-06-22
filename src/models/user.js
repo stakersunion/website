@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema(
     profile: {
       address: {
         type: String,
-        require: true,
+        required: true,
       },
       name: {
         type: String,

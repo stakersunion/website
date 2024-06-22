@@ -64,16 +64,6 @@ const userSchema = mongoose.Schema(
           enum: ['withdrawal', 'deposit'],
           required: true,
         },
-        signature: {
-          type: String,
-          required: true,
-        },
-        schedule: {
-          type: Date,
-        },
-        residential: {
-          type: String,
-        },
         validators: [
           {
             index: {

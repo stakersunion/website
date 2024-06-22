@@ -1,3 +1,3 @@
-import Badge from '@/emails/components/Badge'
+import Button from '@/emails/components/Button'
 
-export { Badge }
+export { Button }

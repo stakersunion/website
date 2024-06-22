@@ -57,7 +57,7 @@ const Status = () => {
           <AlertTitle>Proof of Residential Operation</AlertTitle>
           <AlertDescription className={'text-muted-foreground'}>
             <FontAwesomeIcon
-              icon={icon[verification.independent.status]}
+              icon={icon[verification.residential.status]}
               className={'mr-2'}
             />
             {verification.residential.status}

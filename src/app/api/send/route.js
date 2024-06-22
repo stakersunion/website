@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createTransport } from 'nodemailer'
 import { render } from '@react-email/render'
-import { Default } from '@/emails'
+import { EmailBasic } from '@/emails'
 
 const transporter = createTransport({
   host: process.env.EMAIL_HOST,
@@ -12,16 +12,26 @@ const transporter = createTransport({
   },
 })
 
-export async function POST() {
+export async function POST(req) {
   try {
-    const emailHtml = render(<Default />)
+    const body = await req.json()
+
+    const basicHTML = render(
+      <EmailBasic
+        name={body.name}
+        title={body.title}
+        content={body.content}
+        buttonText={body.buttonText}
+        href={body.href}
+      />
+    )
 
     const mail = await transporter.sendMail({
       from: process.env.EMAIL_USERNAME,
-      to: 'tomfadial@gmail.com',
+      to: body.email,
       replyTo: process.env.EMAIL_USERNAME,
-      subject: 'Test',
-      html: emailHtml,
+      subject: body.subject || body.title,
+      html: basicHTML,
     })
 
     return NextResponse.json({ message: 'Success: email was sent' })

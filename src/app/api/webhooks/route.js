@@ -69,7 +69,10 @@ export async function POST(req) {
         to: process.env.EMAIL_ADMIN,
         replyTo: process.env.EMAIL_USERNAME,
         subject: 'New user signed up',
-        html: `<p>${id}</p>`,
+        html: `<ul>
+          <li>ID: ${id}</li>
+          <li>Address: ${evt.data.web3_wallets[0].web3_wallet}</li>
+        </ul>`,
       })
 
       return new NextResponse('User created', { status: 200 })

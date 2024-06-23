@@ -1,27 +1,40 @@
 'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import Link from 'next/link'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from '@/components/ui/card'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faCircleCheck,
-  faCircleMinus,
-  faCircleX,
+  faMinus,
+  faHourglassHalf,
+  faCheck,
+  faX,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
-import { useVerification } from '@/utils/query/user/verification'
+import { Button } from '@/components/ui/button'
+import { useVerification, useVerificationStatus } from '@/utils/query/user/verification'
+import { routes } from '@/utils/routes'
 
 const Status = () => {
-  const { data: verification, isLoading } = useVerification()
+  const { data: verification, isLoading: loadingVerification } = useVerification()
+  const { data: status, isLoading: loadingStatus } = useVerificationStatus()
 
-  if (isLoading) {
+  if (loadingVerification || loadingStatus) {
     return <Skeleton className={'h-[400px]'} />
   }
 
   const icon = {
-    pending: faCircleMinus,
-    approved: faCircleCheck,
-    rejected: faCircleX,
+    incomplete: faMinus,
+    pending: faHourglassHalf,
+    approved: faCheck,
+    rejected: faX,
   }
 
   return (
@@ -47,23 +60,30 @@ const Status = () => {
           <AlertTitle>Proof of Independent Operation</AlertTitle>
           <AlertDescription className={'text-muted-foreground'}>
             <FontAwesomeIcon
-              icon={icon[verification.independent.status]}
+              icon={icon[verification.independent.status || 'incomplete']}
               className={'mr-2'}
             />
-            {verification.independent.status}
+            {verification.independent.status || 'incomplete'}
           </AlertDescription>
         </Alert>
         <Alert>
           <AlertTitle>Proof of Residential Operation</AlertTitle>
           <AlertDescription className={'text-muted-foreground'}>
             <FontAwesomeIcon
-              icon={icon[verification.residential.status]}
+              icon={icon[verification.residential.status || 'incomplete']}
               className={'mr-2'}
             />
-            {verification.residential.status}
+            {verification.residential.status || 'incomplete'}
           </AlertDescription>
         </Alert>
       </CardContent>
+      <CardFooter>
+        {status.status !== 'complete' && (
+          <Link href={routes.apply.children[status.current].path}>
+            <Button>Continue Application</Button>
+          </Link>
+        )}
+      </CardFooter>
     </Card>
   )
 }

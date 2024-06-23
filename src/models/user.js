@@ -33,7 +33,6 @@ const userSchema = mongoose.Schema(
         status: {
           type: String,
           enum: ['pending', 'approved', 'rejected'],
-          default: 'pending',
         },
       },
       independent: {
@@ -41,7 +40,6 @@ const userSchema = mongoose.Schema(
         status: {
           type: String,
           enum: ['pending', 'approved', 'rejected'],
-          default: 'pending',
         },
       },
       residential: {
@@ -49,7 +47,6 @@ const userSchema = mongoose.Schema(
         status: {
           type: String,
           enum: ['pending', 'approved', 'rejected'],
-          default: 'pending',
         },
       },
     },

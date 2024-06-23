@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Title } from '@/components'
 import { Badge } from '@/components/ui/badge'
@@ -19,7 +20,8 @@ const SetupLayout = ({ children }) => {
       <div className={'flex flex-col md:flex-row gap-4'}>
         {Object.values(routes.apply.children).map((route, index) => {
           return (
-            <div
+            <Link
+              href={route.path}
               key={route.path}
               className={cn(currentRoute.path != route.path && 'opacity-20', 'flex-1')}
             >
@@ -28,7 +30,7 @@ const SetupLayout = ({ children }) => {
                 <h2 className={'font-semibold'}>{route.title}</h2>
                 <p className={'text-sm text-muted-foreground'}>{route.description}</p>
               </div>
-            </div>
+            </Link>
           )
         })}
       </div>

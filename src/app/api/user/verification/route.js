@@ -30,6 +30,9 @@ export async function PUT(req) {
           'verification.eligibility.signature': body.signature,
           'verification.independent.schedule': body.schedule,
           'verification.residential.photo': body.photo,
+          ...(body.signature && { 'verification.eligibility.status': 'pending' }),
+          ...(body.schedule && { 'verification.independent.status': 'pending' }),
+          ...(body.photo && { 'verification.residential.status': 'pending' }),
         },
       },
       { new: true }

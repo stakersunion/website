@@ -29,7 +29,7 @@ const Status = () => {
     // Show alert if user is signed in, user data is loaded and user has not completed setup
     else {
       // User has completed setup
-      if (verification.independent.status === 'approved') return null
+      if (verification.independent.status === 'approved' && verification.residential.status === 'approved') return null
 
       // User has not yet created their profile
       if (!profile.name) {
@@ -58,13 +58,13 @@ const Status = () => {
             <FontAwesomeIcon icon={faUserGear} />
             <div className={'flex flex-wrap items-center'}>
               <div className={'ml-1 mt-1 mr-6 flex-1'}>
-                <AlertTitle>Complete Account Setup</AlertTitle>
+                <AlertTitle>Submit your Oath</AlertTitle>
                 <AlertDescription>
                   Get started with the verification process to become a Stakers Union member.
                 </AlertDescription>
               </div>
               <Link href={routes.apply.children.eligibility.path}>
-                <Button>Begin Setup</Button>
+                <Button>Continue Application</Button>
               </Link>
             </div>
           </Alert>
@@ -107,13 +107,47 @@ const Status = () => {
       }
 
       // User has scheduled independent verification but it is pending
-      if (verification.independent.schdedule && verification.independent.status === 'pending') {
+      if (verification.independent.schedule && verification.independent.status === 'pending') {
         return (
           <Alert>
             <FontAwesomeIcon icon={faUserGear} />
             <AlertTitle>Verfication Pending</AlertTitle>
             <AlertDescription>
               We're reviewing your submission, you'll get an email when your address has been
+              approved.
+            </AlertDescription>
+          </Alert>
+        )
+      }
+
+      // User has completed independent operation but has not submitted a photo
+      if (verification.independent.schedule && !verification.residential.photo) {
+        return (
+          <Alert>
+            <FontAwesomeIcon icon={faUserGear} />
+            <div className={'flex flex-wrap items-center'}>
+              <div className={'ml-1 mt-1 mr-6 flex-1'}>
+                <AlertTitle>Submit Proof of Residential Operation</AlertTitle>
+                <AlertDescription>
+                  Submit a photo of your residential operation to complete your verification.
+                </AlertDescription>
+              </div>
+              <Link href={routes.apply.children.residential.path}>
+                <Button>Submit Photo</Button>
+              </Link>
+            </div>
+          </Alert>
+        )
+      }
+
+      // User has submitted a photo which is pending verification
+      if (verification.residential.photo && verification.residential.status === 'pending') {
+        return (
+          <Alert>
+            <FontAwesomeIcon icon={faUserGear} />
+            <AlertTitle>Verification Pending</AlertTitle>
+            <AlertDescription>
+              We're reviewing your submission, you'll get an email when your photo has been
               approved.
             </AlertDescription>
           </Alert>

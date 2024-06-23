@@ -50,10 +50,10 @@ const Status = () => {
           <AlertTitle>Proof of Eligibility</AlertTitle>
           <AlertDescription className={'text-muted-foreground'}>
             <FontAwesomeIcon
-              icon={icon[verification.eligibility.status]}
+              icon={icon[verification.eligibility.status || 'incomplete']}
               className={'mr-2'}
             />
-            {verification.eligibility.status}
+            {verification.eligibility.status || 'incomplete'}
           </AlertDescription>
         </Alert>
         <Alert>

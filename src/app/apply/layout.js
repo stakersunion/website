@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation'
 import { Title } from '@/components'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/utils/shadcn'
 import { routes } from '@/utils/routes'
 

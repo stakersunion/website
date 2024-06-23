@@ -75,7 +75,14 @@ const ApplyIndependent = () => {
               </ol>
             </AlertDescription>
           </div>
-          <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Detailed Instructions</Button>
+          <Link
+            target={'_blank'}
+            href={
+              'https://docs.stakersunion.com/membership/verification#proof-of-independent-operation'
+            }
+          >
+            <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Read More</Button>
+          </Link>
         </div>
       </Alert>
       <ScheduleForm />

@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileCircleInfo } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { PhotoForm } from '@/components/apply'
-import { useVerification, useUpdateVerification } from '@/utils/query/user/verification'
+import { useVerification } from '@/utils/query/user/verification'
 import { routes } from '@/utils/routes'
 
 const ApplyResidential = () => {
@@ -54,7 +54,14 @@ const ApplyResidential = () => {
               </ol>
             </AlertDescription>
           </div>
-          <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Detailed Instructions</Button>
+          <Link
+            target={'_blank'}
+            href={
+              'https://docs.stakersunion.com/membership/verification#proof-of-residential-operation'
+            }
+          >
+            <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Read More</Button>
+          </Link>
         </div>
       </Alert>
       <PhotoForm />

@@ -67,7 +67,12 @@ const ApplyEligibility = () => {
               </ol>
             </AlertDescription>
           </div>
-          <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Detailed Instructions</Button>
+          <Link
+            target={'_blank'}
+            href={'https://docs.stakersunion.com/membership/verification#proof-of-eligibility'}
+          >
+            <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Read More</Button>
+          </Link>
         </div>
       </Alert>
       <div className={'my-6'}>

@@ -21,10 +21,15 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader, faEnvelope } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
-import { useVerification, useUpdateVerification } from '@/utils/query/admin/user/verification'
+import { useUser } from '@/utils/query/admin/user'
+import {
+  useVerification,
+  useUpdateVerification,
+} from '@/utils/query/admin/user/verification'
 import { useNotify } from '@/utils/query/admin/send'
 
 const Verification = ({ id }) => {
+  const { data: user } = useUser({ id })
   const { data: verification, isLoading: loadingVerification } = useVerification({ id })
   const { mutate: updateVerification } = useUpdateVerification({ id })
   const { mutate: notify, isPending: loadingNotify } = useNotify()

@@ -24,7 +24,30 @@ const Status = () => {
     if (loadingStatus) {
       return <Skeleton className={'h-20'} />
     }
-    // Show alert if user is signed in, user data is loaded and user has not completed setup
+
+    if (!status) return null
+
+    // Call to start application
+    if (status.current === 'eligibility' && status.status === 'incomplete') {
+      return (
+        <Alert>
+          <FontAwesomeIcon icon={faUserGear} />
+          <div className={'flex flex-wrap items-center'}>
+            <div className={'ml-1 mt-1 mr-6 flex-1'}>
+              <AlertTitle>Application Status</AlertTitle>
+              <AlertDescription>
+                Join the Stakers Union by starting the application process.
+              </AlertDescription>
+            </div>
+            <Link href={routes.apply.path}>
+              <Button>Start Application</Button>
+            </Link>
+          </div>
+        </Alert>
+      )
+    }
+
+    // Call to check status if started but not complete
     else if (status.current !== 'residential' && status.status !== 'complete') {
       return (
         <Alert>

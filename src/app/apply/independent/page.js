@@ -23,6 +23,11 @@ const ApplyIndependent = () => {
     redirect(routes.apply.children.eligibility.path)
   }
 
+  // Step completed, redirect to next step
+  if (verification.independent.status === 'approved') {
+    redirect(routes.apply.children.residential.path)
+  }
+
   // Schedule has been set and is pending
   if (verification.independent.schedule && verification.independent.status === 'pending') {
     return (

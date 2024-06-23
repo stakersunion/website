@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileCircleInfo } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import { faFileCircleInfo, faCheck } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { PhotoForm } from '@/components/apply'
 import { useVerification } from '@/utils/query/user/verification'
 import { routes } from '@/utils/routes'
@@ -33,6 +33,24 @@ const ApplyResidential = () => {
           You have submitted a photo that is pending approval. You will be notified by email when
           your photo has been approved.
         </AlertDescription>
+      </Alert>
+    )
+  }
+
+  // Step completed, redirect to next step
+  if (verification.residential.status === 'approved') {
+    return (
+      <Alert>
+        <FontAwesomeIcon icon={faCheck} />
+        <div className={'flex flex-wrap items-center'}>
+          <div className={'ml-1 mt-1 mr-6 flex-1'}>
+            <AlertTitle>Application Complete</AlertTitle>
+            <AlertDescription>Your application has been completed and approved.</AlertDescription>
+          </div>
+          <Link href={routes.account.path}>
+            <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Manage Account</Button>
+          </Link>
+        </div>
       </Alert>
     )
   }

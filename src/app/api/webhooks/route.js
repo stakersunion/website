@@ -3,6 +3,7 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import connect from '@/utils/mongoose'
 import User from '@/models/user'
+import { transporter } from '@/utils/email'
 
 export async function POST(req) {
   await connect()
@@ -62,6 +63,15 @@ export async function POST(req) {
         },
       })
       await newUser.save()
+
+      const mail = await transporter.sendMail({
+        from: process.env.EMAIL_USERNAME,
+        to: process.env.EMAIL_ADMIN,
+        replyTo: process.env.EMAIL_USERNAME,
+        subject: 'New user signed up',
+        html: `<p>${id}</p>`,
+      })
+
       return new NextResponse('User created', { status: 200 })
     case 'user.deleted':
       await User.findOneAndDelete({

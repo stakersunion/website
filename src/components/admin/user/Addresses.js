@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Button } from '@/components/ui/button'
+import { AddAddress } from '@/components/admin/user'
 import { useUser } from '@/utils/query/admin/user'
 
 const Addresses = ({ id }) => {
@@ -46,7 +46,7 @@ const Addresses = ({ id }) => {
         </Table>
       </CardContent>
       <CardFooter>
-        <Button>Add Address</Button>
+        <AddAddress id={id} />
       </CardFooter>
     </Card>
   )

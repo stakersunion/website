@@ -19,7 +19,7 @@ const Profile = ({ id }) => {
       </CardHeader>
       <CardContent>
         <p className={'font-semibold text-muted-foreground'}>Account Address:</p>
-        <p>{user.profile.address}</p>
+        <p className={'line-clamp-1'}>{user.profile.address}</p>
         <Separator className={'my-4'} />
         <p className={'font-semibold text-muted-foreground'}>Display Name:</p>
         <p>{user.profile.name || 'Not set'}</p>

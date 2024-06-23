@@ -22,10 +22,7 @@ import { Badge } from '@/components/ui/badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader, faEnvelope } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useUser } from '@/utils/query/admin/user'
-import {
-  useVerification,
-  useUpdateVerification,
-} from '@/utils/query/admin/user/verification'
+import { useVerification, useUpdateVerification } from '@/utils/query/admin/user/verification'
 import { useNotify } from '@/utils/query/admin/send'
 
 const Verification = ({ id }) => {
@@ -112,7 +109,11 @@ const Verification = ({ id }) => {
               return (
                 <TableRow key={step.key}>
                   <TableCell>{step.key}</TableCell>
-                  <TableCell>{step.schedule || step.photo || step.signature}</TableCell>
+                  <TableCell>
+                    {step.signature ||
+                      (step.schedule && new Date(step.schedule).toLocaleString()) ||
+                      step.photo}
+                  </TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger>

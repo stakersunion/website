@@ -31,19 +31,18 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { isAddress } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { useSubmitAddress } from '@/utils/query/user/addresses'
+import { useCreateAddress } from '@/utils/query/admin/user/addresses'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
-const SubmitAddress = () => {
+const AddAddress = ({ id }) => {
   const [open, setOpen] = useState(false)
-  const { mutate: submitAddress, isPending, isSuccess, error } = useSubmitAddress()
+  const { mutateAsync: createAddress, isPending, isSuccess, error } = useCreateAddress({ id })
 
   const formSchema = z.object({
     address: z.string().refine((value) => isAddress(value), {
       message: 'The provided ETH address is invalid.',
     }),
-
     type: z.enum(['withdrawal', 'deposit']),
   })
 
@@ -55,8 +54,8 @@ const SubmitAddress = () => {
     },
   })
 
-  const onSubmit = (values) => {
-    submitAddress(values)
+  const onSubmit = async (values) => {
+    await createAddress(values)
     setOpen(false)
   }
 
@@ -67,6 +66,7 @@ const SubmitAddress = () => {
   }, [isSuccess])
 
   useEffect(() => {
+    console.log(error)
     if (error) {
       toast.error(error.message)
     }
@@ -83,13 +83,13 @@ const SubmitAddress = () => {
             icon={faPlus}
             className={'mr-2'}
           />
-          Submit Address
+          Add Address
         </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Submit</SheetTitle>
-          <SheetDescription>Submit an address for review</SheetDescription>
+          <SheetTitle>Add Address</SheetTitle>
+          <SheetDescription>Add a verified address</SheetDescription>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -138,27 +138,6 @@ const SubmitAddress = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name={'validators'}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Validators</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={'Enter indices separated by commas (e.g., 1, 2, 3)'}
-                        disabled={isPending}
-                        {...field}
-                        onChange={(e) => {
-                          const indices = e.target.value.split(',').map((s) => s.trim())
-                          field.onChange(indices)
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <Button
                 disabled={isPending}
                 type={'submit'}
@@ -169,7 +148,7 @@ const SubmitAddress = () => {
                     className={'mr-2 h-4 w-4 animate-spin'}
                   />
                 )}
-                Submit
+                Add
               </Button>
             </form>
           </Form>
@@ -179,4 +158,4 @@ const SubmitAddress = () => {
   )
 }
 
-export default SubmitAddress
+export default AddAddress

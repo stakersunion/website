@@ -3,7 +3,7 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import connect from '@/utils/mongoose'
 import User from '@/models/user'
-import { transporter } from '@/utils/email'
+import api from '@/utils/api'
 
 export async function POST(req) {
   await connect()
@@ -62,18 +62,22 @@ export async function POST(req) {
           address: evt.data.web3_wallets[0].web3_wallet,
         },
       })
-      await newUser.save()
 
-      const mail = await transporter.sendMail({
-        from: process.env.EMAIL_USERNAME,
-        to: process.env.EMAIL_ADMIN,
-        replyTo: process.env.EMAIL_USERNAME,
-        subject: 'New user signed up',
-        html: `<ul>
-          <li>ID: ${id}</li>
-          <li>Address: ${evt.data.web3_wallets[0].web3_wallet}</li>
-        </ul>`,
-      })
+      // Send notification email to admin
+      try {
+        await api.post('/send', {
+          to: process.env.ADMIN_EMAIL,
+          title: 'New Stakers Union Member',
+          content: `${evt.data.web3_wallets[0].web3_wallet} has just signed up to Stakers Union!`,
+          buttonText: 'Admin Dashboard',
+          href: 'https://members.stakersunion.com/admin',
+          subject: 'New Stakers Union Member',
+        })
+      } catch (error) {
+        console.error('Error sending email:', error)
+      }
+
+      await newUser.save()
 
       return new NextResponse('User created', { status: 200 })
     case 'user.deleted':

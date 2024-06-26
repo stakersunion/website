@@ -66,7 +66,7 @@ export async function POST(req) {
       // Send notification email to admin
       try {
         await api.post('/send', {
-          to: process.env.ADMIN_EMAIL,
+          to: process.env.NEXT_PUBLIC_ADMIN_EMAIL,
           title: 'New Stakers Union Member',
           content: `${evt.data.web3_wallets[0].web3_wallet} has just signed up to Stakers Union!`,
           buttonText: 'Admin Dashboard',

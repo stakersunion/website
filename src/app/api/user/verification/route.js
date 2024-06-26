@@ -17,7 +17,6 @@ export async function GET() {
     if (!user) {
       return NextResponse.json({ error: 'User not yet created' }, { status: 404 })
     }
-
     return NextResponse.json(user.verification, { status: 200 })
   } catch (error) {
     console.error(error)

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname, redirect } from 'next/navigation'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -16,7 +16,7 @@ import {
   faHouseCircleCheck,
   faHouseCircleXmark,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
-import { useVerificationStatus } from '@/utils/query/user/verification'
+import { useVerification, useVerificationStatus } from '@/utils/query/user/verification'
 import { routes } from '@/utils/routes'
 
 const Status = ({ setReplace }) => {
@@ -25,6 +25,8 @@ const Status = ({ setReplace }) => {
     pathname.startsWith(routes.apply.children[key].path)
   )
   const { data: status, isLoading: loadingStatus, isRefetching } = useVerificationStatus()
+  const { data: verification, isLoading: loadingVerification } = useVerification()
+  const [overrideStatus, setOverrideStatus] = useState()
 
   // Manage visibility of parent content
   useEffect(
@@ -41,6 +43,16 @@ const Status = ({ setReplace }) => {
         status.status === 'pending'
       ) {
         setReplace(false)
+      }
+      // For 'independent' step, should hide content if current step is 'residential' and status is 'pending'
+      else if (
+        currentStep === 'independent' &&
+        status.current === 'residential' &&
+        status.status === 'pending'
+      ) {
+        if (loadingVerification) return
+        setOverrideStatus({ current: 'independent', status: verification.independent.status })
+        setReplace(true)
       } else {
         setReplace(false)
       }
@@ -94,7 +106,7 @@ const Status = ({ setReplace }) => {
         icon: faServer,
         title: 'Proof of Independent Operation Approved',
         description:
-          'Your signature has been approved, proceed to the next step for Proof of Residential Operation.',
+          'Your missed attestations have been verified, proceed to the next step for Proof of Residential Operation.',
         link: routes.apply.children.residential.path,
       },
       rejected: {
@@ -132,22 +144,45 @@ const Status = ({ setReplace }) => {
     },
   }
 
+  const getContent = useMemo(() => {
+    if (loadingStatus) return
+    if (overrideStatus) {
+      return content[overrideStatus.current]?.[overrideStatus.status]
+    } else {
+      return content[status.current]?.[status.status]
+    }
+  }, [loadingStatus, status, overrideStatus])
+
   if (loadingStatus) {
     return <Skeleton className={'h-20 mb-6'} />
   }
 
   // Redirect to current step
   if (currentStep !== status.current) {
+    // Manage exceptions
+    let skipRedirect = false
+
     // If current step is 'independent' and status is 'pending' allow user to continue to 'residential'
     if (
       currentStep === 'residential' &&
       status.current === 'independent' &&
       status.status === 'pending'
     ) {
-      return null
+      skipRedirect = true
     }
 
-    redirect(routes.apply.children[status.current].path)
+    // If current step is 'residential' and status is 'pending' allow user to go back to 'independent'
+    if (
+      currentStep === 'independent' &&
+      status.current === 'residential' &&
+      status.status === 'pending'
+    ) {
+      skipRedirect = true
+    }
+
+    if (!skipRedirect) {
+      redirect(routes.apply.children[status.current].path)
+    }
   }
 
   // Don't show alert if on current page and status is incomplete
@@ -157,19 +192,16 @@ const Status = ({ setReplace }) => {
 
   return (
     <Alert className={'mb-6'}>
-      <FontAwesomeIcon icon={content[status.current]?.[status.status]?.icon || faUserGear} />
+      <FontAwesomeIcon icon={getContent.icon || faUserGear} />
       <div className={'flex flex-wrap items-center'}>
         <div className={'ml-1 mt-1 mr-6 flex-1'}>
-          <AlertTitle>
-            {content[status.current]?.[status.status]?.title || 'Application Incomplete'}
-          </AlertTitle>
+          <AlertTitle>{getContent.title || 'Application Incomplete'}</AlertTitle>
           <AlertDescription>
-            {content[status.current]?.[status.status]?.description ||
-              'Your application is incomplete.'}
+            {getContent.description || 'Your application is incomplete.'}
           </AlertDescription>
         </div>
-        {content[status.current]?.[status.status]?.link && (
-          <Link href={content[status.current][status.status].link}>
+        {getContent.link && (
+          <Link href={getContent.link}>
             <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Continue Application</Button>
           </Link>
         )}

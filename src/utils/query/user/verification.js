@@ -46,38 +46,28 @@ const useVerificationStatus = () => {
       }
     },
     select: ({ data }) => {
-      let { verification } = data
-      let steps = ['eligibility', 'independent', 'residential']
-      let lastCompletedStep = null
+      const { verification } = data
+      const stepsOrder = ['eligibility', 'independent', 'residential']
+      let lastRelevantStep = null
 
-      if (!verification) {
-        return {
-          current: 'eligibility',
-          status: 'incomplete',
-        }
-      }
-
-      for (let i = 0; i < steps.length; i++) {
-        const step = steps[i]
+      stepsOrder.forEach((step) => {
         if (verification[step]) {
-          if (verification[step].status === 'approved') {
-            lastCompletedStep = step
-          } else {
-            return { current: step, status: verification[step].status }
+          const status = verification[step].status
+          // Consider the step as relevant if it is pending or not approved
+          if (status === 'pending' || status !== 'approved') {
+            lastRelevantStep = { current: step, status: status || 'incomplete' }
+          } else if (status === 'approved') {
+            // Keep updating last relevant step as we go if all are approved
+            lastRelevantStep = { current: step, status: 'approved' }
           }
-        }
-      }
-
-      if (lastCompletedStep) {
-        const nextStepIndex = steps.indexOf(lastCompletedStep) + 1
-        if (nextStepIndex < steps.length) {
-          return { current: steps[nextStepIndex], status: 'incomplete' }
         } else {
-          return { current: lastCompletedStep, status: verification[lastCompletedStep].status }
+          // If the step data is missing, consider it incomplete
+          lastRelevantStep = { current: step, status: 'incomplete' }
         }
-      }
+      })
 
-      return { current: steps[0], status: 'incomplete' }
+      // Return the last relevant step found
+      return lastRelevantStep
     },
   })
 }

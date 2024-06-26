@@ -36,6 +36,7 @@ const useUpdateVerification = () => {
 }
 
 const useVerificationStatus = () => {
+  const queryClient = useQueryClient()
   return useQuery({
     queryKey: ['user', 'verification', 'status'],
     queryFn: async () => {
@@ -46,33 +47,47 @@ const useVerificationStatus = () => {
       }
     },
     select: ({ data }) => {
-      const { verification } = data
+      // Access the user profile from the query cache
+      const userProfile = queryClient.getQueryData(['user', 'profile'])
 
-      // Default output if verification is undefined or empty
-      if (!verification || Object.keys(verification).length === 0) {
+      // Check if userProfile contains name and email
+      if (userProfile && userProfile.data && userProfile.data.name && userProfile.data.email) {
+        return { current: 'eligibility', status: 'incomplete' }
+      }
+
+      if (!data.verification || Object.keys(data.verification).length === 0) {
+        // Default output if verification is undefined or empty
         return { current: 'profile', status: 'incomplete' }
       }
 
+      const { verification } = data
       const stepsOrder = ['eligibility', 'independent', 'residential']
       let lastRelevantStep = null
+      let allApproved = true
 
       stepsOrder.forEach((step) => {
         if (verification[step]) {
           const status = verification[step].status
-          // Consider the step as relevant if it is pending or not approved
-          if (status === 'pending' || status !== 'approved') {
+          // Check if step is pending or if no pending steps have been found yet
+          if (status === 'pending' || !lastRelevantStep) {
             lastRelevantStep = { current: step, status: status || 'incomplete' }
-          } else if (status === 'approved') {
-            // Keep updating last relevant step as we go if all are approved
-            lastRelevantStep = { current: step, status: 'approved' }
+          }
+          // Determine if all steps are approved
+          if (status !== 'approved') {
+            allApproved = false
           }
         } else {
           // If the step data is missing, consider it incomplete
           lastRelevantStep = { current: step, status: 'incomplete' }
+          allApproved = false
         }
       })
 
-      // Return the last relevant step found
+      // If all steps are approved, return the last step with 'approved' status
+      if (allApproved) {
+        return { current: stepsOrder[stepsOrder.length - 1], status: 'approved' }
+      }
+
       return lastRelevantStep
     },
   })

@@ -9,7 +9,7 @@ export async function POST(req) {
 
     const basicHTML = render(
       <EmailBasic
-        name={body.name}
+        name={body?.name}
         title={body.title}
         content={body.content}
         buttonText={body.buttonText}

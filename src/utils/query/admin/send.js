@@ -6,7 +6,7 @@ const useNotify = () => {
     mutationFn: async (data) => {
       try {
         return await api.post('/send', {
-          name: data.name,
+          name: data?.name,
           title: data.title,
           content: data.content,
           buttonText: data.buttonText,

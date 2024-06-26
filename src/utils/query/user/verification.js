@@ -47,6 +47,12 @@ const useVerificationStatus = () => {
     },
     select: ({ data }) => {
       const { verification } = data
+
+      // Default output if verification is undefined or empty
+      if (!verification || Object.keys(verification).length === 0) {
+        return { current: 'profile', status: 'incomplete' }
+      }
+
       const stepsOrder = ['eligibility', 'independent', 'residential']
       let lastRelevantStep = null
 

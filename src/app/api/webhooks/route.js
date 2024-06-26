@@ -3,7 +3,7 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import connect from '@/utils/mongoose'
 import User from '@/models/user'
-import api from '@/utils/api'
+import { transporter } from '@/utils/email'
 
 export async function POST(req) {
   await connect()
@@ -65,13 +65,11 @@ export async function POST(req) {
 
       // Send notification email to admin
       try {
-        await api.post('/send', {
+        const mail = await transporter.sendMail({
+          from: process.env.EMAIL_USERNAME,
           to: process.env.NEXT_PUBLIC_ADMIN_EMAIL,
-          title: 'New Stakers Union Member',
-          content: `${evt.data.web3_wallets[0].web3_wallet} has just signed up to Stakers Union!`,
-          buttonText: 'Admin Dashboard',
-          href: 'https://members.stakersunion.com/admin',
           subject: 'New Stakers Union Member',
+          html: `${evt.data.web3_wallets[0].web3_wallet} has just signed up to Stakers Union!`,
         })
       } catch (error) {
         console.error('Error sending email:', error)

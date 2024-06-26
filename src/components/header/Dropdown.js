@@ -39,7 +39,7 @@ const Dropdown = () => {
   }
 
   useEffect(() => {
-    if (!profile) return
+    if (!profile || !profile?.address) return
     const fetchEnsName = async () => {
       const ensName = await mainnet.getEnsName({
         address: profile.address,

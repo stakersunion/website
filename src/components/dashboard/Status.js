@@ -28,7 +28,7 @@ const Status = () => {
     if (!status) return null
 
     // Call to start application
-    if (status.current === 'eligibility' && status.status === 'incomplete') {
+    if (status.current === 'profile' && status.status === 'incomplete') {
       return (
         <Alert>
           <FontAwesomeIcon icon={faUserGear} />
@@ -46,26 +46,29 @@ const Status = () => {
         </Alert>
       )
     }
-
-    // Call to check status if started but not complete
-    else if (status.current !== 'residential' && status.status !== 'complete') {
-      return (
-        <Alert>
-          <FontAwesomeIcon icon={faUserGear} />
-          <div className={'flex flex-wrap items-center'}>
-            <div className={'ml-1 mt-1 mr-6 flex-1'}>
-              <AlertTitle>Application Status</AlertTitle>
-              <AlertDescription>
-                Your Stakers Union application is in progress, track your status and complete any
-                missing steps.
-              </AlertDescription>
+    // Call to continue application
+    else {
+      // Hide alert if application is complete
+      if (status.current === 'residential' && status.status === 'complete') return null
+      else {
+        return (
+          <Alert>
+            <FontAwesomeIcon icon={faUserGear} />
+            <div className={'flex flex-wrap items-center'}>
+              <div className={'ml-1 mt-1 mr-6 flex-1'}>
+                <AlertTitle>Application Status</AlertTitle>
+                <AlertDescription>
+                  Your Stakers Union application is in progress, track your status and complete any
+                  missing steps.
+                </AlertDescription>
+              </div>
+              <Link href={routes.account.children.status.path}>
+                <Button>Status</Button>
+              </Link>
             </div>
-            <Link href={routes.account.children.status.path}>
-              <Button>Status</Button>
-            </Link>
-          </div>
-        </Alert>
-      )
+          </Alert>
+        )
+      }
     }
   }
 }

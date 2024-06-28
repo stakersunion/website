@@ -49,7 +49,7 @@ const Status = () => {
     // Call to continue application
     else {
       // Hide alert if application is complete
-      if (status.current === 'residential' && status.status === 'complete') return null
+      if (status.current === 'residential' && status.status === 'approved') return null
       else {
         return (
           <Alert>

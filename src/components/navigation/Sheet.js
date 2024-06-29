@@ -31,13 +31,16 @@ const Sheet = () => {
       >
         <nav className={'grid gap-6 text-lg font-medium'}>
           <Logo />
-          {Object.values(routes).map((route) => (
-            <SheetItem
-              key={route.path}
-              route={route}
-              variant={pathname === route.path ? 'active' : 'default'}
-            />
-          ))}
+          {Object.values(routes).map((route) => {
+            if (route.hidden) return
+            return (
+              <SheetItem
+                key={route.path}
+                route={route}
+                variant={pathname === route.path ? 'active' : 'default'}
+              />
+            )
+          })}
         </nav>
       </SheetContent>
     </SheetWrap>

@@ -33,7 +33,10 @@ const Status = ({ setReplace }) => {
     function hideParentContent() {
       if (loadingStatus) return
       // If current page matches current step and status is pending, don't show content
-      if (currentStep === status.current && status.status === 'pending') {
+      if (
+        (currentStep === status.current && status.status === 'pending') ||
+        (currentStep === status.current && status.status === 'approved')
+      ) {
         setReplace(true)
       }
       // For 'residential' step, should show content if current step is 'independent' and status is 'pending'
@@ -187,6 +190,11 @@ const Status = ({ setReplace }) => {
 
   // Don't show alert if on current page and status is incomplete
   if (currentStep === status.current && status.status === 'incomplete') {
+    return null
+  }
+
+  // Only show alert if on current page
+  if (currentStep !== status.current) {
     return null
   }
 

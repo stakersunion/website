@@ -7,7 +7,7 @@ import { routes } from '@/utiles/routes'
 
 const Manage = async (params) => {
   if (!checkRole('admin')) {
-    redirect(routes.home.path)
+    redirect(routes.dashboard.path)
   }
 
   const query = params.searchParams.search

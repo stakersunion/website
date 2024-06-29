@@ -1,7 +1,13 @@
 import { faPage, faGauge, faUser } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const routes = {
-  home: { path: '/', title: 'Dashboard', icon: faGauge },
+  home: {
+    path: 'https://stakersunion.com',
+    title: 'Stakers Union',
+    target: '_blank',
+    hidden: true,
+  },
+  dashboard: { path: '/', title: 'Dashboard', icon: faGauge },
   account: {
     path: '/account',
     title: 'Account',

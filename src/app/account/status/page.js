@@ -78,7 +78,7 @@ const Status = () => {
         </Alert>
       </CardContent>
       <CardFooter>
-        {status.status !== 'approved' && (
+        {(status.current !== 'residential' || status.status !== 'approved') && (
           <Link href={routes.apply.children[status.current].path}>
             <Button>Continue Application</Button>
           </Link>

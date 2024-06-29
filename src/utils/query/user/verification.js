@@ -30,13 +30,12 @@ const useUpdateVerification = () => {
       }
     },
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ['user', 'verification'] })
+      queryClient.invalidateQueries({ queryKey: ['user'] })
     },
   })
 }
 
 const useVerificationStatus = () => {
-  const queryClient = useQueryClient()
   return useQuery({
     queryKey: ['user', 'verification', 'status'],
     queryFn: async () => {
@@ -47,48 +46,43 @@ const useVerificationStatus = () => {
       }
     },
     select: ({ data }) => {
-      // Access the user profile from the query cache
-      const userProfile = queryClient.getQueryData(['user', 'profile'])
+      const { profile, verification } = data
 
-      // Check if userProfile contains name and email
-      if (userProfile && userProfile.data && userProfile.data.name && userProfile.data.email) {
-        return { current: 'eligibility', status: 'incomplete' }
-      }
-
-      if (!data.verification || Object.keys(data.verification).length === 0) {
-        // Default output if verification is undefined or empty
-        return { current: 'profile', status: 'incomplete' }
-      }
-
-      const { verification } = data
-      const stepsOrder = ['eligibility', 'independent', 'residential']
-      let lastRelevantStep = null
-      let allApproved = true
-
-      stepsOrder.forEach((step) => {
-        if (verification[step]) {
-          const status = verification[step].status
-          // Check if step is pending or if no pending steps have been found yet
-          if (status === 'pending' || !lastRelevantStep) {
-            lastRelevantStep = { current: step, status: status || 'incomplete' }
-          }
-          // Determine if all steps are approved
-          if (status !== 'approved') {
-            allApproved = false
-          }
-        } else {
-          // If the step data is missing, consider it incomplete
-          lastRelevantStep = { current: step, status: 'incomplete' }
-          allApproved = false
+      // Default output if verification is undefined or empty
+      if (!verification || Object.keys(verification).length === 0) {
+        // Check if profile has been defined in the cache
+        if (profile.name && profile.email) {
+          return { current: 'eligibility', status: 'incomplete' }
         }
-      })
-
-      // If all steps are approved, return the last step with 'approved' status
-      if (allApproved) {
-        return { current: stepsOrder[stepsOrder.length - 1], status: 'approved' }
+        // If it has not, return 'profile' with status 'incomplete'
+        else {
+          return { current: 'profile', status: 'incomplete' }
+        }
       }
 
-      return lastRelevantStep
+      const steps = ['eligibility', 'independent', 'residential']
+
+      // Get the last step that has a status
+      const lastDefinedStep = steps
+        .slice()
+        .reverse()
+        .find((step) => verification[step]?.status)
+
+      // If the last defined step has a status of 'approved', return
+      // the next step in the sequence (if defined) with a status of
+      // 'incomplete'
+      if (verification[lastDefinedStep]?.status === 'approved') {
+        const nextStep = steps[steps.indexOf(lastDefinedStep) + 1]
+        if (nextStep) {
+          return { current: nextStep, status: 'incomplete' }
+        }
+      }
+
+      // Otherwise, return the last defined step with its status
+      return {
+        current: lastDefinedStep,
+        status: verification[lastDefinedStep]?.status,
+      }
     },
   })
 }

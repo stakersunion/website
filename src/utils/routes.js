@@ -21,7 +21,7 @@ const routes = {
   },
   apply: {
     path: '/apply',
-    title: 'Apple',
+    title: 'Apply',
     hidden: true,
     children: {
       profile: {

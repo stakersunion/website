@@ -25,8 +25,9 @@ const ApplyResidential = () => {
                   <ol className={'mt-2 ml-4 list-decimal'}>
                     <li>The hardware should be clearly visible.</li>
                     <li>
-                      An international newspaper front page or a printout of a news website must be
-                      included, with the text "Stakers Union" visibly written on it.
+                      An international newspaper front page or a printout of the front page of a
+                      major news website must be included, with the text "Stakers Union"
+                      hand-written visibly on it.
                     </li>
                   </ol>
                 </AlertDescription>

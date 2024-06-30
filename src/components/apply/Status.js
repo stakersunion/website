@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname, redirect } from 'next/navigation'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { CalendarFile } from '@/components/apply'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -103,7 +104,7 @@ const Status = ({ setReplace }) => {
         title: 'Proof of Independent Operation Pending',
         description:
           'You have submitted an address that is pending approval. You will be notified by email when your address has been approved. You may continue to Proof of Residential Operation.',
-        link: routes.apply.children.residential.path,
+        extra: <CalendarFile />,
       },
       approved: {
         icon: faServer,
@@ -208,7 +209,8 @@ const Status = ({ setReplace }) => {
             {getContent.description || 'Your application is incomplete.'}
           </AlertDescription>
         </div>
-        {getContent.link && (
+        {getContent.extra && getContent.extra}
+        {!getContent.extra && getContent.link && (
           <Link href={getContent.link}>
             <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Continue Application</Button>
           </Link>

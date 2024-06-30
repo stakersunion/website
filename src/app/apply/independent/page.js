@@ -25,11 +25,10 @@ const ApplyIndependent = () => {
                   <ol className={'mt-2 ml-4 list-decimal'}>
                     <li>Select a date/time from the options below to complete verification</li>
                     <li>
-                      Temporarily disable attestations at the scheduled time (2 attestations
-                      minimum)
+                      Temporarily disable attestations at the scheduled time (minimum 2, maximum 10)
                     </li>
                     <li>
-                      You will only have one opportunity to complete verification of independent
+                      You will only have two opportunities to complete verification of independent
                       operation
                     </li>
                   </ol>

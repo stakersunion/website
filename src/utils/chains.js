@@ -1,14 +1,14 @@
 import { createPublicClient, http } from 'viem'
-import { mainnet as mainnetChain, holesky as holeskyChain } from 'viem/chains'
+import { mainnet as mainnetChain, gnosis as gnosisChain } from 'viem/chains'
 
 const mainnet = createPublicClient({
   chain: mainnetChain,
   transport: http(),
 })
 
-const holesky = createPublicClient({
-  chain: holeskyChain,
+const gnosis = createPublicClient({
+  chain: gnosisChain,
   transport: http(),
 })
 
-export { mainnet, holesky }
+export { mainnet, gnosis }

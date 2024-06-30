@@ -23,9 +23,36 @@ const ApplyEligibility = () => {
                 <AlertTitle>Instructions</AlertTitle>
                 <AlertDescription>
                   <ol className={'mt-2 ml-4 list-decimal'}>
-                    <li>Ensure that your address is on StakeCat List A</li>
-                    <li>Sign a message containing the Stakers Union Oath</li>
-                    <li>Submit a link to an Etherscan verified signature</li>
+                    <li>
+                      Ensure that your address is on{' '}
+                      <Link
+                        target={'_blank'}
+                        className={'underline underline-offset-2 hover:no-underline'}
+                        href={'https://www.stakecat.space/solo-stakers'}
+                      >
+                        StakeCat List A
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        target={'_blank'}
+                        className={'underline underline-offset-2 hover:no-underline'}
+                        href={'https://docs.stakersunion.com/membership/verification/signing'}
+                      >
+                        Sign a message
+                      </Link>{' '}
+                      containing the Stakers Union Oath
+                    </li>
+                    <li>
+                      Submit the URL of your{' '}
+                      <Link
+                        target={'_blank'}
+                        className={'underline underline-offset-2 hover:no-underline'}
+                        href={'https://etherscan.io/verifiedSignatures#'}
+                      >
+                        Etherscan Verified Signature
+                      </Link>
+                    </li>
                   </ol>
                 </AlertDescription>
               </div>

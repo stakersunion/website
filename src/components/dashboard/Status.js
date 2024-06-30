@@ -25,10 +25,8 @@ const Status = () => {
       return <Skeleton className={'h-20'} />
     }
 
-    if (!status) return null
-
     // Call to start application
-    if (status.current === 'profile' && status.status === 'incomplete') {
+    if (!status || status.current === 'profile' && status.status === 'incomplete') {
       return (
         <Alert>
           <FontAwesomeIcon icon={faUserGear} />

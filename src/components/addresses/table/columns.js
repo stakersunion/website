@@ -44,14 +44,14 @@ export const columns = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align={'end'}>
-            <DropdownMenuItem>
+            <DropdownMenuItem disabled={true}>
               <FontAwesomeIcon
                 icon={faPencil}
                 className={'mr-2 fa-fw'}
               />
               Edit
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <DropdownMenuItem disabled={true} onSelect={(e) => e.preventDefault()}>
               <DeleteDialog
                 trigger={
                   <>

@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import {
   Table,
@@ -9,9 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { AddAddress } from '@/components/admin/user'
 import { useUser } from '@/utils/query/admin/user'
+import { routes, getRoute } from '@/utils/routes'
 
 const Addresses = ({ id }) => {
   const { data: user, isLoading: loadingUser } = useUser({ id })
@@ -31,6 +34,7 @@ const Addresses = ({ id }) => {
             <TableRow>
               <TableHead>Address</TableHead>
               <TableHead>Type</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -39,6 +43,16 @@ const Addresses = ({ id }) => {
                 <TableRow key={address.address}>
                   <TableCell>{address.address}</TableCell>
                   <TableCell>{address.type}</TableCell>
+                  <TableCell>
+                    <Link
+                      href={getRoute({
+                        path: routes.admin.children.address.path,
+                        params: { id, address: address.address },
+                      })}
+                    >
+                      <Button size={'sm'}>View</Button>
+                    </Link>
+                  </TableCell>
                 </TableRow>
               )
             })}

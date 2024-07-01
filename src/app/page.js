@@ -49,7 +49,7 @@ const Home = () => {
               <p className={'text-6xl font-bold'}>
                 {
                   balance?.activeBalances?.['0x0000000000000000000000000000000000000000']
-                    ?.formattedAmount
+                    ?.formattedAmount ?? 0
                 }
                 Ξ
               </p>

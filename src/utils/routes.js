@@ -58,8 +58,8 @@ const routes = {
     hidden: true,
     children: {
       users: { path: '/admin/users', title: 'Users' },
-      view: { path: '/admin/users/[id]/view', title: 'User', hidden: true },
-      edit: { path: '/admin/users/[id]/edit', title: 'Edit', hidden: true },
+      user: { path: '/admin/users/[id]', title: 'User', hidden: true },
+      address: { path: '/admin/users/[id]/address/[address]', title: 'Address', hidden: true },
     },
   },
 }

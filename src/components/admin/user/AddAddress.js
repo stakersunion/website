@@ -66,7 +66,6 @@ const AddAddress = ({ id }) => {
   }, [isSuccess])
 
   useEffect(() => {
-    console.log(error)
     if (error) {
       toast.error(error.message)
     }

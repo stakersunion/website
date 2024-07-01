@@ -17,7 +17,7 @@ const columns = [
     accessorKey: 'id',
     header: 'ID',
     cell: ({ row }) => {
-      let path = getRoute({ path: routes.admin.children.view.path, params: { id: row.original.id } })
+      let path = getRoute({ path: routes.admin.children.user.path, params: { id: row.original.id } })
       return <Link href={path}>{row.original.id}</Link>
     },
   },

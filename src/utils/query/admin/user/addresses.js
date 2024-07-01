@@ -3,7 +3,7 @@ import api from '@/utils/api'
 
 const useAddresses = ({ id }) => {
   return useQuery({
-    queryKey: ['user', 'addresses', id],
+    queryKey: ['user', id, 'addresses'],
     queryFn: async () => {
       try {
         return await api.get('/admin/user/addresses', { params: { id } })
@@ -33,7 +33,7 @@ const useCreateAddress = ({ id }) => {
       }
     },
     onSuccess: (response) => {
-      queryClient.invalidateQueries(['user', 'addresses', id])
+      queryClient.invalidateQueries(['user', id, 'addresses'])
     },
   })
 }

@@ -3,7 +3,7 @@ import api from '@/utils/api'
 
 const useVerification = ({ id }) => {
   return useQuery({
-    queryKey: ['user', 'verification', id],
+    queryKey: ['user', id, 'verification'],
     queryFn: async () => {
       try {
         return await api.get('/admin/user/verification', { params: { id } })
@@ -37,7 +37,7 @@ const useUpdateVerification = ({ id }) => {
       }
     },
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ['user', 'verification', id] })
+      queryClient.invalidateQueries({ queryKey: ['user', id, 'verification'] })
     },
   })
 }

@@ -21,7 +21,7 @@ const toJSON = (schema) => {
         }
       })
 
-      if (ret._id) {
+      if (!ret.id && ret._id) {
         ret.id = ret._id.toString()
       }
       delete ret._id

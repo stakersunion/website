@@ -11,14 +11,7 @@ const useUsers = () => {
         throw new Error(error)
       }
     },
-    select: ({ data: { data } }) => {
-      return data.map((item) => ({
-        id: item.id,
-        address: item.web3Wallets[0].web3Wallet,
-        createdAt: item.createdAt,
-        role: item.publicMetadata.role,
-      }))
-    },
+    select: ({ data }) => data,
   })
 }
 

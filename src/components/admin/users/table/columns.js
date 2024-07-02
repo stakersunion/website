@@ -3,11 +3,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faSignature,
-  faServer,
-  faCamera,
-} from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import { faSignature, faServer, faCamera } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { routes, getRoute } from '@/utils/routes'
 
 const columns = [
@@ -30,6 +26,8 @@ const columns = [
     id: 'status',
     header: 'Status',
     cell: ({ row }) => {
+      if (!row.original.verification) return null
+
       let {
         verification: { eligibility, independent, residential },
       } = row.original

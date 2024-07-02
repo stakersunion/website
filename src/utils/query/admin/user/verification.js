@@ -38,6 +38,7 @@ const useUpdateVerification = ({ id }) => {
     },
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ['user', id, 'verification'] })
+      queryClient.invalidateQueries({ queryKey: ['users'] })
     },
   })
 }

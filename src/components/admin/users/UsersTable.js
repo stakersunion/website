@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { useQueryClient } from '@tanstack/react-query'
 import { useUsers } from '@/utils/query/admin/users'
 import { Skeleton } from '@/components/ui/skeleton'
 import { DataTable, columns } from '@/components/admin/users/table'
@@ -8,10 +9,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const UsersTable = () => {
-  const { data: users, isLoading, isRefetching, refetch } = useUsers()
+  const queryClient = useQueryClient()
+  const { data: users, isLoading, isRefetching } = useUsers()
 
   if (isLoading) {
     return <Skeleton className={'h-10'} />
+  }
+
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({ queryKey: ['users'] })
   }
 
   return (
@@ -21,7 +27,7 @@ const UsersTable = () => {
         data={users || []}
       />
       <Button
-        onClick={refetch}
+        onClick={handleRefresh}
         disabled={isRefetching}
         className={'mt-4'}
       >

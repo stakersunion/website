@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator'
-import { Profile, Verification, Addresses, Validators } from '@/components/admin/user'
+import { Profile, Verification, Addresses } from '@/components/admin/user'
 
 const User = ({ params }) => {
   const { id } = params

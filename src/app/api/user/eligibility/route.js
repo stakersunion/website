@@ -51,7 +51,12 @@ export async function PUT(req) {
   }
 
   try {
-    const response = await axios.get(signature)
+    const response = await axios.get(signature, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+      },
+    })
 
     const $ = cheerio.load(response.data)
 

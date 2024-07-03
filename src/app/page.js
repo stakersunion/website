@@ -4,11 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Skeleton } from '@/components/ui/skeleton'
 import { Title } from '@/components'
 import { Status } from '@/components/dashboard'
-import { useSplitsMetadata, useSplitsBalance } from '@/utils/query/splits'
+import { useUserCount } from '@/utils/query/users'
 
 const Home = () => {
-  const { data: metadata, isLoading: loadingMetadata } = useSplitsMetadata()
-  const { data: balance, isLoading: loadingBalance } = useSplitsBalance()
+  const { data: userCount, isLoading: loadingCount } = useUserCount()
 
   return (
     <div className={'container'}>
@@ -21,10 +20,10 @@ const Home = () => {
             <CardDescription>Number of Active Stakers Union Members</CardDescription>
           </CardHeader>
           <CardContent>
-            {loadingMetadata ? (
+            {loadingCount ? (
               <Skeleton className={'h-20'} />
             ) : (
-              <p className={'text-6xl font-bold'}>{metadata.recipients.length}</p>
+              <p className={'text-6xl font-bold'}>{userCount.count}</p>
             )}
           </CardContent>
         </Card>
@@ -43,17 +42,7 @@ const Home = () => {
             <CardDescription>Current Funds Pending Distribution</CardDescription>
           </CardHeader>
           <CardContent>
-            {loadingBalance ? (
-              <Skeleton className={'h-20'} />
-            ) : (
-              <p className={'text-6xl font-bold'}>
-                {
-                  balance?.activeBalances?.['0x0000000000000000000000000000000000000000']
-                    ?.formattedAmount ?? 0
-                }
-                Ξ
-              </p>
-            )}
+            <p className={'text-6xl font-bold'}>0 Ξ</p>
           </CardContent>
         </Card>
       </div>

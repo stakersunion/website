@@ -51,23 +51,27 @@ const SignatureForm = ({ callback = () => {}, submitText = 'Submit', extraAction
 
   const onSubmit = async (values) => {
     try {
-      const [updateResult, checkResult] = await Promise.all([
-        updateVerification(values).catch((error) => ({ error })),
-        checkEligibility(values).catch((error) => ({ error })),
-      ])
+      let updateResult = await updateVerification(values).catch((error) => ({ error }))
+      let checkResult
+      if (!('error' in updateResult)) {
+        checkResult = await checkEligibility(values).catch((error) => ({ error }))
+      }
 
       // Handle updateVerification result
       if ('error' in updateResult) {
         toast.error(`Submission failed: ${updateResult.error.message || 'Unknown error'}`)
+        return 
       } else if (updateResult.data) {
         toast.success('Address submitted successfully')
       }
 
       // Handle checkEligibility result
       if ('error' in checkResult) {
-        toast.error(`Automatic verification failed: ${checkResult.error.message || 'Unknown error'}`)
+        toast.error(
+          `Automatic verification failed: ${checkResult.error.message || 'Unknown error'}`
+        )
       } else if (Object.keys(checkResult).length === 0) {
-        toast.warn('Eligibility check did not return any data')
+        toast.error('Eligibility check did not return any data')
       } else {
         toast.success('Address verified successfully')
       }

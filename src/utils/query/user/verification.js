@@ -26,7 +26,11 @@ const useUpdateVerification = () => {
           photo: data?.photo,
         })
       } catch (error) {
-        throw new Error(error)
+        if (error.response && error.response.data && error.response.data.error) {
+          throw new Error(error.response.data.error)
+        } else {
+          throw new Error(error.message || 'An unexpected error occurred')
+        }
       }
     },
     onSuccess: (response) => {

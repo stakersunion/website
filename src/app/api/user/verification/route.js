@@ -32,6 +32,18 @@ export async function PUT(req) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
   } else {
     await connect()
+
+    // Check if signature is already used
+    if (body.signature) {
+      const existingUser = await User.findOne({
+        'verification.eligibility.signature': body.signature,
+      })
+
+      if (existingUser) {
+        return NextResponse.json({ error: 'Signature already used' }, { status: 400 })
+      }
+    }
+
     const user = await User.findOneAndUpdate(
       { id },
       {

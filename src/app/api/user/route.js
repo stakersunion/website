@@ -3,6 +3,8 @@ import { currentUser } from '@clerk/nextjs/server'
 import connect from '@/utils/mongoose'
 import User from '@/models/user'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const { id } = (await currentUser()) || {}

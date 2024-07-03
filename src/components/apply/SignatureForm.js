@@ -60,7 +60,7 @@ const SignatureForm = ({ callback = () => {}, submitText = 'Submit', extraAction
       // Handle updateVerification result
       if ('error' in updateResult) {
         toast.error(`Submission failed: ${updateResult.error.message || 'Unknown error'}`)
-        return 
+        return
       } else if (updateResult.data) {
         toast.success('Address submitted successfully')
       }

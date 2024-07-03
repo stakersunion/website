@@ -6,6 +6,8 @@ import axios from 'axios'
 import * as cheerio from 'cheerio'
 import csv from 'csv-parser'
 
+export const dynamic = 'force-dynamic'
+
 export async function PUT(req) {
   const { id } = await currentUser()
   const { signature } = await req.json()

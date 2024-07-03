@@ -1,6 +1,7 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
+import Link from 'next/link'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
   TableBody,
@@ -20,7 +21,13 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLoader, faEnvelope } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import {
+  faLoader,
+  faEnvelope,
+  faArrowUpRightFromSquare,
+  faCalendar,
+} from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import createEvent from '@/utils/ics'
 import { useUser } from '@/utils/query/admin/user'
 import { useVerification, useUpdateVerification } from '@/utils/query/admin/user/verification'
 import { useNotify } from '@/utils/query/admin/send'
@@ -106,14 +113,67 @@ const Verification = ({ id }) => {
           </TableHeader>
           <TableBody>
             {verificationArray.map((step) => {
+              const renderCellContent = () => {
+                switch (step.key) {
+                  case 'eligibility':
+                    if (!step.signature) return null
+                    return (
+                      <Link
+                        href={step.signature}
+                        target={'_blank'}
+                      >
+                        {step.signature}
+                        <FontAwesomeIcon
+                          icon={faArrowUpRightFromSquare}
+                          className={'w-3 h-3 ml-2'}
+                        />
+                      </Link>
+                    )
+                  case 'independent':
+                    if (!step.schedule) return null
+                    return (
+                      <div>
+                        {step.schedule && new Date(step.schedule).toLocaleString()}
+                        <Link
+                          href={'#'}
+                          onClick={() =>
+                            createEvent({
+                              time: step.schedule,
+                              title: 'Proof of Independent Operation Scheduled',
+                              description: `User ${id} is scheduled to disable attestations for verification of independent operation of their validator.`,
+                            })
+                          }
+                        >
+                          <FontAwesomeIcon
+                            icon={faCalendar}
+                            className={'w-3 h-3 ml-2'}
+                          />
+                        </Link>
+                      </div>
+                    )
+                  case 'residential':
+                    if (!step.photo) return null
+                    return (
+                      <Link
+                        href={step.photo}
+                        target={'_blank'}
+                      >
+                        {step.photo}
+                        <FontAwesomeIcon
+                          icon={faArrowUpRightFromSquare}
+                          className={'w-3 h-3 ml-2'}
+                        />
+                      </Link>
+                    )
+                  default:
+                    return null
+                }
+              }
+
               return (
                 <TableRow key={step.key}>
                   <TableCell>{step.key}</TableCell>
-                  <TableCell>
-                    {step.signature ||
-                      (step.schedule && new Date(step.schedule).toLocaleString()) ||
-                      step.photo}
-                  </TableCell>
+                  <TableCell>{renderCellContent()}</TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger>

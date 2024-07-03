@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import { NextResponse } from 'next/server'
 import { currentUser } from '@clerk/nextjs/server'
 import connect from '@/utils/mongoose'
@@ -27,9 +29,9 @@ export async function PUT(req) {
       return NextResponse.json({ error: 'Address not found' }, { status: 400 })
     }
 
-    const csvUrl =
-      'https://raw.githubusercontent.com/Stake-Cat/Solo-Stakers/main/Solo-Stakers/Solo-Stakers-A.csv'
-    const addressExists = await checkAddressInCsv(csvUrl, address)
+    const csvPath = path.join(process.cwd(), 'src/data/stake-cat-list-a.csv')
+
+    const addressExists = await checkAddressInCsv(csvPath, address)
 
     if (!addressExists) {
       return NextResponse.json({ error: 'Address not found in StakeCat List' }, { status: 400 })
@@ -54,39 +56,33 @@ export async function PUT(req) {
   }
 }
 
-async function checkAddressInCsv(url, targetAddress) {
+async function checkAddressInCsv(path, targetAddress) {
   return new Promise((resolve) => {
     let foundAddress = false
     let rowCount = 0
     const targetAddressLower = targetAddress.toLowerCase().trim()
 
-    axios({
-      method: 'get',
-      url: url,
-      responseType: 'stream',
-    })
-      .then((response) => {
-        response.data
-          .pipe(csv())
-          .on('data', (row) => {
-            rowCount++
-            const [key, value] = Object.entries(row)[0]
+    fs.createReadStream(path)
+      .pipe(csv())
+      .on('data', (row) => {
+        rowCount++
+        const [key, value] = Object.entries(row)[0]
 
-            if (
-              key.toLowerCase().trim() === targetAddressLower ||
-              value.toLowerCase().trim() === targetAddressLower
-            ) {
-              foundAddress = true
-              resolve(true)
-            }
-          })
-          .on('end', () => {
-            if (!foundAddress) {
-              resolve(false)
-            }
-          })
+        if (
+          key.toLowerCase().trim() === targetAddressLower ||
+          value.toLowerCase().trim() === targetAddressLower
+        ) {
+          foundAddress = true
+          resolve(true)
+        }
       })
-      .catch((error) => {
+      .on('end', () => {
+        if (!foundAddress) {
+          resolve(false)
+        }
+      })
+      .on('error', (error) => {
+        console.error('Error reading CSV file:', error)
         resolve(false)
       })
   })

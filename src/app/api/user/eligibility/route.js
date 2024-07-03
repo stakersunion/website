@@ -14,6 +14,38 @@ export async function PUT(req) {
   const { id } = await currentUser()
   const { signature } = await req.json()
 
+  async function checkAddressInCsv(path, targetAddress) {
+    return new Promise((resolve) => {
+      let foundAddress = false
+      let rowCount = 0
+      const targetAddressLower = targetAddress.toLowerCase().trim()
+
+      fs.createReadStream(path)
+        .pipe(csv())
+        .on('data', (row) => {
+          rowCount++
+          const [key, value] = Object.entries(row)[0]
+
+          if (
+            key.toLowerCase().trim() === targetAddressLower ||
+            value.toLowerCase().trim() === targetAddressLower
+          ) {
+            foundAddress = true
+            resolve(true)
+          }
+        })
+        .on('end', () => {
+          if (!foundAddress) {
+            resolve(false)
+          }
+        })
+        .on('error', (error) => {
+          console.error('Error reading CSV file:', error)
+          resolve(false)
+        })
+    })
+  }
+
   if (!id) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
   }
@@ -30,6 +62,7 @@ export async function PUT(req) {
     }
 
     const csvPath = path.join(process.cwd(), 'src/data/stake-cat-list-a.csv')
+    console.log(csvPath)
 
     const addressExists = await checkAddressInCsv(csvPath, address)
 
@@ -49,41 +82,10 @@ export async function PUT(req) {
 
     return NextResponse.json(user, { status: 200 })
   } catch (error) {
+    console.log(error)
     return NextResponse.json(
       { error: 'Internal server error', details: error.message },
       { status: 500 }
     )
   }
-}
-
-async function checkAddressInCsv(path, targetAddress) {
-  return new Promise((resolve) => {
-    let foundAddress = false
-    let rowCount = 0
-    const targetAddressLower = targetAddress.toLowerCase().trim()
-
-    fs.createReadStream(path)
-      .pipe(csv())
-      .on('data', (row) => {
-        rowCount++
-        const [key, value] = Object.entries(row)[0]
-
-        if (
-          key.toLowerCase().trim() === targetAddressLower ||
-          value.toLowerCase().trim() === targetAddressLower
-        ) {
-          foundAddress = true
-          resolve(true)
-        }
-      })
-      .on('end', () => {
-        if (!foundAddress) {
-          resolve(false)
-        }
-      })
-      .on('error', (error) => {
-        console.error('Error reading CSV file:', error)
-        resolve(false)
-      })
-  })
 }

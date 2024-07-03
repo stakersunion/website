@@ -18,6 +18,11 @@ const nextConfig = {
       },
     ]
   },
+  experimental: {
+    outputFileTracingIncludes: {
+      '/api': ['./src/data/stake-cat-list-a.csv'],
+    },
+  },
 }
 
 export default nextConfig

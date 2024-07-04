@@ -1,11 +1,10 @@
+const scrapingbee = require('scrapingbee')
 import fs from 'fs'
 import path from 'path'
 import { NextResponse } from 'next/server'
 import { currentUser } from '@clerk/nextjs/server'
 import connect from '@/utils/mongoose'
 import User from '@/models/user'
-import axios from 'axios'
-import * as cheerio from 'cheerio'
 import csv from 'csv-parser'
 
 export const dynamic = 'force-dynamic'
@@ -13,6 +12,26 @@ export const dynamic = 'force-dynamic'
 export async function PUT(req) {
   const { id } = await currentUser()
   const { signature } = await req.json()
+
+  async function fetchAddress(signature) {
+    const client = new scrapingbee.ScrapingBeeClient(process.env.SCRAPINGBEE_API_KEY)
+
+    const response = await client.get({
+      url: signature,
+      params: {
+        wait_for: '#ContentPlaceHolder1_txtAddressReadonly',
+        extract_rules: {
+          address: '#ContentPlaceHolder1_txtAddressReadonly@value',
+        },
+      },
+    })
+
+    var decoder = new TextDecoder()
+    var extract = decoder.decode(response.data)
+    var { address } = JSON.parse(extract)
+
+    return address
+  }
 
   async function checkAddressInCsv(path, targetAddress) {
     return new Promise((resolve) => {
@@ -51,16 +70,7 @@ export async function PUT(req) {
   }
 
   try {
-    const response = await axios.get(signature, {
-      headers: {
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-      },
-    })
-
-    const $ = cheerio.load(response.data)
-
-    const address = $('#ContentPlaceHolder1_txtAddressReadonly').val()
+    const address = await fetchAddress(signature)
 
     if (!address) {
       return NextResponse.json({ error: 'Address not found' }, { status: 400 })

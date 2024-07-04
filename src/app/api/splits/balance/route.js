@@ -3,7 +3,7 @@ import { dataClient } from '@/utils/splits'
 
 export async function GET() {
   const response = await dataClient.getSplitEarnings({
-    chainId: process.env.CHAIN_ID,
+    chainId: parseInt(process.env.CHAIN_ID),
     splitAddress: process.env.SPLIT_ADDRESS,
     erc20TokenList: [],
   })

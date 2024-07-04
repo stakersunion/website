@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Title } from '@/components'
-import { Status } from '@/components/dashboard'
+import { Status, Balances } from '@/components/dashboard'
 import { useUserCount } from '@/utils/query/users'
 
 const Home = () => {
@@ -42,7 +42,7 @@ const Home = () => {
             <CardDescription>Current Funds Pending Distribution</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className={'text-6xl font-bold'}>0 Ξ</p>
+            <Balances />
           </CardContent>
         </Card>
       </div>

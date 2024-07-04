@@ -102,8 +102,9 @@ const Status = ({ setReplace }) => {
       pending: {
         icon: faServer,
         title: 'Proof of Independent Operation Pending',
-        description:
-          `You have selected ${new Date(verification?.independent?.schedule).toLocaleString()} to disable attestations. You will be notified by email after your proof has been verified. You may continue to Proof of Residential Operation.`,
+        description: `You have selected ${new Date(
+          verification?.independent?.schedule
+        ).toLocaleString()} to disable attestations. You will be notified by email after your proof has been verified. You may continue to Proof of Residential Operation.`,
         extra: <CalendarFile />,
       },
       approved: {
@@ -149,13 +150,20 @@ const Status = ({ setReplace }) => {
   }
 
   const getContent = useMemo(() => {
-    if (loadingStatus) return
+    if (loadingStatus || loadingVerification) {
+      return {
+        icon: null,
+        title: null,
+        description: null,
+      }
+    }
+
     if (overrideStatus) {
       return content[overrideStatus.current]?.[overrideStatus.status]
     } else {
       return content[status.current]?.[status.status]
     }
-  }, [loadingStatus, status, overrideStatus])
+  }, [loadingStatus, loadingVerification, status, overrideStatus])
 
   if (loadingStatus) {
     return <Skeleton className={'h-20 mb-6'} />

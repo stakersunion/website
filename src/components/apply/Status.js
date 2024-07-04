@@ -76,7 +76,7 @@ const Status = ({ setReplace }) => {
         icon: faSignature,
         title: 'Proof of Eligibility Pending',
         description:
-          'You have submitted an address that is pending approval. You will be notified by email when your address has been approved and you can proceed to the verification step.',
+          'You have submitted an address that is pending approval. Please wait while we attempt automatic verification. If this fails, we will check your signature manually and let you know of next steps to the email you provided.',
       },
       approved: {
         icon: faSignature,
@@ -103,7 +103,7 @@ const Status = ({ setReplace }) => {
         icon: faServer,
         title: 'Proof of Independent Operation Pending',
         description:
-          `You have selected ${new Date(verification.independent.schedule).toLocaleString()} to disable attestations. You will be notified by email after your proof has been verified. You may continue to Proof of Residential Operation.`,
+          `You have selected ${new Date(verification?.independent?.schedule).toLocaleString()} to disable attestations. You will be notified by email after your proof has been verified. You may continue to Proof of Residential Operation.`,
         extra: <CalendarFile />,
       },
       approved: {

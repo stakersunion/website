@@ -35,28 +35,28 @@ export async function PUT(req) {
   } else {
     await connect()
 
-    // Check that signature is valid from Etherscan
-    const validEtherscanUrl = /^https:\/\/etherscan\.io\/verifySig\/\d+$/
-
-    if (body.signature && !validEtherscanUrl.test(body.signature)) {
-      return NextResponse.json({ error: 'Invalid signature URL' }, { status: 400 })
-    }
-
-    const urlParts = body.signature.split('/')
-    const numericPart = urlParts[urlParts.length - 1]
-
-    if (numericPart.length < 6 || numericPart.length > 12) {
-      return NextResponse.json({ error: 'Invalid signature URL' }, { status: 400 })
-    }
-
-    // Check if signature is already used
     if (body.signature) {
+      // Check if signature is already used
       const existingUser = await User.findOne({
         'verification.eligibility.signature': body.signature,
       })
 
       if (existingUser) {
         return NextResponse.json({ error: 'Signature already used' }, { status: 400 })
+      }
+
+      // Check that signature is valid from Etherscan
+      const validEtherscanUrl = /^https:\/\/etherscan\.io\/verifySig\/\d+$/
+
+      if (!validEtherscanUrl.test(body.signature)) {
+        return NextResponse.json({ error: 'Invalid signature URL' }, { status: 400 })
+      }
+
+      const urlParts = body.signature.split('/')
+      const numericPart = urlParts[urlParts.length - 1]
+
+      if (numericPart.length < 6 || numericPart.length > 12) {
+        return NextResponse.json({ error: 'Invalid signature URL' }, { status: 400 })
       }
     }
 

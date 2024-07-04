@@ -14,6 +14,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { isAddress } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { useProfile, useUpdateProfile } from '@/utils/query/user/profile'
 import { toast } from 'sonner'
@@ -27,6 +28,13 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
   const formSchema = z.object({
     name: z.string().min(2).max(50),
     email: z.string().email(),
+    discord: z.string().optional(),
+    withdrawalAddress: z
+      .string()
+      .optional()
+      .refine((value) => (value ? isAddress(value) : true), {
+        message: 'The provided ETH address is invalid.',
+      }),
   })
 
   const form = useForm({
@@ -34,6 +42,8 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
     defaultValues: {
       name: '',
       email: '',
+      discord: '',
+      withdrawalAddress: '',
     },
     values: profile,
   })
@@ -55,42 +65,96 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
         onSubmit={form.handleSubmit(onSubmit)}
         className={'space-y-8'}
       >
-        <FormField
-          control={form.control}
-          name={'name'}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={'John Smith'}
-                  disabled={isLoading}
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>Your public display name.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={'email'}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={'test@example.com'}
-                  disabled={isLoading}
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>Your preferred contact email.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className={'grid grid-cols-1 md:grid-cols-2 gap-6'}>
+          <FormField
+            control={form.control}
+            name={'name'}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={'John Smith'}
+                    disabled={isLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <div className={'flex'}>
+                  <FormDescription className={'text-xs'}>Your public display name.</FormDescription>
+                  <FormMessage className={'ml-2 text-xs text-red-500'} />
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={'email'}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={'test@example.com'}
+                    disabled={isLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <div className={'flex'}>
+                  <FormDescription className={'text-xs'}>
+                    Your preferred contact email.
+                  </FormDescription>
+                  <FormMessage className={'ml-2 text-xs text-red-500'} />
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className={'columns-1 md:columns-2 gap-x-6'}>
+          <FormField
+            control={form.control}
+            name={'discord'}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Discord</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <div className={'flex'}>
+                  <FormDescription className={'text-xs'}>
+                    Your Discord handle, used to provide members-only access.
+                  </FormDescription>
+                  <FormMessage className={'ml-2 text-xs text-red-500'} />
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={'withdrawalAddress'}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Withdrawal Address</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={'0x...'}
+                    disabled={isLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <div className={'flex'}>
+                  <FormDescription className={'text-xs'}>
+                    The ETH address used to distribute incentives.
+                  </FormDescription>
+                  <FormMessage className={'ml-2 text-xs text-red-500'} />
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
         <div className={'flex'}>
           <div className={'flex flex-1'}>
             <Button

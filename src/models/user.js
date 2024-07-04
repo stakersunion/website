@@ -18,6 +18,12 @@ const userSchema = mongoose.Schema(
       email: {
         type: String,
       },
+      discord: {
+        type: String,
+      },
+      withdrawalAddress: {
+        type: String,
+      },
     },
     multipliers: [
       {

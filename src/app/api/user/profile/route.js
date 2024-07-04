@@ -41,6 +41,8 @@ export async function PUT(req) {
         $set: {
           'profile.name': body.name,
           'profile.email': body.email,
+          'profile.discord': body.discord,
+          'profile.withdrawalAddress': body.withdrawalAddress,
         },
       },
       { new: true }

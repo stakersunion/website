@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useUser } from '@/utils/query/admin/user'
+import { EthAddress } from '@/components'
 
 const Profile = ({ id }) => {
   const { data: user, isLoading: loadingUser } = useUser({ id })
@@ -18,14 +19,28 @@ const Profile = ({ id }) => {
         <CardTitle>Profile</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className={'font-semibold text-muted-foreground'}>Account Address:</p>
-        <p className={'line-clamp-1'}>{user.profile.address}</p>
+        <div className={'grid grid-cols-2 gap-4'}>
+          <div>
+            <p className={'font-semibold text-muted-foreground'}>Display Name:</p>
+            <p>{user.profile.name || 'Not set'}</p>
+          </div>
+          <div>
+            <p className={'font-semibold text-muted-foreground'}>Email:</p>
+            <p>{user.profile.email || 'Not set'}</p>
+          </div>
+        </div>
         <Separator className={'my-4'} />
-        <p className={'font-semibold text-muted-foreground'}>Display Name:</p>
-        <p>{user.profile.name || 'Not set'}</p>
+        <div className={'grid grid-cols-2 gap-4'}>
+          <div>
+            <p className={'font-semibold text-muted-foreground'}>Discord:</p>
+            <p>{user.profile.discord || 'Not set'}</p>
+          </div>
+          <div>
+            <p className={'font-semibold text-muted-foreground'}>Withdrawal Addresss:</p>
+            <EthAddress address={user.profile.withdrawalAddress} />
+          </div>
+        </div>
         <Separator className={'my-4'} />
-        <p className={'font-semibold text-muted-foreground'}>Email:</p>
-        <p>{user.profile.email || 'Not set'}</p>
       </CardContent>
     </Card>
   )

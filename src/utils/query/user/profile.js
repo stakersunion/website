@@ -23,6 +23,8 @@ const useUpdateProfile = () => {
         return await api.put('/user/profile', {
           name: data.name,
           email: data.email,
+          discord: data.discord,
+          withdrawalAddress: data.withdrawalAddress,
         })
       } catch (error) {
         throw new Error(error)

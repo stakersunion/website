@@ -65,12 +65,17 @@ const userSchema = mongoose.Schema(
         type: {
           type: String,
           enum: ['withdrawal', 'deposit'],
-          required: true,
         },
         validators: [
           {
             index: {
               type: Number,
+            },
+            publicKey: {
+              type: String,
+            },
+            valid: {
+              type: Boolean,
             },
             performance: [
               {

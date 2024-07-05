@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import api from '@/utils/api'
 
 const useAddresses = ({ id }) => {
@@ -15,27 +15,4 @@ const useAddresses = ({ id }) => {
   })
 }
 
-const useCreateAddress = ({ id }) => {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: async (data) => {
-      try {
-        return await api.post('/admin/user/addresses', {
-          id,
-          ...data,
-        })
-      } catch (error) {
-        if (error?.response?.data?.error) {
-          throw new Error(error.response.data.error)
-        } else {
-          throw new Error(error)
-        }
-      }
-    },
-    onSuccess: (response) => {
-      queryClient.invalidateQueries(['user', id, 'addresses'])
-    },
-  })
-}
-
-export { useAddresses, useCreateAddress }
+export { useAddresses }

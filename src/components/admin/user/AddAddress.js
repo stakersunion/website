@@ -31,7 +31,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { isAddress } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { useCreateAddress } from '@/utils/query/admin/user/addresses'
+import { useCreateAddress } from '@/utils/query/admin/user/address'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 

@@ -20,7 +20,7 @@ const nextConfig = {
   },
   experimental: {
     outputFileTracingIncludes: {
-      '/api': ['./src/data/stake-cat-list-a.csv'],
+      '/api': ['./src/data/Solo-Stakers-A.csv', './src/data/Rocketpool-Solo-Stakers.csv'],
     },
   },
 }

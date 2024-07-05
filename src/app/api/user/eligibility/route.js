@@ -107,7 +107,6 @@ export async function PUT(req) {
 
     return NextResponse.json(user, { status: 200 })
   } catch (error) {
-    console.log(error)
     return NextResponse.json(
       { error: 'Internal server error', details: error.message },
       { status: 500 }

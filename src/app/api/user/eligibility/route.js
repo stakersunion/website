@@ -1,4 +1,3 @@
-const scrapingbee = require('scrapingbee')
 import fs from 'fs'
 import path from 'path'
 import { NextResponse } from 'next/server'
@@ -6,6 +5,7 @@ import { currentUser } from '@clerk/nextjs/server'
 import connect from '@/utils/mongoose'
 import User from '@/models/user'
 import csv from 'csv-parser'
+const scrapingbee = require('scrapingbee')
 
 export const dynamic = 'force-dynamic'
 
@@ -33,24 +33,30 @@ export async function PUT(req) {
     return address
   }
 
-  async function checkAddressInCsv(path, targetAddress) {
+  async function checkAddressInCsv(filePath, targetAddress) {
     return new Promise((resolve) => {
       let foundAddress = false
-      let rowCount = 0
       const targetAddressLower = targetAddress.toLowerCase().trim()
+      const isSingleColumn = path.basename(filePath).includes('Solo-Stakers-A')
 
-      fs.createReadStream(path)
-        .pipe(csv())
+      fs.createReadStream(filePath)
+        .pipe(csv({ separator: isSingleColumn ? ',' : '\t' }))
         .on('data', (row) => {
-          rowCount++
-          const [key, value] = Object.entries(row)[0]
-
-          if (
-            key.toLowerCase().trim() === targetAddressLower ||
-            value.toLowerCase().trim() === targetAddressLower
-          ) {
-            foundAddress = true
-            resolve(true)
+          if (isSingleColumn) {
+            const address = Object.values(row)[0].toLowerCase().trim()
+            if (address === targetAddressLower) {
+              foundAddress = true
+              resolve(true)
+            }
+          } else {
+            const nodeAccount = row['Node Account'] ? row['Node Account'].toLowerCase().trim() : ''
+            const withdrawalAddress = row['Withdrawal Address']
+              ? row['Withdrawal Address'].toLowerCase().trim()
+              : ''
+            if (nodeAccount === targetAddressLower || withdrawalAddress === targetAddressLower) {
+              foundAddress = true
+              resolve(true)
+            }
           }
         })
         .on('end', () => {
@@ -76,13 +82,17 @@ export async function PUT(req) {
       return NextResponse.json({ error: 'Address not found' }, { status: 400 })
     }
 
-    const csvPath = path.join(process.cwd(), 'src/data/stake-cat-list-a.csv')
-    console.log(csvPath)
+    const csvPath1 = path.join(process.cwd(), 'src/data/Solo-Stakers-A.csv')
+    const csvPath2 = path.join(process.cwd(), 'src/data/Rocketpool-Solo-Stakers.csv')
 
-    const addressExists = await checkAddressInCsv(csvPath, address)
+    const addressExists1 = await checkAddressInCsv(csvPath1, address)
+    const addressExists2 = await checkAddressInCsv(csvPath2, address)
 
-    if (!addressExists) {
-      return NextResponse.json({ error: 'Address not found in StakeCat List' }, { status: 400 })
+    if (!addressExists1 && !addressExists2) {
+      return NextResponse.json(
+        { error: 'Address not found in StakeCat List A or RocketPool' },
+        { status: 400 }
+      )
     }
 
     await connect()

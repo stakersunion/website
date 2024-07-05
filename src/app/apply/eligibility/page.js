@@ -31,7 +31,18 @@ const ApplyEligibility = () => {
                         href={'https://www.stakecat.space/solo-stakers'}
                       >
                         StakeCat List A
-                      </Link>
+                      </Link>{' '}
+                      or{' '}
+                      <Link
+                        target={'_blank'}
+                        className={'underline underline-offset-2 hover:no-underline'}
+                        href={
+                          'https://github.com/Stake-Cat/Solo-Stakers/blob/main/Solo-Stakers/Rocketpool-Solo-Stakers.csv'
+                        }
+                      >
+                        StakeCat RocketPool
+                      </Link>{' '}
+                      list.
                     </li>
                     <li>
                       <Link

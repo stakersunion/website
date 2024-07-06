@@ -70,3 +70,28 @@ export async function POST(req) {
     return NextResponse.json(user.addresses, { status: 200 })
   }
 }
+
+// Delete Address
+export async function DELETE(req) {
+  const searchParams = req.nextUrl.searchParams
+  const id = searchParams.get('id')
+  const address = searchParams.get('address')
+
+  if (!id) {
+    return NextResponse.json({ error: 'User not found' }, { status: 404 })
+  } else {
+    await connect()
+    const user = await User.findOne({ id })
+
+    const addressIndex = user.addresses.findIndex((addr) => addr.address === address)
+
+    if (addressIndex === -1) {
+      return NextResponse.json({ error: 'Address not found' }, { status: 404 })
+    }
+
+    user.addresses.splice(addressIndex, 1)
+    await user.save()
+
+    return NextResponse.json(user.addresses, { status: 200 })
+  }
+}

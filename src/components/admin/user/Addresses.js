@@ -10,14 +10,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { AddAddress } from '@/components/admin/user'
-import { useUser } from '@/utils/query/admin/user'
+import { AddAddress, RemoveAddress } from '@/components/admin/user'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import { useAddresses } from '@/utils/query/admin/user/addresses'
 import { routes, getRoute } from '@/utils/routes'
 
 const Addresses = ({ id }) => {
-  const { data: user, isLoading: loadingUser } = useUser({ id })
+  const { data: addresses, isLoading: loadingUser } = useAddresses({ id })
 
   if (loadingUser) {
     return <Skeleton className={'w-full h-96'} />
@@ -38,20 +39,27 @@ const Addresses = ({ id }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {user.addresses.map((address) => {
+            {addresses.map((address) => {
               return (
                 <TableRow key={address.address}>
                   <TableCell>{address.address}</TableCell>
                   <TableCell>{address.type}</TableCell>
-                  <TableCell>
+                  <TableCell className={'flex gap-x-2'}>
                     <Link
                       href={getRoute({
                         path: routes.admin.children.address.path,
                         params: { id, address: address.address },
                       })}
                     >
-                      <Button size={'sm'}>View</Button>
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        className={'text-muted-foreground hover:text-foreground'}
+                      />
                     </Link>
+                    <RemoveAddress
+                      id={id}
+                      address={address.address}
+                    />
                   </TableCell>
                 </TableRow>
               )

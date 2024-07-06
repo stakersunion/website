@@ -63,4 +63,24 @@ const useCreateAddress = ({ id }) => {
   })
 }
 
-export { useAddress, useUpdateAddress, useCreateAddress }
+const useRemoveAddress = ({ id, address }) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async () => {
+      try {
+        return await api.delete('/admin/user/address', { params: { id, address } })
+      } catch (error) {
+        if (error?.response?.data?.error) {
+          throw new Error(error.response.data.error)
+        } else {
+          throw new Error(error)
+        }
+      }
+    },
+    onSuccess: (response) => {
+      queryClient.invalidateQueries(['user', id, 'address'])
+    },
+  })
+}
+
+export { useAddress, useUpdateAddress, useCreateAddress, useRemoveAddress }

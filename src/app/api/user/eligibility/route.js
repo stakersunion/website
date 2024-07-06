@@ -13,7 +13,7 @@ export async function PUT(req) {
   const { id } = await currentUser()
   const { signature } = await req.json()
 
-  async function fetchAddress(signature) {
+  async function fetchSignature(signature) {
     const client = new scrapingbee.ScrapingBeeClient(process.env.SCRAPINGBEE_API_KEY)
 
     const response = await client.get({
@@ -22,15 +22,17 @@ export async function PUT(req) {
         wait_for: '#ContentPlaceHolder1_txtAddressReadonly',
         extract_rules: {
           address: '#ContentPlaceHolder1_txtAddressReadonly@value',
+          oath: '#ContentPlaceHolder1_txtSignedMessageReadonly',
         },
       },
     })
 
     var decoder = new TextDecoder()
     var extract = decoder.decode(response.data)
-    var { address } = JSON.parse(extract)
+    var { address, oath } = JSON.parse(extract)
+    console.log(extract)
 
-    return address
+    return { address, oath }
   }
 
   async function checkAddressInCsv(filePath, targetAddress) {
@@ -76,10 +78,14 @@ export async function PUT(req) {
   }
 
   try {
-    const address = await fetchAddress(signature)
+    const { address, oath } = await fetchSignature(signature)
 
     if (!address) {
       return NextResponse.json({ error: 'Address not found' }, { status: 400 })
+    }
+
+    if (!oath || !oath.includes('Night gathers, and now my stake begins')) {
+      return NextResponse.json({ error: 'Invalid Oath' }, { status: 400 })
     }
 
     const csvPath1 = path.join(process.cwd(), 'src/data/Solo-Stakers-A.csv')

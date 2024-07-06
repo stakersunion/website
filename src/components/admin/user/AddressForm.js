@@ -38,12 +38,17 @@ const AddressForm = ({ id, address }) => {
     error,
   } = useUpdateAddress({ id, address })
   const router = useRouter()
+  const addressTypes = [
+    { value: 'solo', label: 'Solo' },
+    { value: 'rocketpool', label: 'Rocket Pool' },
+    { value: 'dvt', label: 'DVT' },
+  ]
 
   const formSchema = z.object({
     address: z.string().refine((value) => isAddress(value), {
       message: 'The provided ETH address is invalid.',
     }),
-    type: z.enum(['withdrawal', 'deposit']),
+    type: z.enum(addressTypes.map((type) => type.value)),
   })
 
   const form = useForm({
@@ -121,8 +126,14 @@ const AddressForm = ({ id, address }) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value={'withdrawal'}>Withdrawal</SelectItem>
-                    <SelectItem value={'deposit'}>Deposit</SelectItem>
+                    {addressTypes.map((type) => (
+                      <SelectItem
+                        key={type.value}
+                        value={type.value}
+                      >
+                        {type.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </FormControl>

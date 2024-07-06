@@ -38,12 +38,17 @@ import { faPlus, faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 const AddAddress = ({ id }) => {
   const [open, setOpen] = useState(false)
   const { mutateAsync: createAddress, isPending, isSuccess, error } = useCreateAddress({ id })
+  const addressTypes = [
+    { value: 'solo', label: 'Solo' },
+    { value: 'rocketpool', label: 'Rocket Pool' },
+    { value: 'dvt', label: 'DVT' },
+  ]
 
   const formSchema = z.object({
     address: z.string().refine((value) => isAddress(value), {
       message: 'The provided ETH address is invalid.',
     }),
-    type: z.enum(['withdrawal', 'deposit']),
+    type: z.enum(addressTypes.map((type) => type.value)),
   })
 
   const form = useForm({
@@ -127,10 +132,14 @@ const AddAddress = ({ id }) => {
                             <SelectValue placeholder={'Address Type'} />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
-                          <SelectItem value={'withdrawal'}>Withdrawal</SelectItem>
-                          <SelectItem value={'deposit'}>Deposit</SelectItem>
-                        </SelectContent>
+                        {addressTypes.map((type) => (
+                          <SelectItem
+                            key={type.value}
+                            value={type.value}
+                          >
+                            {type.label}
+                          </SelectItem>
+                        ))}
                       </Select>
                     </FormControl>
                     <FormMessage />

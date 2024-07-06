@@ -64,7 +64,7 @@ const userSchema = mongoose.Schema(
         },
         type: {
           type: String,
-          enum: ['withdrawal', 'deposit'],
+          enum: ['solo', 'rocketpool', 'dvt'],
         },
         validators: [
           {

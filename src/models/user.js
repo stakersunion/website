@@ -70,29 +70,28 @@ const userSchema = mongoose.Schema(
           {
             index: {
               type: Number,
+              required: true,
             },
             publicKey: {
               type: String,
+              required: true,
             },
+            status: {
+              type: String,
+            },
+            activationEpoch: {
+              type: Number,
             },
             performance: [
               {
-                proposals: {
+                attestations: {
                   type: Number,
                 },
-                attestations: {
+                proposals: {
                   type: Number,
                 },
                 sync: {
                   type: Number,
-                },
-              },
-            ],
-            commitment: [
-              {
-                entry: {
-                  type: String,
-                  enum: ['genesis', 'pre-merge', 'post-merge'],
                 },
               },
             ],

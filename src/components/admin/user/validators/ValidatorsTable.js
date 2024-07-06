@@ -6,10 +6,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { EthAddress } from '@/components'
+import { RemoveValidator } from '@/components/admin/user/validators'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faX } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
-const ValidatorsTable = ({ validators }) => {
+const ValidatorsTable = ({ id, address, validators }) => {
   return (
     <Table>
       <TableHeader>
@@ -17,6 +19,7 @@ const ValidatorsTable = ({ validators }) => {
           <TableHead>Index</TableHead>
           <TableHead>Public Key</TableHead>
           <TableHead>Valid</TableHead>
+          <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -31,13 +34,18 @@ const ValidatorsTable = ({ validators }) => {
           return (
             <TableRow key={validator.publicKey}>
               <TableCell>{validator.index}</TableCell>
-              <TableCell>{`${validator.publicKey?.substring(
-                0,
-                9
-              )}...${validator.publicKey?.substring(validator.publicKey.length - 9)}`}</TableCell>
-
+              <TableCell>
+                <EthAddress address={validator.publicKey} />
+              </TableCell>
               <TableCell>
                 <FontAwesomeIcon icon={validator.valid ? faCheck : faX} />
+              </TableCell>
+              <TableCell>
+                <RemoveValidator
+                  id={id}
+                  address={address}
+                  publicKey={validator.publicKey}
+                />
               </TableCell>
             </TableRow>
           )

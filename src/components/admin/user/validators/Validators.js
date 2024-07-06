@@ -1,12 +1,3 @@
-import { Button } from '@/components/ui/button'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import {
   Card,
   CardContent,
@@ -16,30 +7,13 @@ import {
   CardDescription,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { LoadValidators, ValidatorsTable } from '@/components/admin/user/validators'
-import { useValidators, useSaveValidators } from '@/utils/query/admin/user/validators'
+import { LoadValidators, ValidatorsTable, AddValidator } from '@/components/admin/user/validators'
+import { useValidators } from '@/utils/query/admin/user/validators'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEmptySet, faCheck, faX, faPlus } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import { faEmptySet } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const Validators = ({ id, address }) => {
   const { data: validators, isLoading: loadingValidators } = useValidators({ id, address })
-
-  const { mutateAsync: saveValidators, isPending: savingValidators } = useSaveValidators({
-    id,
-    address,
-  })
-
-  // useEffect(() => {
-  //   if (successValidators) {
-  //     toast.success('Validators loaded successfully')
-  //   }
-  // }, [successValidators])
-
-  const handleLoadValidators = () => {
-    refetch()
-  }
-
-  const handleAddValidator = async () => {}
 
   return (
     <Card>
@@ -58,7 +32,11 @@ const Validators = ({ id, address }) => {
             />
           </div>
         ) : (
-          <ValidatorsTable validators={validators} />
+          <ValidatorsTable
+            id={id}
+            address={address}
+            validators={validators}
+          />
         )}
       </CardContent>
       <CardFooter className={'gap-4'}>
@@ -66,16 +44,10 @@ const Validators = ({ id, address }) => {
           id={id}
           address={address}
         />
-        <Button
-          onClick={handleAddValidator}
-          size={'sm'}
-        >
-          <FontAwesomeIcon
-            icon={faPlus}
-            className={'mr-2 h-4 w-4'}
-          />
-          Add Validator
-        </Button>
+        <AddValidator
+          id={id}
+          address={address}
+        />
       </CardFooter>
     </Card>
   )

@@ -72,7 +72,7 @@ const LoadValidators = ({ id, address }) => {
         <div>
           {validators && validators.length > 0 && (
             <ScrollArea className={'h-[200px]'}>
-              <ValidatorsTable validators={transformValidators(validators)} />
+              <ValidatorsTable validators={transformValidators(validators)} showActions={false} />
             </ScrollArea>
           )}
           {successValidators ? (

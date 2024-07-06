@@ -11,7 +11,7 @@ import { RemoveValidator } from '@/components/admin/user/validators'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faX } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
-const ValidatorsTable = ({ id, address, validators }) => {
+const ValidatorsTable = ({ id, address, validators, showActions = true }) => {
   return (
     <Table>
       <TableHeader>
@@ -19,7 +19,7 @@ const ValidatorsTable = ({ id, address, validators }) => {
           <TableHead>Index</TableHead>
           <TableHead>Public Key</TableHead>
           <TableHead>Valid</TableHead>
-          <TableHead>Actions</TableHead>
+          {showActions && <TableHead>Actions</TableHead>}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -40,13 +40,15 @@ const ValidatorsTable = ({ id, address, validators }) => {
               <TableCell>
                 <FontAwesomeIcon icon={validator.valid ? faCheck : faX} />
               </TableCell>
-              <TableCell>
-                <RemoveValidator
-                  id={id}
-                  address={address}
-                  publicKey={validator.publicKey}
-                />
-              </TableCell>
+              {showActions && (
+                <TableCell>
+                  <RemoveValidator
+                    id={id}
+                    address={address}
+                    publicKey={validator.publicKey}
+                  />
+                </TableCell>
+              )}
             </TableRow>
           )
         })}

@@ -50,11 +50,14 @@ const LoadValidators = ({ id, address }) => {
   }
 
   const transformValidators = (validators) => {
-    return validators.map((validator) => ({
-      publicKey: validator.publickey,
-      index: validator.validatorindex,
-      valid: validator.valid_signature,
-    }))
+    return validators.map((validator) => {
+      if (validator.valid_signature) {
+        return {
+          publicKey: validator.publickey,
+          index: validator.validatorindex,
+        }
+      }
+    })
   }
 
   return (

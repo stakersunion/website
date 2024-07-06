@@ -18,7 +18,6 @@ const ValidatorsTable = ({ id, address, validators, showActions = true }) => {
         <TableRow>
           <TableHead>Index</TableHead>
           <TableHead>Public Key</TableHead>
-          <TableHead>Valid</TableHead>
           {showActions && <TableHead>Actions</TableHead>}
         </TableRow>
       </TableHeader>
@@ -36,9 +35,6 @@ const ValidatorsTable = ({ id, address, validators, showActions = true }) => {
               <TableCell>{validator.index}</TableCell>
               <TableCell>
                 <EthAddress address={validator.publicKey} />
-              </TableCell>
-              <TableCell>
-                <FontAwesomeIcon icon={validator.valid ? faCheck : faX} />
               </TableCell>
               {showActions && (
                 <TableCell>

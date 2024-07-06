@@ -74,8 +74,6 @@ const userSchema = mongoose.Schema(
             publicKey: {
               type: String,
             },
-            valid: {
-              type: Boolean,
             },
             performance: [
               {

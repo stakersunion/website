@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -16,11 +16,11 @@ import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useLoadValidators, useSaveValidators } from '@/utils/query/admin/user/validators'
 
 const LoadValidators = ({ id, address }) => {
+  const [open, setOpen] = useState(false)
   const {
     data: validators,
     isLoading: loadingValidators,
     isSuccess: successValidators,
-    error: errorValidators,
     refetch,
   } = useLoadValidators({
     id,
@@ -46,6 +46,8 @@ const LoadValidators = ({ id, address }) => {
       await saveValidators(transformValidators(validators))
     } catch (error) {
       toast.error(error.message)
+    } finally {
+      setOpen(false)
     }
   }
 
@@ -61,7 +63,10 @@ const LoadValidators = ({ id, address }) => {
   }
 
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+    >
       <DialogTrigger asChild>
         <Button size={'sm'}>Load Validators</Button>
       </DialogTrigger>
@@ -75,7 +80,10 @@ const LoadValidators = ({ id, address }) => {
         <div>
           {validators && validators.length > 0 && (
             <ScrollArea className={'h-[200px]'}>
-              <ValidatorsTable validators={transformValidators(validators)} showActions={false} />
+              <ValidatorsTable
+                validators={transformValidators(validators)}
+                showActions={false}
+              />
             </ScrollArea>
           )}
           {successValidators ? (
@@ -90,7 +98,7 @@ const LoadValidators = ({ id, address }) => {
                   className={'w-4 h-4 mr-2 animate-spin'}
                 />
               )}
-              Save Validators
+              Import {validators.length} Validators
             </Button>
           ) : (
             <Button

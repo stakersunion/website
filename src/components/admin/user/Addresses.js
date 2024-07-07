@@ -11,9 +11,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EthAddress } from '@/components'
 import { AddAddress, RemoveAddress } from '@/components/admin/user'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useAddresses } from '@/utils/query/admin/user/addresses'
 import { routes, getRoute } from '@/utils/routes'
 
@@ -30,42 +29,43 @@ const Addresses = ({ id }) => {
         <CardTitle>Addresses</CardTitle>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Address</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {addresses.map((address) => {
-              return (
-                <TableRow key={address.address}>
-                  <TableCell>{address.address}</TableCell>
-                  <TableCell>{address.type}</TableCell>
-                  <TableCell className={'flex gap-x-2'}>
-                    <Link
-                      href={getRoute({
-                        path: routes.admin.children.address.path,
-                        params: { id, address: address.address },
-                      })}
-                    >
-                      <FontAwesomeIcon
-                        icon={faEye}
-                        className={'text-muted-foreground hover:text-foreground'}
+        <div className={'rounded-md border'}>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Address</TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {addresses.map((address) => {
+                console.log(address)
+                return (
+                  <TableRow key={address.address}>
+                    <TableCell>
+                      <Link
+                        href={getRoute({
+                          path: routes.admin.children.address.path,
+                          params: { id, address: address.address },
+                        })}
+                      >
+                        <EthAddress address={address.address} />
+                      </Link>
+                    </TableCell>
+                    <TableCell>{address.type}</TableCell>
+                    <TableCell className={'flex gap-x-2'}>
+                      <RemoveAddress
+                        id={id}
+                        address={address.address}
                       />
-                    </Link>
-                    <RemoveAddress
-                      id={id}
-                      address={address.address}
-                    />
-                  </TableCell>
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </div>
       </CardContent>
       <CardFooter>
         <AddAddress id={id} />

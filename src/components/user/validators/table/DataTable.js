@@ -9,6 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEmptySet } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/light'
 
 const DataTable = ({ columns, data }) => {
   const table = useReactTable({
@@ -55,10 +57,15 @@ const DataTable = ({ columns, data }) => {
           ) : (
             <TableRow>
               <TableCell
-                colSpan={columns.length}
+                colSpan={'100%'}
                 className={'h-24 text-center'}
               >
-                No results.
+                <FontAwesomeIcon
+                  icon={faEmptySet}
+                  size={'2x'}
+                  className={'mb-2'}
+                />
+                <p>No validators found</p>
               </TableCell>
             </TableRow>
           )}

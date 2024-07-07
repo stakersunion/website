@@ -40,7 +40,6 @@ const Addresses = ({ id }) => {
             </TableHeader>
             <TableBody>
               {addresses.map((address) => {
-                console.log(address)
                 return (
                   <TableRow key={address.address}>
                     <TableCell>

@@ -19,8 +19,6 @@ const Validators = () => {
       return acc
     }, []) || []
 
-  console.log(allValidators)
-
   return (
     <div>
       <DataTable

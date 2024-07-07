@@ -86,19 +86,17 @@ const userSchema = mongoose.Schema(
             activationEpoch: {
               type: Number,
             },
-            performance: [
-              {
-                attestations: {
-                  type: Number,
-                },
-                proposals: {
-                  type: Number,
-                },
-                sync: {
-                  type: Number,
-                },
+            performance: {
+              attestations: {
+                type: Number,
               },
-            ],
+              proposals: {
+                type: Number,
+              },
+              sync: {
+                type: Number,
+              },
+            },
           },
         ],
       },

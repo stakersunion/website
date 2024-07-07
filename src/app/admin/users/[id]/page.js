@@ -1,5 +1,6 @@
 import { Separator } from '@/components/ui/separator'
-import { Profile, Verification, Addresses } from '@/components/admin/user'
+import { Profile, Verification } from '@/components/admin/user'
+import { AddressesTable } from '@/components/admin/user/addresses'
 
 const User = ({ params }) => {
   const { id } = params
@@ -14,7 +15,7 @@ const User = ({ params }) => {
         <Verification id={id} />
       </div>
       <div className={'my-6'}>
-        <Addresses id={id} />
+        <AddressesTable id={id} />
       </div>
     </div>
   )

@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useRemoveValidator } from '@/utils/query/admin/user/validator'
 
-const RemoveAddress = ({ id, address, publicKey }) => {
+const RemoveValidator = ({ id, address, publicKey }) => {
   const { mutate, isLoading } = useRemoveValidator({ id, address, publicKey })
   const [isOpen, setIsOpen] = useState(false)
   const cancelRef = useRef()
@@ -49,4 +49,4 @@ const RemoveAddress = ({ id, address, publicKey }) => {
   )
 }
 
-export default RemoveAddress
+export default RemoveValidator

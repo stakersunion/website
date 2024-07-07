@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboard } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { cn } from '@/utils/shadcn'
 
-const EthAddress = ({ address, empty = 'Not set', ...props }) => {
+const EthAddress = ({ address, empty = 'Not set', clipboard = true, className }) => {
   const [copied, setCopied] = useState(false)
 
   if (!address) {
@@ -17,15 +17,16 @@ const EthAddress = ({ address, empty = 'Not set', ...props }) => {
 
   return (
     <div className={'flex items-center'}>
-      <p className={'mr-2'}>
+      <p className={cn('mr-2', className)}>
         {address.substring(0, 5)}...{address.substring(address.length - 5)}
       </p>
-      <button onClick={copyToClipboard}>
+      {clipboard && (
         <FontAwesomeIcon
           icon={faClipboard}
-          className={cn('text-muted-foreground', copied && 'text-muted', 'w-3 h-3')}
+          onClick={copyToClipboard}
+          className={cn('text-muted-foreground', copied && 'text-muted', 'w-3 h-3 cursor-pointer')}
         />
-      </button>
+      )}
     </div>
   )
 }

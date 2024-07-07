@@ -54,7 +54,7 @@ const Verification = ({ id }) => {
   }
 
   if (loadingVerification) {
-    return <Skeleton className={'w-1/2'} />
+    return <Skeleton className={'w-2/3'} />
   }
 
   const handleStatusChange = ({ step, status }) => {
@@ -114,7 +114,7 @@ const Verification = ({ id }) => {
   const verificationArray = Object.entries(verification).map(([key, value]) => ({ key, ...value }))
 
   return (
-    <Card className={'w-1/2'}>
+    <Card className={'w-2/3'}>
       <CardHeader>
         <CardTitle>Verification</CardTitle>
       </CardHeader>
@@ -156,7 +156,6 @@ const Verification = ({ id }) => {
                       if (!step.schedule) return null
                       return (
                         <div>
-                          {step.schedule && new Date(step.schedule).toLocaleString()}
                           <Link
                             href={'#'}
                             onClick={() =>
@@ -167,10 +166,16 @@ const Verification = ({ id }) => {
                               })
                             }
                           >
-                            <FontAwesomeIcon
-                              icon={faCalendar}
-                              className={'w-3 h-3 ml-2'}
-                            />
+                            <Button
+                              variant={'secondary'}
+                              size={'sm'}
+                            >
+                              {step.schedule && new Date(step.schedule).toLocaleString()}
+                              <FontAwesomeIcon
+                                icon={faCalendar}
+                                className={'w-3 h-3 ml-2'}
+                              />
+                            </Button>
                           </Link>
                         </div>
                       )
@@ -200,7 +205,7 @@ const Verification = ({ id }) => {
 
                 return (
                   <TableRow key={step.key}>
-                    <TableCell>{titleCase(step.key)}</TableCell>
+                    <TableCell className={'font-bold'}>{titleCase(step.key)}</TableCell>
                     <TableCell>{renderCellContent()}</TableCell>
                     <TableCell>
                       <DropdownMenu>

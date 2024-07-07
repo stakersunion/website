@@ -10,11 +10,11 @@ const Profile = ({ id }) => {
   const { data: user, isLoading: loadingUser } = useUser({ id })
 
   if (loadingUser) {
-    return <Skeleton className={'w-1/2 h-64'} />
+    return <Skeleton className={'w-1/3 h-64'} />
   }
 
   return (
-    <Card className={'w-1/2'}>
+    <Card className={'w-1/3'}>
       <CardHeader>
         <CardTitle>Profile</CardTitle>
       </CardHeader>

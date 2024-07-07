@@ -36,12 +36,7 @@ const RemoveAddress = ({ id, address }) => {
         </AlertDialogDescription>
         <AlertDialogFooter>
           <AlertDialogCancel ref={cancelRef}>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => mutate()}
-            isLoading={isLoading}
-          >
-            Remove
-          </AlertDialogAction>
+          <AlertDialogAction onClick={() => mutate()}>Remove</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
       <AlertDialogTrigger onClick={() => setIsOpen(true)}>

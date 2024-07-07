@@ -1,13 +1,32 @@
 'use client'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrafficCone } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import { DataTable, columns } from '@/components/user/validators'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useUser } from '@/utils/query/user'
 
 const Validators = () => {
+  const { data: user, isLoading } = useUser()
+
+  if (isLoading) {
+    return <Skeleton className={'h-[300px]'} />
+  }
+
+  const allValidators =
+    user?.addresses?.reduce((acc, address) => {
+      if (address.validators) {
+        acc.push(...address.validators)
+      }
+      return acc
+    }, []) || []
+
+  console.log(allValidators)
+
   return (
-    <div className={'flex flex-col items-center my-6 gap-2'}>
-      <FontAwesomeIcon icon={faTrafficCone} />
-      <p>Building</p>
+    <div>
+      <DataTable
+        columns={columns}
+        data={allValidators || []}
+      />
     </div>
   )
 }

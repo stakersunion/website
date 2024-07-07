@@ -132,14 +132,16 @@ const AddAddress = ({ id }) => {
                             <SelectValue placeholder={'Address Type'} />
                           </SelectTrigger>
                         </FormControl>
-                        {addressTypes.map((type) => (
-                          <SelectItem
-                            key={type.value}
-                            value={type.value}
-                          >
-                            {type.label}
-                          </SelectItem>
-                        ))}
+                        <SelectContent>
+                          {addressTypes.map((type) => (
+                            <SelectItem
+                              key={type.value}
+                              value={type.value}
+                            >
+                              {type.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
                       </Select>
                     </FormControl>
                     <FormMessage />

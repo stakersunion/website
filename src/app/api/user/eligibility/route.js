@@ -30,7 +30,6 @@ export async function PUT(req) {
     var decoder = new TextDecoder()
     var extract = decoder.decode(response.data)
     var { address, oath } = JSON.parse(extract)
-    console.log(extract)
 
     return { address, oath }
   }

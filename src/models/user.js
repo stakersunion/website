@@ -66,6 +66,10 @@ const userSchema = mongoose.Schema(
           type: String,
           enum: ['solo', 'rocketpool', 'dvt'],
         },
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
         validators: [
           {
             index: {

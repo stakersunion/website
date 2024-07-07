@@ -53,7 +53,7 @@ const DataTable = ({ columns, data }) => {
             <TableRow>
               <TableCell
                 colSpan={columns.length}
-                className='h-24 text-center'
+                className={'h-24 text-center'}
               >
                 No results.
               </TableCell>

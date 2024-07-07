@@ -1,7 +1,6 @@
 'use client'
 
-import DataTable from '@/components/addresses/table/DataTable'
-import { columns } from '@/components/addresses/table/columns'
+import { DataTable, columns } from '@/components/user/addresses'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useUser } from '@/utils/query/user'
 

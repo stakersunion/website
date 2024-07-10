@@ -26,7 +26,7 @@ const Status = ({ setReplace }) => {
     pathname.startsWith(routes.apply.children[key].path)
   )
   const { data: status, isLoading: loadingStatus, isRefetching } = useVerificationStatus()
-  const { data: verification, isLoading: loadingVerification } = useVerification()
+  const { data: verification, isLoading: loadingVerification, isRefetching: refetchingVerification } = useVerification()
   const [overrideStatus, setOverrideStatus] = useState()
 
   // Manage visibility of parent content
@@ -150,7 +150,7 @@ const Status = ({ setReplace }) => {
   }
 
   const getContent = useMemo(() => {
-    if (loadingStatus || loadingVerification) {
+    if (loadingStatus || loadingVerification || refetchingVerification) {
       return {
         icon: null,
         title: null,
@@ -163,7 +163,7 @@ const Status = ({ setReplace }) => {
     } else {
       return content[status.current]?.[status.status]
     }
-  }, [loadingStatus, loadingVerification, status, overrideStatus])
+  }, [loadingStatus, loadingVerification, refetchingVerification, status, overrideStatus])
 
   if (loadingStatus) {
     return <Skeleton className={'h-20 mb-6'} />

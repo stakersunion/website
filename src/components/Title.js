@@ -2,7 +2,7 @@ import { Logo } from '@/components'
 import { Bebas_Neue } from 'next/font/google'
 import { cn } from '@/utils/shadcn'
 
-const bebas = Bebas_Neue({ subsets: ['latin'], weight: '400' })
+const bebas = Bebas_Neue({ subsets: ['latin'], weight: '400', display: 'swap' })
 
 const Title = ({ children }) => {
   return (

@@ -20,6 +20,16 @@ const PhotoForm = () => {
     }
   }, [error])
 
+  const handleError = (error) => {
+    let errorMessage = error?.message
+    if (errorMessage && errorMessage.includes('FileSizeMismatch')) {
+      errorMessage = 'File size exceeds the limit of 4MB. Please try again.'
+    }
+    toast.error('Error uploading file. Please try again.', {
+      description: errorMessage,
+    })
+  }
+
   return (
     <UploadDropzone
       appearance={{
@@ -35,9 +45,7 @@ const PhotoForm = () => {
       onClientUploadComplete={(res) => {
         updateVerification({ photo: res[0].url })
       }}
-      onUploadError={(error) => {
-        toast.error('Error uploading file. Please try again.')
-      }}
+      onUploadError={handleError}
     />
   )
 }

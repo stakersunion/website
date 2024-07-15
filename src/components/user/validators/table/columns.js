@@ -54,19 +54,19 @@ const columns = [
       columnHelper.accessor('attestations', {
         header: 'Attestations',
         cell: ({ row }) => {
-          return row.original.performance.attestations || <Pending />
+          return row.original?.performance?.attestations || <Pending />
         },
       }),
       columnHelper.accessor('proposals', {
         header: 'Proposals',
         cell: ({ row }) => {
-          return row.original.performance.proposals || <Pending />
+          return row.original?.performance?.proposals || <Pending />
         },
       }),
       columnHelper.accessor('sync', {
         header: 'Sync',
         cell: ({ row }) => {
-          return row.original.performance.sync || <Pending />
+          return row.original?.performance?.sync || <Pending />
         },
       }),
     ],

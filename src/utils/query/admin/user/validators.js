@@ -58,4 +58,27 @@ const useSaveValidators = ({ id, address }) => {
   })
 }
 
-export { useValidators, useLoadValidators, useSaveValidators }
+const useRemoveValidators = ({ id, address, indices }) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    queryKey: ['user', id, 'address', address, 'validators'],
+    mutationFn: async () => {
+      try {
+        return await api.delete('/admin/user/validators', {
+          params: { id, address, indices },
+        })
+      } catch (error) {
+        if (error?.response?.data?.error) {
+          throw new Error(error.response.data.error)
+        } else {
+          throw new Error(error)
+        }
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['user', id, 'address', address, 'validators'])
+    },
+  })
+}
+
+export { useValidators, useLoadValidators, useSaveValidators, useRemoveValidators }

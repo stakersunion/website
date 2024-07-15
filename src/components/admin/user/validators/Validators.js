@@ -1,3 +1,4 @@
+import { useState, useMemo } from 'react'
 import {
   Card,
   CardContent,
@@ -7,13 +8,22 @@ import {
   CardDescription,
 } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { LoadValidators, ValidatorsTable, AddValidator } from '@/components/admin/user/validators'
+import {
+  ImportValidators,
+  AddValidator,
+  RemoveValidators,
+} from '@/components/admin/user/validators'
+import { DataTable, columns } from '@/components/admin/user/validators/table'
 import { useValidators } from '@/utils/query/admin/user/validators'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEmptySet } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const Validators = ({ id, address }) => {
   const { data: validators, isLoading: loadingValidators } = useValidators({ id, address })
+  const [rowSelection, setRowSelection] = useState({})
+  const selectedValidators = useMemo(() => {
+    return Object.keys(rowSelection).filter((key) => rowSelection[key])
+  }, [rowSelection])
 
   return (
     <Card>
@@ -32,15 +42,16 @@ const Validators = ({ id, address }) => {
             />
           </div>
         ) : (
-          <ValidatorsTable
-            id={id}
-            address={address}
-            validators={validators}
+          <DataTable
+            columns={columns({ id, address })}
+            data={validators}
+            rowSelection={rowSelection}
+            setRowSelection={setRowSelection}
           />
         )}
       </CardContent>
       <CardFooter className={'gap-4'}>
-        <LoadValidators
+        <ImportValidators
           id={id}
           address={address}
         />
@@ -48,6 +59,14 @@ const Validators = ({ id, address }) => {
           id={id}
           address={address}
         />
+        {selectedValidators.length > 0 && (
+          <RemoveValidators
+            id={id}
+            address={address}
+            indices={selectedValidators}
+            callback={() => setRowSelection({})}
+          />
+        )}
       </CardFooter>
     </Card>
   )

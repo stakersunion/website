@@ -9,14 +9,15 @@ import {
 } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
-import { ValidatorsTable } from '@/components/admin/user/validators'
+import { DataTable, columns } from '@/components/admin/user/validators/table'
 import { toast } from 'sonner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useLoadValidators, useSaveValidators } from '@/utils/query/admin/user/validators'
 
-const LoadValidators = ({ id, address }) => {
+const ImportValidators = ({ id, address }) => {
   const [open, setOpen] = useState(false)
+  const [rowSelection, setRowSelection] = useState({})
   const {
     data: validators,
     isLoading: loadingValidators,
@@ -33,11 +34,11 @@ const LoadValidators = ({ id, address }) => {
 
   useEffect(() => {
     if (successValidators) {
-      toast.success('Validators loaded successfully')
+      toast.success('Validators imported successfully')
     }
   }, [successValidators])
 
-  const handleLoadValidators = () => {
+  const handleImportValidators = () => {
     refetch()
   }
 
@@ -68,21 +69,36 @@ const LoadValidators = ({ id, address }) => {
       onOpenChange={setOpen}
     >
       <DialogTrigger asChild>
-        <Button size={'sm'}>Load Validators</Button>
+        <Button size={'sm'}>Import Validators</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Load Validators from Beaconcha.in</DialogTitle>
+          <DialogTitle>Import Validators from Beaconcha.in</DialogTitle>
           <DialogDescription>
-            Load validators associated with this address from Beaconcha.in
+            Import validators associated with this address from Beaconcha.in
           </DialogDescription>
         </DialogHeader>
         <div>
           {validators && validators.length > 0 && (
             <ScrollArea className={'h-[200px]'}>
-              <ValidatorsTable
-                validators={transformValidators(validators)}
-                showActions={false}
+              <DataTable
+                columns={columns({ id, address })}
+                data={transformValidators(validators)}
+                rowSelection={rowSelection}
+                setRowSelection={setRowSelection}
+                initialState={{
+                  columnVisibility: {
+                    select: false,
+                    index: true,
+                    publicKey: true,
+                    status: false,
+                    activationEpoch: false,
+                    attestations: false,
+                    proposals: false,
+                    sync: false,
+                    actions: false,
+                  },
+                }}
               />
             </ScrollArea>
           )}
@@ -103,7 +119,7 @@ const LoadValidators = ({ id, address }) => {
           ) : (
             <Button
               disabled={loadingValidators}
-              onClick={handleLoadValidators}
+              onClick={handleImportValidators}
               className={'mt-4'}
             >
               {loadingValidators && (
@@ -112,7 +128,7 @@ const LoadValidators = ({ id, address }) => {
                   className={'w-4 h-4 mr-2 animate-spin'}
                 />
               )}
-              Load Validators
+              Import Validators
             </Button>
           )}
         </div>
@@ -121,4 +137,4 @@ const LoadValidators = ({ id, address }) => {
   )
 }
 
-export default LoadValidators
+export default ImportValidators

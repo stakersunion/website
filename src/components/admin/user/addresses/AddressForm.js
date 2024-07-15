@@ -38,16 +38,22 @@ const AddressForm = ({ id, address }) => {
     error,
   } = useUpdateAddress({ id, address })
   const router = useRouter()
-  const addressTypes = [
+  const addressCategories = [
     { value: 'solo', label: 'Solo' },
     { value: 'rocketpool', label: 'Rocket Pool' },
     { value: 'dvt', label: 'DVT' },
+  ]
+  const addressTypes = [
+    { value: 'deposit', label: 'Deposit' },
+    { value: 'withdrawal', label: 'Withdrawal' },
+    { value: 'fee-recipient', label: 'Fee Recipient' },
   ]
 
   const formSchema = z.object({
     address: z.string().refine((value) => isAddress(value), {
       message: 'The provided ETH address is invalid.',
     }),
+    category: z.enum(addressCategories.map((category) => category.value)),
     type: z.enum(addressTypes.map((type) => type.value)),
   })
 
@@ -55,6 +61,7 @@ const AddressForm = ({ id, address }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       address: '',
+      category: '',
       type: '',
     },
     values: addressData,
@@ -103,6 +110,39 @@ const AddressForm = ({ id, address }) => {
                   disabled={addressLoading || isPending}
                   {...field}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name={'category'}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  disabled={addressLoading || isPending}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder={'Address Category'} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {addressCategories.map((type) => (
+                      <SelectItem
+                        key={type.value}
+                        value={type.value}
+                      >
+                        {type.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>

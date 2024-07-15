@@ -46,6 +46,10 @@ const columns = (id) => [
     },
   },
   {
+    accessorKey: 'category',
+    header: 'Category',
+  },
+  {
     accessorKey: 'type',
     header: 'Type',
   },

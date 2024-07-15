@@ -20,12 +20,10 @@ const Validators = () => {
     }, []) || []
 
   return (
-    <div>
-      <DataTable
-        columns={columns}
-        data={allValidators || []}
-      />
-    </div>
+    <DataTable
+      columns={columns}
+      data={allValidators || []}
+    />
   )
 }
 

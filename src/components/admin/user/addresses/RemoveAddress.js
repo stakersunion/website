@@ -18,8 +18,11 @@ const RemoveAddress = ({ id, address }) => {
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>Remove Address</AlertDialogTitle>
+        <AlertDialogDescription>
+          Are you sure you want to remove this address? The address and all associated
+          validators/metrics will be deleted permanently.
+        </AlertDialogDescription>
       </AlertDialogHeader>
-      <AlertDialogDescription>Are you sure you want to remove this address? The address and all associated validators/metrics will be deleted permanently.</AlertDialogDescription>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
         <AlertDialogAction onClick={() => mutate()}>Remove</AlertDialogAction>

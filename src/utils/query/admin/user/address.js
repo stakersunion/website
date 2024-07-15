@@ -24,6 +24,7 @@ const useUpdateAddress = ({ id, address }) => {
           id,
           address,
           newAddress: data.address,
+          newCategory: data.category,
           newType: data.type,
         })
       } catch (error) {

@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { AddressForm } from '@/components/admin/user'
+import { AddressForm } from '@/components/admin/user/addresses'
 import { Validators } from '@/components/admin/user/validators'
 
 const Address = ({ params }) => {

@@ -40,9 +40,48 @@ export async function POST(req) {
         .find((addr) => addr.address === address)
         .validators.some((val) => val.index === validator.index)
       if (validatorExists) {
-        return NextResponse.json({ error: `One of the validators already exists: ${validator.index}` }, { status: 400 })
+        return NextResponse.json(
+          { error: `One of the validators already exists: ${validator.index}` },
+          { status: 400 }
+        )
       } else {
         user.addresses.find((addr) => addr.address === address).validators.push(validator)
+      }
+    }
+
+    await user.save()
+
+    return NextResponse.json(user.addresses, { status: 200 })
+  }
+}
+
+export async function DELETE(req) {
+  const searchParams = req.nextUrl.searchParams
+  const id = searchParams.get('id')
+  const address = searchParams.get('address')
+  const indices = searchParams.getAll('indices[]').map(Number)
+
+  if (!id) {
+    return NextResponse.json({ error: 'User not found' }, { status: 404 })
+  } else {
+    await connect()
+    const user = await User.findOne({ id })
+
+    const addressExists = user.addresses.some((addr) => addr.address === address)
+    if (!addressExists) {
+      return NextResponse.json({ error: 'Address not found' }, { status: 404 })
+    }
+
+    for (const index of indices) {
+      const validatorExists = user.addresses
+        .find((addr) => addr.address === address)
+        .validators.some((val) => val.index === index)
+      if (!validatorExists) {
+        return NextResponse.json({ error: `Validator not found: ${index}` }, { status: 404 })
+      } else {
+        user.addresses.find((addr) => addr.address === address).validators = user.addresses
+          .find((addr) => addr.address === address)
+          .validators.filter((val) => val.index !== index)
       }
     }
 

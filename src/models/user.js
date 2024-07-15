@@ -62,9 +62,13 @@ const userSchema = mongoose.Schema(
           type: String,
           required: true,
         },
-        type: {
+        category: {
           type: String,
           enum: ['solo', 'rocketpool', 'dvt'],
+        },
+        type: {
+          type: String,
+          enum: ['deposit', 'withdrawal', 'fee-recipient'],
         },
         createdAt: {
           type: Date,

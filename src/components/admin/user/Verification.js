@@ -54,7 +54,7 @@ const Verification = ({ id }) => {
   }
 
   if (loadingVerification) {
-    return <Skeleton className={'w-2/3'} />
+    return <Skeleton className={'h-64'} />
   }
 
   const handleStatusChange = ({ step, status }) => {
@@ -114,7 +114,7 @@ const Verification = ({ id }) => {
   const verificationArray = Object.entries(verification).map(([key, value]) => ({ key, ...value }))
 
   return (
-    <Card className={'w-2/3'}>
+    <Card>
       <CardHeader>
         <CardTitle>Verification</CardTitle>
       </CardHeader>

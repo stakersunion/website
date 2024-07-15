@@ -10,16 +10,16 @@ const Profile = ({ id }) => {
   const { data: user, isLoading: loadingUser } = useUser({ id })
 
   if (loadingUser) {
-    return <Skeleton className={'w-1/3 h-64'} />
+    return <Skeleton className={'h-64'} />
   }
 
   return (
-    <Card className={'w-1/3'}>
+    <Card className={'h-full'}>
       <CardHeader>
         <CardTitle>Profile</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className={'grid grid-cols-2 gap-4'}>
+        <div className={'grid grid-cols-1 md:grid-cols-2 gap-4'}>
           <div>
             <p className={'font-semibold text-muted-foreground'}>Display Name:</p>
             <p>{user.profile.name || 'Not set'}</p>
@@ -30,7 +30,7 @@ const Profile = ({ id }) => {
           </div>
         </div>
         <Separator className={'my-4'} />
-        <div className={'grid grid-cols-2 gap-4'}>
+        <div className={'grid grid-cols-1 md:grid-cols-2 gap-4'}>
           <div>
             <p className={'font-semibold text-muted-foreground'}>Discord:</p>
             <p>{user.profile.discord || 'Not set'}</p>

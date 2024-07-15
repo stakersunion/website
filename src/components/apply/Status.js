@@ -26,7 +26,11 @@ const Status = ({ setReplace }) => {
     pathname.startsWith(routes.apply.children[key].path)
   )
   const { data: status, isLoading: loadingStatus, isRefetching } = useVerificationStatus()
-  const { data: verification, isLoading: loadingVerification, isRefetching: refetchingVerification } = useVerification()
+  const {
+    data: verification,
+    isLoading: loadingVerification,
+    isRefetching: refetchingVerification,
+  } = useVerification()
   const [overrideStatus, setOverrideStatus] = useState()
 
   // Manage visibility of parent content
@@ -61,7 +65,7 @@ const Status = ({ setReplace }) => {
         setReplace(false)
       }
     },
-    [loadingStatus, isRefetching, setReplace]
+    [loadingStatus, isRefetching, setReplace, setOverrideStatus, currentStep, status, verification]
   )
 
   const content = {
@@ -152,9 +156,9 @@ const Status = ({ setReplace }) => {
   const getContent = useMemo(() => {
     if (loadingStatus || loadingVerification || refetchingVerification) {
       return {
-        icon: null,
-        title: null,
-        description: null,
+        icon: faUserGear,
+        title: 'Application Incomplete',
+        description: 'Your application is incomplete',
       }
     }
 
@@ -165,7 +169,7 @@ const Status = ({ setReplace }) => {
     }
   }, [loadingStatus, loadingVerification, refetchingVerification, status, overrideStatus])
 
-  if (loadingStatus) {
+  if (loadingStatus || loadingVerification) {
     return <Skeleton className={'h-20 mb-6'} />
   }
 
@@ -202,20 +206,18 @@ const Status = ({ setReplace }) => {
     return null
   }
 
-  // Only show alert if on current page
-  if (currentStep !== status.current) {
+  // Only show alert if on current page (using overrrideStatus if applicable)
+  if (currentStep !== status.current && currentStep !== overrideStatus?.current) {
     return null
   }
 
   return (
     <Alert className={'mb-6'}>
-      <FontAwesomeIcon icon={getContent.icon || faUserGear} />
+      <FontAwesomeIcon icon={getContent.icon} />
       <div className={'flex flex-wrap items-center'}>
         <div className={'ml-1 mt-1 mr-6 flex-1'}>
-          <AlertTitle>{getContent.title || 'Application Incomplete'}</AlertTitle>
-          <AlertDescription>
-            {getContent.description || 'Your application is incomplete.'}
-          </AlertDescription>
+          <AlertTitle>{getContent.title}</AlertTitle>
+          <AlertDescription>{getContent.description}</AlertDescription>
         </div>
         {getContent.extra && getContent.extra}
         {!getContent.extra && getContent.link && (

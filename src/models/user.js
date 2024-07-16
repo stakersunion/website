@@ -63,7 +63,7 @@ const userSchema = mongoose.Schema(
           required: true,
         },
         category: {
-          type: String,
+          type: [String],
           enum: ['solo', 'rocketpool', 'dvt'],
         },
         type: {

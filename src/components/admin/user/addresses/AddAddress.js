@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Input } from '@/components/ui/input'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Select,
   SelectContent,
@@ -53,7 +54,7 @@ const AddAddress = ({ id }) => {
     address: z.string().refine((value) => isAddress(value), {
       message: 'The provided ETH address is invalid.',
     }),
-    category: z.enum(addressCategories.map((category) => category.value)),
+    category: z.array(z.enum(addressCategories.map((category) => category.value))),
     type: z.enum(addressTypes.map((type) => type.value)),
   })
 
@@ -126,31 +127,40 @@ const AddAddress = ({ id }) => {
               <FormField
                 control={form.control}
                 name={'category'}
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <FormControl>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder={'Address Category'} />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {addressCategories.map((type) => (
-                            <SelectItem
-                              key={type.value}
-                              value={type.value}
+                    <div className={'mb-4'}>
+                      <FormLabel className='text-base'>Category</FormLabel>
+                    </div>
+                    {addressCategories.map((item) => (
+                      <FormField
+                        key={item.value}
+                        control={form.control}
+                        name={'category'}
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={item.value}
+                              className={'flex flex-row items-start space-x-3 space-y-0'}
                             >
-                              {type.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(item.value)}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([...field.value, item.value])
+                                      : field.onChange(
+                                          field.value?.filter((value) => value !== item.value)
+                                        )
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className={'font-normal'}>{item.label}</FormLabel>
+                            </FormItem>
+                          )
+                        }}
+                      />
+                    ))}
                     <FormMessage />
                   </FormItem>
                 )}

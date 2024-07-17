@@ -80,7 +80,9 @@ const Status = ({ setReplace }) => {
         icon: faSignature,
         title: 'Proof of Eligibility Pending',
         description:
-          'You have submitted an address that is pending approval. Please wait while we attempt automatic verification. If this fails, we will check your signature manually and let you know of next steps to the email you provided.',
+          'You have submitted an address that is pending approval. Please wait while we attempt automatic verification. If this fails, please submit an appeal for manual review.',
+        link: routes.account.children.appeal.path,
+        linkText: 'Submit Appeal',
       },
       approved: {
         icon: faSignature,
@@ -222,7 +224,9 @@ const Status = ({ setReplace }) => {
         {getContent.extra && getContent.extra}
         {!getContent.extra && getContent.link && (
           <Link href={getContent.link}>
-            <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>Continue Application</Button>
+            <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>
+              {getContent.linkText || 'Continue Application'}
+            </Button>
           </Link>
         )}
       </div>

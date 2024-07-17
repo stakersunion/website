@@ -1,16 +1,24 @@
 'use client'
 
+import { useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Title } from '@/components'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { routes } from '@/utils/routes'
+import { useVerification } from '@/utils/query/user/verification'
 
 const AccountLayout = ({ children }) => {
   const pathname = usePathname()
   const currentRoute = Object.values(routes.account.children).find(
     (route) => route.path === pathname
   )
+
+  const { data: verification } = useVerification()
+  const isVerified = useMemo(() => {
+    if (verification?.eligibility?.status === 'approved') return true
+    else return false
+  }, [verification])
 
   return (
     <div className={'container'}>
@@ -19,6 +27,7 @@ const AccountLayout = ({ children }) => {
         <TabsList>
           {Object.values(routes.account.children).map((route) => {
             if (route.hidden) return null
+            if (route.title === 'Appeal' && isVerified) return null
             return (
               <Link
                 key={route.path}

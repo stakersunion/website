@@ -33,7 +33,7 @@ import {
 import createEvent from '@/utils/ics'
 import { useUser } from '@/utils/query/admin/user'
 import { useVerification, useUpdateVerification } from '@/utils/query/admin/user/verification'
-import { useNotify } from '@/utils/query/admin/send'
+import { useNotify } from '@/utils/query/send'
 import { titleCase } from '@/utils/string'
 import { cn } from '@/utils/shadcn'
 

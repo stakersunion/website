@@ -17,6 +17,7 @@ const routes = {
       status: { path: '/account/status', title: 'Status' },
       addresses: { path: '/account/addresses', title: 'Addresses' },
       validators: { path: '/account/validators', title: 'Validators' },
+      appeal: { path: '/account/appeal', title: 'Appeal' },
     },
   },
   apply: {

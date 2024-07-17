@@ -25,6 +25,37 @@ const userSchema = mongoose.Schema(
         type: String,
       },
     },
+    appeal: {
+      address: {
+        type: String,
+      },
+      type: {
+        type: String,
+        enum: ['deposit', 'withdrawal', 'fee-recipient'],
+      },
+      method: {
+        type: String,
+        enum: [
+          'home',
+          'rocketpool',
+          'allnodes',
+          'ssv',
+          'stakefish',
+          'abyss',
+          'sensei',
+          'chainlabo',
+          'squid',
+          'other',
+        ],
+      },
+      rationale: {
+        type: String,
+      },
+      status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+      },
+    },
     multipliers: [
       {
         location: {

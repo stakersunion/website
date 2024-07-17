@@ -14,6 +14,7 @@ import { EthAddress } from '@/components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faSignature,
+  faGavel,
   faServer,
   faCamera,
   faEllipsis,
@@ -84,6 +85,7 @@ const columns = [
 
       let {
         verification: { eligibility, independent, residential },
+        appeal,
       } = row.original
 
       let color = {
@@ -99,6 +101,12 @@ const columns = [
             icon={faSignature}
             className={color[eligibility?.status || 'incomplete']}
           />
+          {appeal?.status && (
+            <FontAwesomeIcon
+              icon={faGavel}
+              className={color[appeal.status]}
+            />
+          )}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -114,7 +122,6 @@ const columns = [
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-
           <FontAwesomeIcon
             icon={faCamera}
             className={color[residential?.status || 'incomplete']}

@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator'
-import { Profile, Verification } from '@/components/admin/user'
+import { Profile, Verification, Appeal } from '@/components/admin/user'
 import { AddressesTable } from '@/components/admin/user/addresses'
 
 const User = ({ params }) => {
@@ -17,6 +17,9 @@ const User = ({ params }) => {
         <div className={'md:col-span-2'}>
           <Verification id={id} />
         </div>
+      </div>
+      <div className={'my-6'}>
+        <Appeal id={id} />
       </div>
       <div className={'my-6'}>
         <AddressesTable id={id} />

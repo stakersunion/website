@@ -20,13 +20,15 @@ import {
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { Button } from '@/components/ui/button'
 import { useVerification, useVerificationStatus } from '@/utils/query/user/verification'
+import { useAppeal } from '@/utils/query/user/appeal'
 import { routes } from '@/utils/routes'
 
 const Status = () => {
   const { data: verification, isLoading: loadingVerification } = useVerification()
   const { data: status, isLoading: loadingStatus } = useVerificationStatus()
+  const { data: appeal, isLoading: loadingAppeal } = useAppeal()
 
-  if (loadingVerification || loadingStatus) {
+  if (loadingVerification || loadingStatus || loadingAppeal) {
     return <Skeleton className={'h-[400px]'} />
   }
 
@@ -54,6 +56,7 @@ const Status = () => {
               className={'mr-2'}
             />
             {verification.eligibility.status || 'incomplete'}
+            {appeal && appeal.status === 'pending' && ' - under appeal'}
           </AlertDescription>
         </Alert>
         <Alert>

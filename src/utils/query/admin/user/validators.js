@@ -23,7 +23,7 @@ const useLoadValidators = ({ id, address }) => {
     queryKey: ['user', id, 'address', address, 'load-validators'],
     queryFn: async () => {
       try {
-        return await axios.get(`https://beaconcha.in/api/v1/validator/eth1/${address}`)
+        return await axios.get(`https://beaconcha.in/api/v1/validator/withdrawalCredentials/${address}`)
       } catch (error) {
         throw new Error(error)
       }

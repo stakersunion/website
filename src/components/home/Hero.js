@@ -4,7 +4,7 @@ import { faHandFist, faFile } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid
 
 const Hero = () => {
   return (
-    <div className={'py-10'}>
+    <div className={'my-10'}>
       <h1 className={'text-4xl font-bold'}>The home-stakers collective</h1>
       <p className={'text-lg text-muted-foreground mb-8'}>
         Empowering individual stakers, preserving decentralization

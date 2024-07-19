@@ -1,4 +1,13 @@
-import { faPage, faGauge, faUser } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import {
+  faPage,
+  faGauge,
+  faUser,
+  faHexagonImage,
+  faHandFist,
+  faHandshakeAngle,
+  faCircleDollarToSlot,
+} from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import { faDiscord, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 
 const routes = {
   home: {
@@ -6,6 +15,66 @@ const routes = {
     title: 'Stakers Union',
     target: '_blank',
     hidden: true,
+  },
+  get_involved: {
+    apply: {
+      title: 'Unite',
+      description: 'Apply to join the Stakers Union today!',
+      href: '/apply',
+      icon: faHandFist,
+    },
+    proposal: {
+      title: 'Proposal',
+      description: 'Read the Stakers Union proposal.',
+      href: 'https://docs.stakersunion.com',
+      icon: faPage,
+    },
+    discord: {
+      title: 'Discord',
+      description: 'Join the Discord to get help and chat with other members.',
+      href: 'https://discord.gg/5vJkqX9',
+      icon: faDiscord,
+    },
+    poap: {
+      title: 'POAP',
+      description: 'Mint a POAP to express your support!',
+      href: 'https://poap.xyz',
+      icon: faHexagonImage,
+    },
+  },
+  contribute: {
+    partnerships: {
+      title: 'Partnerships',
+      description: 'Learn more about our partners and how to become one.',
+      href: '#',
+      icon: faHandshakeAngle,
+    },
+    donate: {
+      title: 'Donate',
+      description: 'Give back to solo-stakers through a donation.',
+      href: '#',
+      icon: faCircleDollarToSlot,
+    },
+  },
+  follow: {
+    twitter: {
+      title: 'X/Twitter',
+      description: 'Follow us on X for the latest updates.',
+      href: '#',
+      icon: faXTwitter,
+    },
+    github: {
+      title: 'GitHub',
+      description: 'Check out and contribute to our code on GitHub.',
+      href: '#',
+      icon: faGithub,
+    },
+    discord: {
+      title: 'Discord',
+      description: 'Join the Discord to get help and chat with other members.',
+      href: '#',
+      icon: faDiscord,
+    },
   },
   dashboard: { path: '/', title: 'Dashboard', icon: faGauge },
   account: {

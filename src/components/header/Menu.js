@@ -16,36 +16,55 @@ import { routes } from '@/utils/routes'
 
 const Menu = () => {
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Get Involved</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className={'grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]'}>
-              <li className={'row-span-3'}>
-                <NavigationMenuLink asChild>
-                  <Link
-                    className={
-                      'flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:bg-muted/80 transition-all'
-                    }
-                    href={routes.get_involved.apply.href}
-                  >
-                    <FontAwesomeIcon
-                      icon={routes.get_involved.apply.icon}
-                      className={'text-6xl'}
-                    />
-                    <div className={'mb-2 mt-4 text-lg font-bold'}>
-                      {routes.get_involved.apply.title}
-                    </div>
-                    <p className='text-sm leading-tight text-muted-foreground'>
-                      {routes.get_involved.apply.description}
-                    </p>
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-              {Object.entries(routes.get_involved).map(([key, value]) => {
-                if (key === 'apply') return null
-                return (
+    <div className={'hidden sm:block flex flex-1'}>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Get Involved</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className={'grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]'}>
+                <li className={'row-span-3'}>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      className={
+                        'flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:bg-muted/80 transition-all'
+                      }
+                      href={routes.get_involved.apply.href}
+                    >
+                      <FontAwesomeIcon
+                        icon={routes.get_involved.apply.icon}
+                        className={'text-6xl'}
+                      />
+                      <div className={'mb-2 mt-4 text-lg font-bold'}>
+                        {routes.get_involved.apply.title}
+                      </div>
+                      <p className='text-sm leading-tight text-muted-foreground'>
+                        {routes.get_involved.apply.description}
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+                {Object.entries(routes.get_involved).map(([key, value]) => {
+                  if (key === 'apply') return null
+                  return (
+                    <ListItem
+                      key={key}
+                      title={value.title}
+                      href={value.href}
+                      icon={value.icon}
+                    >
+                      {value.description}
+                    </ListItem>
+                  )
+                })}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Contribute</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className={'grid md:grid-cols-2 gap-3 p-4 md:w-[400px] lg:w-[500px]'}>
+                {Object.entries(routes.contribute).map(([key, value]) => (
                   <ListItem
                     key={key}
                     title={value.title}
@@ -54,47 +73,30 @@ const Menu = () => {
                   >
                     {value.description}
                   </ListItem>
-                )
-              })}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Contribute</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className={'grid md:grid-cols-2 gap-3 p-4 md:w-[400px] lg:w-[500px]'}>
-              {Object.entries(routes.contribute).map(([key, value]) => (
-                <ListItem
-                  key={key}
-                  title={value.title}
-                  href={value.href}
-                  icon={value.icon}
-                >
-                  {value.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Follow Us</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className={'grid md:grid-cols-2 gap-3 p-4 md:w-[400px] lg:w-[500px]'}>
-              {Object.entries(routes.follow).map(([key, value]) => (
-                <ListItem
-                  key={key}
-                  title={value.title}
-                  href={value.href}
-                  icon={value.icon}
-                >
-                  {value.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Follow Us</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className={'grid md:grid-cols-2 gap-3 p-4 md:w-[400px] lg:w-[500px]'}>
+                {Object.entries(routes.follow).map(([key, value]) => (
+                  <ListItem
+                    key={key}
+                    title={value.title}
+                    href={value.href}
+                    icon={value.icon}
+                  >
+                    {value.description}
+                  </ListItem>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
   )
 }
 

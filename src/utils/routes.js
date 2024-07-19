@@ -58,8 +58,8 @@ const routes = {
   },
   follow: {
     twitter: {
-      title: 'X/Twitter',
-      description: 'Follow us on X for the latest updates.',
+      title: 'Twitter',
+      description: 'Follow us on X/Twitter for the latest updates.',
       href: '#',
       icon: faXTwitter,
     },

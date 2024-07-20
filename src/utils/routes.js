@@ -38,7 +38,7 @@ const routes = {
     poap: {
       title: 'POAP',
       description: 'Mint a POAP to express your support!',
-      href: 'https://poap.xyz',
+      href: 'https://poap.website/probably-arrive-detail',
       icon: faHexagonImage,
     },
   },
@@ -46,13 +46,13 @@ const routes = {
     partnerships: {
       title: 'Partnerships',
       description: 'Learn more about our partners and how to become one.',
-      href: '#',
+      href: '#partnerships',
       icon: faHandshakeAngle,
     },
     donate: {
       title: 'Donate',
       description: 'Give back to solo-stakers through a donation.',
-      href: '#',
+      href: 'https://app.ens.domains/stakersunion.eth',
       icon: faCircleDollarToSlot,
     },
   },
@@ -60,19 +60,19 @@ const routes = {
     twitter: {
       title: 'Twitter',
       description: 'Follow us on X/Twitter for the latest updates.',
-      href: '#',
+      href: 'https://x.com/stakersunion',
       icon: faXTwitter,
     },
     github: {
       title: 'GitHub',
       description: 'Check out and contribute to our code on GitHub.',
-      href: '#',
+      href: 'https://github.com/stakersunion/',
       icon: faGithub,
     },
     discord: {
       title: 'Discord',
       description: 'Join the Discord to get help and chat with other members.',
-      href: '#',
+      href: 'https://discord.gg/vAGDagR7JT',
       icon: faDiscord,
     },
   },

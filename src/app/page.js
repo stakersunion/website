@@ -15,6 +15,7 @@ const Home = () => {
         <div className={'flex flex-col gap-6'}>
           <Partners />
         </div>
+        <Separator className={'md:hidden my-20'} />
         <div className={'flex flex-col gap-6'}>
           <Contribute />
         </div>

@@ -1,12 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { TitleBadge } from '@/components/home'
+import { TitleBadge, Contact } from '@/components/home'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const Partners = () => {
   const partners = [
@@ -35,7 +30,7 @@ const Partners = () => {
   return (
     <div>
       <TitleBadge>Partners</TitleBadge>
-      <div className={'flex flex-row justify-between my-10'}>
+      <div className={'flex flex-row justify-between my-10 mx-10'}>
         {partners.map((partner, index) => (
           <Link
             key={index}
@@ -43,7 +38,7 @@ const Partners = () => {
             target={'_blank'}
             rel={'noopener noreferrer'}
             className={
-              'flex flex-col items-center px-10 gap-4 opacity-20 hover:opacity-80 transition-opacity'
+              'flex flex-col items-center gap-4 opacity-20 hover:opacity-80 transition-opacity'
             }
           >
             <TooltipProvider>
@@ -68,19 +63,7 @@ const Partners = () => {
         Get in touch with us to see how the Stakers Union can contribute to your project’s
         decentralization.
       </p>
-      <div className={'grid grid-cols-1 gap-4'}>
-        <Input placeholder={'Your email'} />
-        <Textarea placeholder={'Type your message here.'} />
-      </div>
-      <div className={'flex justify-end mt-4'}>
-        <Button>
-          <FontAwesomeIcon
-            icon={faEnvelope}
-            className={'mr-2'}
-          />
-          Send
-        </Button>
-      </div>
+      <Contact />
     </div>
   )
 }

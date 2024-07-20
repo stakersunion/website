@@ -34,7 +34,7 @@ const Contribute = () => {
   return (
     <div>
       <TitleBadge>Contribute</TitleBadge>
-      <div className={'flex flex-row justify-between my-10'}>
+      <div className={'flex flex-row justify-between my-10 mx-10'}>
         {grants.map((grant, index) => (
           <Link
             key={index}
@@ -42,7 +42,7 @@ const Contribute = () => {
             target={'_blank'}
             rel={'noopener noreferrer'}
             className={cn(
-              'flex flex-col items-center px-10 gap-4 opacity-10 transition-opacity',
+              'flex flex-col items-center gap-4 opacity-10 transition-opacity',
               grant.href !== '#' ? 'opacity-60 hover:opacity-100' : ''
             )}
           >

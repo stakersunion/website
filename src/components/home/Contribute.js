@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHandHoldingHeart, faInfoCircle } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { cn } from '@/utils/shadcn'
+import { routes } from '@/utils/routes'
 
 const Contribute = () => {
   const grants = [
@@ -69,20 +70,24 @@ const Contribute = () => {
         Ethereum network.
       </p>
       <div className={'flex gap-4'}>
-        <Button>
-          <FontAwesomeIcon
-            icon={faHandHoldingHeart}
-            className={'mr-2'}
-          />
-          Donate to stakersunion.eth
-        </Button>
-        <Button variant={'ghost'}>
-          <FontAwesomeIcon
-            icon={faInfoCircle}
-            className={'mr-2'}
-          />
-          Learn More
-        </Button>
+        <Link href={routes.contribute.donate.path}>
+          <Button>
+            <FontAwesomeIcon
+              icon={faHandHoldingHeart}
+              className={'mr-2'}
+            />
+            Donate to stakersunion.eth
+          </Button>
+        </Link>
+        <Link href={routes.proposal.path}>
+          <Button variant={'ghost'}>
+            <FontAwesomeIcon
+              icon={faInfoCircle}
+              className={'mr-2'}
+            />
+            Learn More
+          </Button>
+        </Link>
       </div>
     </div>
   )

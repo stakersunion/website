@@ -51,7 +51,7 @@ const MobileMenu = () => {
                     <SheetItem
                       key={key}
                       title={value.title}
-                      href={value.href}
+                      href={value.path}
                       icon={value.icon}
                     >
                       {value.description}
@@ -67,7 +67,7 @@ const MobileMenu = () => {
                     <SheetItem
                       key={key}
                       title={value.title}
-                      href={value.href}
+                      href={value.path}
                       icon={value.icon}
                     >
                       {value.description}
@@ -83,7 +83,7 @@ const MobileMenu = () => {
                     <SheetItem
                       key={key}
                       title={value.title}
-                      href={value.href}
+                      href={value.path}
                       icon={value.icon}
                     >
                       {value.description}

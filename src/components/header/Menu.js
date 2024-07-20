@@ -29,7 +29,7 @@ const Menu = () => {
                       className={
                         'flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:bg-muted/80 transition-all'
                       }
-                      href={routes.get_involved.apply.href}
+                      href={routes.get_involved.apply.path}
                     >
                       <FontAwesomeIcon
                         icon={routes.get_involved.apply.icon}
@@ -50,7 +50,7 @@ const Menu = () => {
                     <ListItem
                       key={key}
                       title={value.title}
-                      href={value.href}
+                      href={value.path}
                       icon={value.icon}
                     >
                       {value.description}
@@ -68,7 +68,7 @@ const Menu = () => {
                   <ListItem
                     key={key}
                     title={value.title}
-                    href={value.href}
+                    href={value.path}
                     icon={value.icon}
                   >
                     {value.description}
@@ -85,7 +85,7 @@ const Menu = () => {
                   <ListItem
                     key={key}
                     title={value.title}
-                    href={value.href}
+                    href={value.path}
                     icon={value.icon}
                   >
                     {value.description}

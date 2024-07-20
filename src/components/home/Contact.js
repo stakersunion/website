@@ -24,7 +24,7 @@ const Contact = () => {
 
   const formSchema = z.object({
     email: z.string().email(),
-    message: z.string().min(1),
+    message: z.string().min(1, { message: 'Message is required' }),
   })
 
   const form = useForm({
@@ -79,7 +79,7 @@ const Contact = () => {
               name={'message'}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Message</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder={'Your message'}

@@ -7,7 +7,7 @@ const Partners = () => {
   const partners = [
     {
       name: 'Obol Collective',
-      href: 'https://obol.io',
+      href: 'https://obol.org/',
       logo: '/partners/obol.svg',
     },
     {

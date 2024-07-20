@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -10,6 +11,7 @@ import {
   faHandshakeAngle,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useUserCount } from '@/utils/query/users'
+import { routes } from '@/utils/routes'
 
 const About = () => {
   const { data: users, isLoading: loadingUsers } = useUserCount()
@@ -73,13 +75,18 @@ const About = () => {
               )}
             </CardContent>
             <CardFooter>
-              <Button className={'w-full'}>
-                <FontAwesomeIcon
-                  icon={faHandFist}
-                  className={'mr-2'}
-                />
-                Join the Stakers Union
-              </Button>
+              <Link
+                href={routes.apply.path}
+                className={'flex flex-1'}
+              >
+                <Button className={'w-full'}>
+                  <FontAwesomeIcon
+                    icon={faHandFist}
+                    className={'mr-2'}
+                  />
+                  Join the Stakers Union
+                </Button>
+              </Link>
             </CardFooter>
           </Card>
         </div>

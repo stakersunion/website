@@ -11,7 +11,7 @@ import { faDiscord, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-ic
 
 const routes = {
   home: {
-    path: 'https://stakersunion.com',
+    path: '/',
     title: 'Stakers Union',
     target: '_blank',
     hidden: true,

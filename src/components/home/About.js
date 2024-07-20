@@ -1,13 +1,7 @@
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { TitleBadge } from '@/components/home'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faHandFist,
@@ -43,12 +37,7 @@ const About = () => {
 
   return (
     <div>
-      <Badge
-        variant={'secondary'}
-        className={'uppercase text-[10px] text-muted-foreground font-bold tracking-wider px-4 py-1'}
-      >
-        Who we are
-      </Badge>
+      <TitleBadge>Who we are</TitleBadge>
       <div className={'grid grid-cols-1 md:grid-cols-3 gap-6 my-10'}>
         <div className={'flex flex-col md:col-span-2 gap-6'}>
           {items.map((item, index) => (

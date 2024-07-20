@@ -16,7 +16,7 @@ import { routes } from '@/utils/routes'
 
 const Menu = () => {
   return (
-    <div className={'hidden sm:block flex-1'}>
+    <div className={'hidden sm:block'}>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>

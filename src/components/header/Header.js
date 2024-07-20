@@ -15,8 +15,10 @@ const Header = () => {
           className={'mr-4 hover:text-muted-foreground transition-all'}
         />
       </Link>
-      <Menu />
-      <MobileMenu />
+      <div className={'flex flex-1'}>
+        <Menu />
+        <MobileMenu />
+      </div>
       <Account />
     </div>
   )

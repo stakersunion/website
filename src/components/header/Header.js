@@ -8,7 +8,7 @@ import { routes } from '@/utils/routes'
 
 const Header = () => {
   return (
-    <div className={'container flex items-center py-4'}>
+    <div className={'container flex items-center py-4 mb-10'}>
       <Link href={routes.home.path}>
         <FontAwesomeIcon
           icon={faHandFist}

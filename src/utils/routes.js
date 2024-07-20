@@ -46,7 +46,7 @@ const routes = {
     partnerships: {
       title: 'Partnerships',
       description: 'Learn more about our partners and how to become one.',
-      path: '#partnerships',
+      path: '/#partnerships',
       icon: faHandshakeAngle,
     },
     donate: {

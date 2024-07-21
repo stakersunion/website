@@ -4,7 +4,12 @@ import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserPlus, faHandFist, faFile } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import {
+  faUserPlus,
+  faHandFist,
+  faGavel,
+  faFile,
+} from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useClerk } from '@clerk/nextjs'
 import { routes } from '@/utils/routes'
 import { toast } from 'sonner'
@@ -44,13 +49,22 @@ const Apply = () => {
       href: routes.apply.children.profile.path,
       buttonText: 'Apply',
     },
+    {
+      title: 'Submit an appeal',
+      description:
+        'If your signature is not automatically accepted, you can submit an appeal and your application will be reviewed by current verified members.',
+      icon: faGavel,
+      href: `${routes.proposal.path}/membership/appeals`,
+      target: '_blank',
+      buttonText: 'Appeal',
+    },
   ]
 
   return (
     <div>
       <h1 className={'text-4xl font-bold'}>Join the Stakers Union</h1>
       <p className={'text-lg text-muted-foreground mb-8'}>How to become a verified member</p>
-      <div className={'flex flex-col gap-10'}>
+      <div className={'flex flex-col gap-10 pb-10'}>
         {steps.map((step, index) => (
           <div
             key={index}

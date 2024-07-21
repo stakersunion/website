@@ -5,5 +5,6 @@ import About from '@/components/home/About'
 import Partners from '@/components/home/Partners'
 import Contact from '@/components/home/Contact'
 import Contribute from '@/components/home/Contribute'
+import Featured from '@/components/home/Featured'
 
-export { Logo, TitleBadge, Hero, About, Partners, Contact, Contribute }
+export { Logo, TitleBadge, Hero, About, Partners, Contact, Contribute, Featured }

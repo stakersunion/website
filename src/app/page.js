@@ -1,6 +1,6 @@
 'use client'
 
-import { Logo, Hero, About, Partners, Contribute } from '@/components/home'
+import { Logo, Hero, About, Partners, Contribute, Featured } from '@/components/home'
 import { Separator } from '@/components/ui/separator'
 
 const Home = () => {
@@ -19,8 +19,10 @@ const Home = () => {
           <Partners />
         </div>
         <Separator className={'md:hidden my-20'} />
-        <div className={'flex flex-col gap-6'}>
+        <div className={'flex flex-col gap-10'}>
           <Contribute />
+          <Separator className={'md:hidden my-20'} />
+          <Featured />
         </div>
       </div>
       <Separator className={'mt-20 mb-10'} />

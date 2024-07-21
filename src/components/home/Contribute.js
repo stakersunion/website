@@ -67,7 +67,8 @@ const Contribute = () => {
       </div>
       <p className={'text-muted-foreground my-4'}>
         Give back to the Stakers Union and help us build long-term incentives for decentralizing the
-        Ethereum network.
+        Ethereum network. Donate directly or through one of the public goods funding platforms we
+        are partnered with.
       </p>
       <div className={'flex gap-4'}>
         <Link href={routes.contribute.donate.path}>
@@ -79,7 +80,10 @@ const Contribute = () => {
             Donate to stakersunion.eth
           </Button>
         </Link>
-        <Link href={`${routes.proposal.path}/membership/distribution`} target={'_blank'}>
+        <Link
+          href={`${routes.proposal.path}/membership/distribution`}
+          target={'_blank'}
+        >
           <Button variant={'ghost'}>
             <FontAwesomeIcon
               icon={faInfoCircle}

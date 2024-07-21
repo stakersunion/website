@@ -80,7 +80,7 @@ const Verification = ({ id }) => {
           content:
             'Your signed oath has been verified, you can now continue to the next steps! Sign back in to the Stakers Union members area to continue.',
           buttonText: 'Stakers Union',
-          href: 'https://members.stakersunion.com',
+          href: 'https://stakersunion.com',
           subject: 'Address Eligibility Verified',
         }
         break
@@ -90,7 +90,7 @@ const Verification = ({ id }) => {
           title: 'Proof of Independent Operation',
           content: 'Your proof of independent operation has been verified!',
           buttonText: 'Stakers Union',
-          href: 'https://members.stakersunion.com',
+          href: 'https://stakersunion.com',
           subject: 'Proof of Independent Operation',
         }
         break
@@ -100,7 +100,7 @@ const Verification = ({ id }) => {
           title: 'Proof of Residential Operation',
           content: 'Your proof of residential operation photo has been verified!',
           buttonText: 'Stakers Union',
-          href: 'https://members.stakersunion.com',
+          href: 'https://stakersunion.com',
           subject: 'Proof of Residential Operation',
         }
         break

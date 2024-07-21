@@ -11,7 +11,7 @@ const createEvent = ({
     title,
     description,
     location: 'Ethererum Mainnet',
-    url: 'https://members.stakersunion.com',
+    url: 'https://stakersunion.com',
     status: 'CONFIRMED',
     busyStatus: 'BUSY',
     organizer: { name: 'Thame from Stakers Union', email: 'thame@stakersunion.com' },

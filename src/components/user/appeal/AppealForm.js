@@ -123,7 +123,7 @@ const AppealForm = ({ callback = () => {}, submitText = 'Submit', extraActions =
       title: 'Stakers Union Appeal',
       content: 'Your appeal has been submitted and is pending review.',
       buttonText: 'Monitor Status',
-      href: 'https://members.stakersunion.com/account/status',
+      href: 'https://stakersunion.com/account/status',
       email: values.email,
       subject: 'Stakers Union Appeal',
     })
@@ -132,7 +132,7 @@ const AppealForm = ({ callback = () => {}, submitText = 'Submit', extraActions =
       title: 'New Appeal',
       content: `A new appeal has been submitted by ${profile?.name}.`,
       buttonText: 'View Appeal',
-      href: 'https://members.stakersunion.com/admin',
+      href: 'https://stakersunion.com/admin',
       email: process.env.NEXT_PUBLIC_ADMIN_EMAIL,
       subject: 'New Appeal',
     })

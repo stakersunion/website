@@ -32,7 +32,7 @@ const About = () => {
     {
       title: 'Building Partnerships',
       description:
-        'Unlock the decentralized computation of our members for your project or application. Our active members maintain high-uptime and performance.',
+        'Unlock the decentralized computation of our members for your project or application. Our active members are incentivized to provide high-uptime and performance.',
       icon: faHandshakeAngle,
     },
   ]

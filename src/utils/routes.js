@@ -32,7 +32,7 @@ const routes = {
     discord: {
       title: 'Discord',
       description: 'Join the Discord to get help and chat with other members.',
-      path: 'https://discord.gg/5vJkqX9',
+      path: 'https://discord.com/invite/vAGDagR7JT',
       icon: faDiscord,
     },
     poap: {

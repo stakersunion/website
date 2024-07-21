@@ -79,7 +79,7 @@ const Contribute = () => {
             Donate to stakersunion.eth
           </Button>
         </Link>
-        <Link href={routes.proposal.path}>
+        <Link href={`${routes.proposal.path}/membership/distribution`} target={'_blank'}>
           <Button variant={'ghost'}>
             <FontAwesomeIcon
               icon={faInfoCircle}

@@ -1,4 +1,6 @@
-import { forwardRef } from 'react'
+'use client'
+
+import { useState, forwardRef } from 'react'
 import Link from 'next/link'
 import { cn } from '@/utils/shadcn'
 import {
@@ -17,9 +19,14 @@ import { faBars } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { routes } from '@/utils/routes'
 
 const MobileMenu = () => {
+  const [open, setOpen] = useState(false)
+
   return (
     <div className={'sm:hidden'}>
-      <Sheet>
+      <Sheet
+        open={open}
+        onOpenChange={setOpen}
+      >
         <SheetTrigger asChild>
           <Button
             size={'icon'}
@@ -54,6 +61,7 @@ const MobileMenu = () => {
                       href={value.path}
                       icon={value.icon}
                       target={value.target}
+                      setOpen={setOpen}
                     >
                       {value.description}
                     </SheetItem>
@@ -71,6 +79,7 @@ const MobileMenu = () => {
                       href={value.path}
                       icon={value.icon}
                       target={value.target}
+                      setOpen={setOpen}
                     >
                       {value.description}
                     </SheetItem>
@@ -88,6 +97,7 @@ const MobileMenu = () => {
                       href={value.path}
                       icon={value.icon}
                       target={value.target}
+                      setOpen={setOpen}
                     >
                       {value.description}
                     </SheetItem>
@@ -102,7 +112,7 @@ const MobileMenu = () => {
   )
 }
 
-const SheetItem = forwardRef(({ className, title, icon, children, ...props }, ref) => {
+const SheetItem = forwardRef(({ className, title, icon, children, setOpen, ...props }, ref) => {
   return (
     <li>
       <Link
@@ -110,6 +120,7 @@ const SheetItem = forwardRef(({ className, title, icon, children, ...props }, re
           'block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
           className
         )}
+        onClick={() => setOpen(false)}
         {...props}
       >
         <div className={'text-xs font-medium leading-none'}>

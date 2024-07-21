@@ -53,6 +53,7 @@ const MobileMenu = () => {
                       title={value.title}
                       href={value.path}
                       icon={value.icon}
+                      target={value.target}
                     >
                       {value.description}
                     </SheetItem>
@@ -69,6 +70,7 @@ const MobileMenu = () => {
                       title={value.title}
                       href={value.path}
                       icon={value.icon}
+                      target={value.target}
                     >
                       {value.description}
                     </SheetItem>
@@ -85,6 +87,7 @@ const MobileMenu = () => {
                       title={value.title}
                       href={value.path}
                       icon={value.icon}
+                      target={value.target}
                     >
                       {value.description}
                     </SheetItem>

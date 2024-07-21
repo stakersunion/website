@@ -52,6 +52,7 @@ const Menu = () => {
                       title={value.title}
                       href={value.path}
                       icon={value.icon}
+                      target={value.target}
                     >
                       {value.description}
                     </ListItem>
@@ -70,6 +71,7 @@ const Menu = () => {
                     title={value.title}
                     href={value.path}
                     icon={value.icon}
+                    target={value.target}
                   >
                     {value.description}
                   </ListItem>
@@ -87,6 +89,7 @@ const Menu = () => {
                     title={value.title}
                     href={value.path}
                     icon={value.icon}
+                    target={value.target}
                   >
                     {value.description}
                   </ListItem>

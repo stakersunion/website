@@ -2,6 +2,7 @@ const generateSchedule = () => {
   const days = 7 // Number of upcoming days
   const intervals = 10 // Times per day
   const schedule = []
+  const now = new Date() // Current time
 
   for (let i = 0; i < days; i++) {
     const date = new Date() // Start from today
@@ -15,10 +16,16 @@ const generateSchedule = () => {
       const randomMinuteOffset = Math.floor(Math.random() * minutesInterval)
 
       time.setMinutes(j * minutesInterval + randomMinuteOffset) // Set time
-      times.push(time)
+
+      // Only include times that are in the future
+      if (time > now) {
+        times.push(time)
+      }
     }
 
-    schedule.push({ date: date.toDateString(), times })
+    if (times.length > 0) {
+      schedule.push({ date: date.toDateString(), times })
+    }
   }
 
   return schedule

@@ -85,8 +85,8 @@ const Featured = () => {
             </HoverCardContent>
           </HoverCard>
         ))}
-        <div className={'w-[50px]'}></div>
-        <div className={'w-[50px]'}></div>
+        <div className={'w-[50px]'} />
+        <div className={'w-[50px]'} />
       </div>
     </div>
   )

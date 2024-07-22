@@ -5,11 +5,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 const Partners = () => {
   const partners = [
-    {
-      name: 'Obol Collective',
-      href: 'https://obol.org/',
-      logo: '/partners/obol.svg',
-    },
+    // {
+    //   name: 'Obol Collective',
+    //   href: 'https://obol.org/',
+    //   logo: '/partners/obol.svg',
+    // },
     {
       name: 'NodeSet',
       href: 'https://nodeset.io',
@@ -58,6 +58,7 @@ const Partners = () => {
             </TooltipProvider>
           </Link>
         ))}
+        <div className={'w-[50px]'} />
       </div>
       <p className={'text-muted-foreground my-4'}>
         Get in touch with us to see how the Stakers Union can contribute to your project’s

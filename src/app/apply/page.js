@@ -10,18 +10,19 @@ import {
   faGavel,
   faFile,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
-import { useClerk } from '@clerk/nextjs'
+import { useClerk, useUser } from '@clerk/nextjs'
 import { routes } from '@/utils/routes'
 import { toast } from 'sonner'
 
 const Apply = () => {
   const { authenticateWithMetamask } = useClerk()
+  const { isSignedIn } = useUser()
 
   const handleSignIn = async () => {
     try {
       await authenticateWithMetamask()
     } catch (error) {
-      toast.error(error?.message)
+      toast.error(error?.message || 'An error occurred')
     }
   }
 
@@ -41,6 +42,7 @@ const Apply = () => {
       icon: faUserPlus,
       onClick: handleSignIn,
       buttonText: 'Sign Up',
+      buttonProps: isSignedIn ? { disabled: true } : {},
     },
     {
       title: 'Start your application',
@@ -85,7 +87,10 @@ const Apply = () => {
                   href={step.href}
                   target={step.target}
                 >
-                  <Button className={'sm:w-32 w-full'}>
+                  <Button
+                    className={'sm:w-32 w-full'}
+                    {...step.buttonProps}
+                  >
                     <FontAwesomeIcon
                       icon={step.icon}
                       className={'mr-2'}
@@ -97,6 +102,7 @@ const Apply = () => {
                 <Button
                   className={'sm:w-32 w-full'}
                   onClick={step.onClick}
+                  {...step.buttonProps}
                 >
                   <FontAwesomeIcon
                     icon={step.icon}

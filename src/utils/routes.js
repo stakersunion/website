@@ -83,12 +83,12 @@ const routes = {
       target: '_blank',
     },
   },
-  dashboard: { path: '/', title: 'Dashboard', icon: faGauge },
   account: {
     path: '/account',
     title: 'Account',
     icon: faUser,
     children: {
+      dashboard: { path: '/account/dashboard', title: 'Dashboard' },
       profile: { path: '/account/profile', title: 'Profile' },
       status: { path: '/account/status', title: 'Status' },
       addresses: { path: '/account/addresses', title: 'Addresses' },

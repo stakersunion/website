@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { routes } from '@/utils/routes'
 
-const Logo = ({ size = 30, href = routes.dashboard.path, className }) => {
+const Logo = ({ size = 30, href = '/', className }) => {
   return (
     <Link
       href={href}

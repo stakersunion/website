@@ -2,6 +2,7 @@
 
 import { DataTable, columns } from '@/components/user/validators'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Building } from '@/components/user'
 import { useUser } from '@/utils/query/user'
 
 const Validators = () => {
@@ -20,10 +21,13 @@ const Validators = () => {
     }, []) || []
 
   return (
-    <DataTable
-      columns={columns}
-      data={allValidators || []}
-    />
+    <div className={'flex flex-col gap-6'}>
+      <Building />
+      <DataTable
+        columns={columns}
+        data={allValidators || []}
+      />
+    </div>
   )
 }
 

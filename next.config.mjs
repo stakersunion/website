@@ -11,11 +11,6 @@ const nextConfig = {
         destination: '/account/profile',
         permanent: true,
       },
-      {
-        source: '/apply',
-        destination: '/apply/profile',
-        permanent: true,
-      },
     ]
   },
   experimental: {

@@ -184,9 +184,13 @@ const Status = ({ setReplace }) => {
   const getContent = useMemo(() => {
     if (loadingStatus || loadingVerification || refetchingVerification) {
       return {
-        icon: faUserGear,
-        title: 'Application Incomplete',
-        description: 'Your application is incomplete',
+        title: <Skeleton className={'w-56 h-5 mt-0 mb-4'} />,
+        description: (
+          <div className={'flex flex-col gap-2'}>
+            <Skeleton className={'w-full h-3'} />
+            <Skeleton className={'w-64 h-3'} />
+          </div>
+        ),
       }
     }
 

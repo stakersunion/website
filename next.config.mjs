@@ -8,7 +8,7 @@ const nextConfig = {
       },
       {
         source: '/account',
-        destination: '/account/profile',
+        destination: '/account/dashboard',
         permanent: true,
       },
     ]

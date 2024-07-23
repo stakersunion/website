@@ -16,6 +16,7 @@ import {
   faHouse,
   faHouseCircleCheck,
   faHouseCircleXmark,
+  faHouseCircleExclamation,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useVerification, useVerificationStatus } from '@/utils/query/user/verification'
 import { routes } from '@/utils/routes'
@@ -52,6 +53,16 @@ const Status = ({ setReplace }) => {
       ) {
         setReplace(false)
       }
+
+      // For 'residential' step, should hide content if current step is 'residential' and status is 'ineligible'
+      else if (
+        currentStep === 'residential' &&
+        status.current === 'residential' &&
+        status.status === 'ineligible'
+      ) {
+        setReplace(true)
+      }
+
       // For 'independent' step, should hide content if current step is 'residential' and status is 'pending'
       else if (
         currentStep === 'independent' &&
@@ -111,7 +122,14 @@ const Status = ({ setReplace }) => {
         description: `You have selected ${new Date(
           verification?.independent?.schedule
         ).toLocaleString()} to disable attestations. You will be notified by email after your proof has been verified. You may continue to Proof of Residential Operation.`,
-        extra: <CalendarFile />,
+        extra: (
+          <div className={'flex gap-x-4'}>
+            <CalendarFile />
+            <Link href={routes.apply.children.residential.path}>
+              <Button>Continue</Button>
+            </Link>
+          </div>
+        ),
       },
       approved: {
         icon: faServer,
@@ -151,6 +169,14 @@ const Status = ({ setReplace }) => {
         description:
           'Your photo has been rejected. Please review the information you have submitted and try again.',
         link: routes.apply.children.residential.path,
+      },
+      ineligible: {
+        icon: faHouseCircleExclamation,
+        title: 'Proof of Residential Operation Ineligible',
+        description:
+          'You have selected that you are not a residential operator. Your application is complete.',
+        link: routes.account.path,
+        linkText: 'Dashboard',
       },
     },
   }

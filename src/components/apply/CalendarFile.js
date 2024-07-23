@@ -49,7 +49,7 @@ const CalendarFile = () => {
     )
   }
   return (
-    <Button onClick={handleDownload}>
+    <Button onClick={handleDownload} variant={'secondary'}>
       <FontAwesomeIcon
         icon={faCalendar}
         className={'mr-2'}

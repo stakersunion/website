@@ -37,6 +37,7 @@ const Status = () => {
     pending: faHourglassHalf,
     approved: faCheck,
     rejected: faX,
+    ineligible: faCheck,
   }
 
   return (
@@ -81,7 +82,8 @@ const Status = () => {
         </Alert>
       </CardContent>
       <CardFooter>
-        {(status.current !== 'residential' || status.status !== 'approved') && (
+        {(status.current !== 'residential' ||
+          (status.status !== 'approved' && status.status !== 'ineligible')) && (
           <Link href={routes.apply.children[status.current].path}>
             <Button>Continue Application</Button>
           </Link>

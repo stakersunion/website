@@ -36,7 +36,7 @@ const PhotoForm = () => {
         button:
           'w-full rounded-md text-sm font-medium bg-primary hover:bg-primary/90 text-primary-foreground ut-uploading:bg-primary/90',
         label: 'text-sm text-primary hover:text-primary/90',
-        container: 'my-6 border-2 border-input border-dashed rounded-md p-4',
+        container: 'my-0 border-2 border-input border-dashed rounded-md p-4',
         uploadIcon: 'text-primary',
         allowedContent: 'text-muted-foreground',
       }}

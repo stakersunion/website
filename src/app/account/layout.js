@@ -15,8 +15,8 @@ const AccountLayout = ({ children }) => {
   )
 
   const { data: verification } = useVerification()
-  const isVerified = useMemo(() => {
-    if (verification?.eligibility?.status === 'approved') return true
+  const isPending = useMemo(() => {
+    if (verification?.eligibility?.status === 'pending') return true
     else return false
   }, [verification])
 
@@ -27,7 +27,7 @@ const AccountLayout = ({ children }) => {
         <TabsList>
           {Object.values(routes.account.children).map((route) => {
             if (route.hidden) return null
-            if (route.title === 'Appeal' && isVerified) return null
+            if (route.title === 'Appeal' && !isPending) return null
             return (
               <Link
                 key={route.path}

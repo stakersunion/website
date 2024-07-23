@@ -93,6 +93,7 @@ const columns = [
         pending: 'text-yellow-500',
         approved: 'text-green-500',
         rejected: 'text-red-500',
+        ineligible: 'text-gray-800',
       }
 
       return (

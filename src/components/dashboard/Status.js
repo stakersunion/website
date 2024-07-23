@@ -37,7 +37,7 @@ const Status = () => {
                 Join the Stakers Union by starting the application process.
               </AlertDescription>
             </div>
-            <Link href={routes.apply.path}>
+            <Link href={routes.apply.children.profile.path}>
               <Button>Start Application</Button>
             </Link>
           </div>
@@ -47,7 +47,7 @@ const Status = () => {
     // Call to continue application
     else {
       // Hide alert if application is complete
-      if (status.current === 'residential' && status.status === 'approved') return null
+      if (status.current === 'residential' && (status.status === 'approved' || 'ineligible')) return null
       else {
         return (
           <Alert>

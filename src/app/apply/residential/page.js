@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileCircleInfo } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
-import { Status, PhotoForm } from '@/components/apply'
+import { Status, PhotoForm, NotResidential } from '@/components/apply'
 
 const ApplyResidential = () => {
   const [replace, setReplace] = useState(true)
@@ -42,7 +43,14 @@ const ApplyResidential = () => {
               </Link>
             </div>
           </Alert>
-          <PhotoForm />
+          <div className={'grid grid-cols-1 md:grid-cols-4 gap-4 mt-6 pb-6'}>
+            <div className={'md:col-span-3'}>
+              <PhotoForm />
+            </div>
+            <div className={'md:col-span-1 flex'}>
+              <NotResidential />
+            </div>
+          </div>
         </div>
       )}
     </div>

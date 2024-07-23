@@ -42,7 +42,7 @@ const NotResidential = () => {
             I am not a residential operator
           </p>
           <span className={'text-sm leading-tight text-muted-foreground'}>
-            ex. You operate your hardware on managed hardware or in a data center.
+            ex. You operate your validator on managed hardware or in a data center.
           </span>
         </div>
       </label>

@@ -58,7 +58,6 @@ const Partners = () => {
             </TooltipProvider>
           </Link>
         ))}
-        <div className={'w-[50px]'} />
       </div>
       <p className={'text-muted-foreground my-4'}>
         Get in touch with us to see how the Stakers Union can contribute to your project’s

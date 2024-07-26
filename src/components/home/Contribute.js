@@ -70,7 +70,7 @@ const Contribute = () => {
         Ethereum network. Donate directly or through one of the public goods funding platforms we
         are partnered with.
       </p>
-      <div className={'flex gap-4'}>
+      <div className={'flex flex-col sm:flex-row gap-4'}>
         <Link href={routes.contribute.donate.path}>
           <Button>
             <FontAwesomeIcon

@@ -30,7 +30,7 @@ const Featured = () => {
   return (
     <div>
       <TitleBadge>Featured In</TitleBadge>
-      <div className={'flex flex-row justify-between my-10 mx-10'}>
+      <div className={'flex flex-row justify-between my-10 mx-4'}>
         {features.map((feature, index) => (
           <HoverCard key={index}>
             <HoverCardTrigger

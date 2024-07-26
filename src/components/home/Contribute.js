@@ -35,7 +35,7 @@ const Contribute = () => {
   return (
     <div>
       <TitleBadge>Contribute</TitleBadge>
-      <div className={'flex flex-row justify-between my-10 mx-10'}>
+      <div className={'flex flex-row justify-between my-10 mx-4'}>
         {grants.map((grant, index) => (
           <Link
             key={index}

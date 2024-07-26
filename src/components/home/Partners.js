@@ -30,7 +30,7 @@ const Partners = () => {
   return (
     <div>
       <TitleBadge>Partners</TitleBadge>
-      <div className={'flex flex-row justify-between my-10 mx-10'}>
+      <div className={'flex flex-row justify-between my-10 mx-4'}>
         {partners.map((partner, index) => (
           <Link
             key={index}

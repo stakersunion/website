@@ -18,7 +18,9 @@ const EmailBasic = ({
         {title}
       </Heading>
       {name && <Text>Hello {name},</Text>}
-      <Text>{content}</Text>
+      {content.split('\n').map((line, index) => (
+        <Text key={index}>{line}</Text>
+      ))}
       {href && <Button href={href}>{buttonText}</Button>}
     </EmailLayout>
   )

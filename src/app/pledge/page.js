@@ -130,8 +130,11 @@ const Pledge = () => {
           </p>
         </div>
         <div className={'flex mt-4 md:mt-0 md:ml-4 gap-x-4'}>
-          <Link href={'#'}>
-            <Button>
+          <Link
+            href={'https://mirror.xyz/stakersunion.eth/xrWUeky7RQAgSz6pMLba4XwMCs5bwk9YEy4Dj-CXWZ8'}
+            target={'_blank'}
+          >
+            <Button variant={'secondary'}>
               <FontAwesomeIcon
                 icon={faSignPost}
                 className={'mr-2'}

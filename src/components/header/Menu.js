@@ -65,17 +65,41 @@ const Menu = () => {
             <NavigationMenuTrigger>Contribute</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className={'grid md:grid-cols-2 gap-3 p-4 md:w-[400px] lg:w-[500px]'}>
-                {Object.entries(routes.contribute).map(([key, value]) => (
-                  <ListItem
-                    key={key}
-                    title={value.title}
-                    href={value.path}
-                    icon={value.icon}
-                    target={value.target}
-                  >
-                    {value.description}
-                  </ListItem>
-                ))}
+                {Object.entries(routes.contribute).map(([key, value]) => {
+                  if (key === 'pledge') return null
+                  return (
+                    <ListItem
+                      key={key}
+                      title={value.title}
+                      href={value.path}
+                      icon={value.icon}
+                      target={value.target}
+                    >
+                      {value.description}
+                    </ListItem>
+                  )
+                })}
+                <li className={'col-span-2'}>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      className={
+                        'flex h-full w-full select-none flex-row items-center rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:bg-muted/80 transition-all'
+                      }
+                      href={routes.contribute.pledge.path}
+                    >
+                      <FontAwesomeIcon
+                        icon={routes.contribute.pledge.icon}
+                        className={'text-4xl mr-4'}
+                      />
+                      <div>
+                        <div className={'text-lg font-bold'}>{routes.contribute.pledge.title}</div>
+                        <p className={'text-sm leading-tight text-muted-foreground'}>
+                          {routes.contribute.pledge.description}
+                        </p>
+                      </div>
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>

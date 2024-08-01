@@ -1,6 +1,6 @@
 import {
   faPage,
-  faGauge,
+  faHandHoldingHeart,
   faUser,
   faHexagonImage,
   faHandFist,
@@ -51,6 +51,12 @@ const routes = {
       description: 'Learn more about our partners and how to become one.',
       path: '/#partnerships',
       icon: faHandshakeAngle,
+    },
+    pledge: {
+      title: 'Pledge',
+      description: 'Learn about how you can give back by taking the Stakers Union Pledge.',
+      path: '/pledge',
+      icon: faHandHoldingHeart,
     },
     donate: {
       title: 'Donate',

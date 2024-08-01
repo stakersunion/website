@@ -71,13 +71,13 @@ const Contribute = () => {
         are partnered with.
       </p>
       <div className={'flex flex-col sm:flex-row gap-4'}>
-        <Link href={routes.contribute.donate.path}>
+        <Link href={routes.contribute.pledge.path}>
           <Button>
             <FontAwesomeIcon
               icon={faHandHoldingHeart}
               className={'mr-2'}
             />
-            Donate to stakersunion.eth
+            Take the Pledge
           </Button>
         </Link>
         <Link

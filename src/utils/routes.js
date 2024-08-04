@@ -8,6 +8,7 @@ import {
   faCircleDollarToSlot,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faDiscord, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
+import path from 'path'
 
 const routes = {
   home: {
@@ -136,13 +137,19 @@ const routes = {
     target: '_blank',
   },
   admin: {
-    path: '/admin/users',
+    path: '/admin',
     title: 'Admin',
     hidden: true,
     children: {
-      users: { path: '/admin/users', title: 'Users' },
-      user: { path: '/admin/users/[id]', title: 'User', hidden: true },
-      address: { path: '/admin/users/[id]/address/[address]', title: 'Address', hidden: true },
+      users: {
+        path: '/admin/users',
+        title: 'Users',
+        children: {
+          user: { path: '/admin/users/[id]', title: 'User' },
+          address: { path: '/admin/users/[id]/address/[address]', title: 'Address' },
+        },
+      },
+      news: { path: '/admin/news', title: 'News' },
     },
   },
 }

@@ -14,7 +14,6 @@ export async function PUT(req) {
   } else {
     await connect()
 
-    console.log("Updating status")
     const user = await User.findOneAndUpdate(
       { id },
       {

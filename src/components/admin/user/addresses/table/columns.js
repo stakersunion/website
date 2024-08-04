@@ -29,7 +29,7 @@ const columns = (id) => [
       return (
         <Link
           href={getRoute({
-            path: routes.admin.children.address.path,
+            path: routes.admin.children.users.children.address.path,
             params: {
               id,
               address,
@@ -97,7 +97,7 @@ const columns = (id) => [
               <DropdownMenuItem asChild>
                 <Link
                   href={getRoute({
-                    path: routes.admin.children.address.path,
+                    path: routes.admin.children.users.children.address.path,
                     params: {
                       id,
                       address,

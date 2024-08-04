@@ -31,7 +31,7 @@ const columns = [
     cell: ({ row }) => {
       const { id, profile } = row.original
       return (
-        <Link href={getRoute({ path: routes.admin.children.user.path, params: { id } })}>
+        <Link href={getRoute({ path: routes.admin.children.users.children.user.path, params: { id } })}>
           <EthAddress
             address={profile.address}
             clipboard={false}
@@ -152,7 +152,7 @@ const columns = [
               Copy User ID
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href={getRoute({ path: routes.admin.children.user.path, params: { id } })}>
+              <Link href={getRoute({ path: routes.admin.children.users.children.user.path, params: { id } })}>
                 View User
               </Link>
             </DropdownMenuItem>

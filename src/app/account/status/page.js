@@ -48,7 +48,7 @@ const Status = () => {
           A summary of your progress with the Stakers Union verification process
         </CardDescription>
       </CardHeader>
-      <CardContent className={'flex gap-3'}>
+      <CardContent className={'flex gap-3 flex-wrap md:flex-nowrap'}>
         <Alert>
           <AlertTitle>Proof of Eligibility</AlertTitle>
           <AlertDescription className={'text-muted-foreground'}>

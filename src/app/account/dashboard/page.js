@@ -2,8 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Title } from '@/components'
-import { Status, Balances } from '@/components/dashboard'
+import { Status, News, Balances } from '@/components/dashboard'
 import { useUserCount } from '@/utils/query/users'
 
 const Home = () => {
@@ -12,6 +11,7 @@ const Home = () => {
   return (
     <div>
       <Status />
+      <News />
       <div className={'my-6 grid grid-cols-1 md:grid-cols-3 gap-4'}>
         <Card>
           <CardHeader>

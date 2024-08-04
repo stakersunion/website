@@ -4,98 +4,41 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Title } from '@/components'
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { routes, getRoute } from '@/utils/routes'
 
 const AdminLayout = ({ children }) => {
   const pathname = usePathname()
+  const parentRoute = pathname.split('/').slice(0, 3).join('/')
 
-  const matchPath = (pathname) => {
-    const paths = Object.values(routes.admin.children).map((route) => route.path)
-    const pathParts = pathname.split('/').filter(Boolean)
-
-    for (const path of paths) {
-      const pathTemplate = path.split('/').filter(Boolean)
-
-      if (pathParts.length === pathTemplate.length) {
-        let isMatch = true
-        const params = {}
-
-        for (let i = 0; i < pathTemplate.length; i++) {
-          if (pathTemplate[i].startsWith('[') && pathTemplate[i].endsWith(']')) {
-            const paramName = pathTemplate[i].slice(1, -1)
-            params[paramName] = pathParts[i]
-          } else if (pathTemplate[i] !== pathParts[i]) {
-            isMatch = false
-            break
-          }
-        }
-
-        if (isMatch) {
-          return {
-            route: Object.values(routes.admin.children).find((route) => route.path === path),
-            params,
-          }
-        }
-      }
-    }
-
-    return null
-  }
-
-  const currentRoute = matchPath(pathname)
+  const currentRoute = Object.values(routes.admin.children).find(
+    (route) => route.path === parentRoute
+  )
 
   return (
     <div className={'container'}>
-      <Title>{currentRoute.route.title}</Title>
-      <Breadcrumb className={'my-6'}>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href={routes.admin.path}>Admin</BreadcrumbLink>
-          </BreadcrumbItem>
-          {(currentRoute.route.title === 'User' || currentRoute.route.title === 'Address') && (
-            <>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link
-                    href={getRoute({
-                      path: routes.admin.children.user.path,
-                      params: currentRoute.params,
-                    })}
-                  >
-                    User
-                  </Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-            </>
-          )}
-          {currentRoute.route.title === 'Address' && (
-            <>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link
-                    href={getRoute({
-                      path: routes.admin.children.address.path,
-                      params: currentRoute.params,
-                    })}
-                  >
-                    Address
-                  </Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-            </>
-          )}
-        </BreadcrumbList>
-      </Breadcrumb>
+      <Title>{currentRoute.title}</Title>
+      <Tabs className={'mb-6'}>
+        <TabsList>
+          {Object.values(routes.admin.children).map((route) => {
+            if (route.hidden) return null
+            if (route.title === 'Appeal' && !isPending) return null
+            return (
+              <Link
+                key={route.path}
+                href={route.path}
+              >
+                <TabsTrigger
+                  data-state={currentRoute.path === route.path ? 'active' : 'inactive'}
+                  value={route.path}
+                >
+                  {route.title}
+                </TabsTrigger>
+              </Link>
+            )
+          })}
+        </TabsList>
+      </Tabs>
 
       {children}
     </div>

@@ -121,7 +121,12 @@ const Status = ({ setReplace }) => {
         title: 'Proof of Independent Operation Pending',
         description: `You have selected ${new Date(
           verification?.independent?.schedule
-        ).toLocaleString()} to disable attestations. You will be notified by email after your proof has been verified. You may continue to Proof of Residential Operation.`,
+        ).toLocaleString(undefined, { timeZoneName: 'long' })} or ${new Date(
+          verification?.independent?.schedule
+        ).toLocaleString(undefined, {
+          timeZone: 'UTC',
+          timeZoneName: 'short',
+        })} to disable attestations. You will be notified by email after your proof has been verified. You may continue to Proof of Residential Operation.`,
         extra: (
           <div className={'flex gap-x-4'}>
             <CalendarFile />

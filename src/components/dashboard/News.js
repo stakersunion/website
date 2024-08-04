@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -52,13 +53,17 @@ const News = () => {
                       <p className={'text-sm'}>{item.content}</p>
                     </div>
                     {item.link && (
-                      <Button
+                      <Link
                         href={item.link}
-                        variant={'secondary'}
-                        className={'text-sm'}
+                        target={'_blank'}
                       >
-                        Read More
-                      </Button>
+                        <Button
+                          variant={'secondary'}
+                          className={'text-sm'}
+                        >
+                          Read More
+                        </Button>
+                      </Link>
                     )}
                   </div>
                   {index < news.slice(0, 2).length - 1 && <Separator className={'my-4'} />}

@@ -12,7 +12,7 @@ const Contribute = () => {
   const grants = [
     {
       name: 'Giveth',
-      href: 'https://giveth.io/project/stakers-union-a-collective-of-ethereum-solo-stakers',
+      href: '#',
       logo: '/partners/giveth.svg',
     },
     {
@@ -67,8 +67,7 @@ const Contribute = () => {
       </div>
       <p className={'text-muted-foreground my-4'}>
         Give back to the Stakers Union and help us build long-term incentives for decentralizing the
-        Ethereum network. Donate directly or through one of the public goods funding platforms we
-        are partnered with.
+        Ethereum network. Stay tuned for public goods funding applications coming soon.
       </p>
       <div className={'flex flex-col sm:flex-row gap-4'}>
         <Link href={routes.contribute.pledge.path}>

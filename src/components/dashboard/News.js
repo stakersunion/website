@@ -25,7 +25,7 @@ const News = () => {
             {news.length === 0 ? (
               <p className={'text-sm text-muted-foreground'}>No news available</p>
             ) : (
-              news.slice(0, 2).map((item, index) => (
+              news.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 2).map((item, index) => (
                 <div key={`news-item-${index}`}>
                   <div className={'flex items-center justify-between'}>
                     <div>

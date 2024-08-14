@@ -5,7 +5,7 @@ import {
   faHexagonImage,
   faHandFist,
   faHandshakeAngle,
-  faCircleDollarToSlot,
+  faUserTie,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faDiscord, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 import path from 'path'
@@ -59,11 +59,11 @@ const routes = {
       path: '/pledge',
       icon: faHandHoldingHeart,
     },
-    donate: {
-      title: 'Donate',
-      description: 'Give back to solo-stakers through a donation.',
-      path: 'https://app.ens.domains/stakersunion.eth',
-      icon: faCircleDollarToSlot,
+    leadership: {
+      title: 'Leadership',
+      description: 'Guide our mission. Step up and lead the Stakers Union.',
+      path: 'https://docs.stakersunion.com/governance',
+      icon: faUserTie,
       target: '_blank',
     },
   },

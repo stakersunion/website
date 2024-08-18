@@ -57,6 +57,7 @@ const ImportValidators = ({ id, address }) => {
       return {
         publicKey: validator.publickey,
         index: validator.validatorindex,
+        type: 'solo',
       }
     })
   }

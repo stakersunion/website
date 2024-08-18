@@ -26,7 +26,7 @@ export async function GET(req) {
 
 // Update Address
 export async function PUT(req) {
-  const { id, address, newAddress, newCategory, newType } = await req.json()
+  const { id, address, newAddress, newType } = await req.json()
 
   if (!id) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
@@ -41,7 +41,6 @@ export async function PUT(req) {
     }
 
     addressData.address = newAddress || addressData.address
-    addressData.category = newCategory || addressData.category
     addressData.type = newType || addressData.type
 
     await user.save()
@@ -52,7 +51,7 @@ export async function PUT(req) {
 
 // Create Address
 export async function POST(req) {
-  const { id, address, category, type } = await req.json()
+  const { id, address, type } = await req.json()
 
   if (!id) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
@@ -65,7 +64,7 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Address already exists' }, { status: 400 })
     }
 
-    user.addresses.push({ address, category, type })
+    user.addresses.push({ address, type })
     await user.save()
 
     return NextResponse.json(user.addresses, { status: 200 })

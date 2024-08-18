@@ -50,6 +50,12 @@ const columns = ({ id, address }) => [
           return <EthAddress address={row.original.publicKey} />
         },
       }),
+      columnHelper.accessor('type', {
+        header: 'Type',
+        cell: ({ row }) => {
+          return row.original.type
+        },
+      }),
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => {

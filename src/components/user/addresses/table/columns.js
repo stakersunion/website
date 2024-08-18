@@ -4,10 +4,6 @@ const columns = [
     header: 'Address',
   },
   {
-    accessorKey: 'category',
-    header: 'Category',
-  },
-  {
     accessorKey: 'type',
     header: 'Type',
   },

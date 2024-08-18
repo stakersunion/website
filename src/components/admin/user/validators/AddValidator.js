@@ -12,6 +12,8 @@ import {
 } from '@/components/ui/sheet'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import {
   Form,
   FormControl,
@@ -38,10 +40,17 @@ const AddValidator = ({ id, address }) => {
     error,
   } = useCreateValidator({ id, address })
 
+  const validatorTypes = [
+    { value: 'solo', label: 'Solo' },
+    { value: 'rocketpool', label: 'Rocket Pool' },
+    { value: 'dvt', label: 'DVT' },
+  ]
+
   const formSchema = z.object({
     publicKey: z.string().regex(/^0x[a-fA-F0-9]{96}$/, { message: 'Invalid public key' }),
     index: z.number().int().positive(),
     valid: z.boolean(),
+    type: z.string(z.enum(validatorTypes.map((type) => type.value))),
   })
 
   const form = useForm({
@@ -50,6 +59,7 @@ const AddValidator = ({ id, address }) => {
       publicKey: '',
       index: 0,
       valid: false,
+      type: '',
     },
   })
 
@@ -140,9 +150,38 @@ const AddValidator = ({ id, address }) => {
                     <FormControl>
                       <Input
                         placeholder={'12345'}
-                        disabled={isPending}
+                        disabled={true}
                         {...field}
                       />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={'type'}
+                render={({ field }) => (
+                  <FormItem className={'space-y-3'}>
+                    <FormLabel>Type</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className={'flex flex-col space-y-1'}
+                      >
+                        {validatorTypes.map((type) => (
+                          <FormItem
+                            key={type.value}
+                            className={'flex items-center space-x-3 space-y-0'}
+                          >
+                            <FormControl>
+                              <RadioGroupItem value={type.value} />
+                            </FormControl>
+                            <FormLabel className={'font-normal'}>{type.label}</FormLabel>
+                          </FormItem>
+                        ))}
+                      </RadioGroup>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

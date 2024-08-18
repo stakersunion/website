@@ -39,11 +39,6 @@ import { faPlus, faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 const AddAddress = ({ id }) => {
   const [open, setOpen] = useState(false)
   const { mutateAsync: createAddress, isPending, isSuccess, error } = useCreateAddress({ id })
-  const addressCategories = [
-    { value: 'solo', label: 'Solo' },
-    { value: 'rocketpool', label: 'Rocket Pool' },
-    { value: 'dvt', label: 'DVT' },
-  ]
   const addressTypes = [
     { value: 'deposit', label: 'Deposit' },
     { value: 'withdrawal', label: 'Withdrawal' },
@@ -54,7 +49,6 @@ const AddAddress = ({ id }) => {
     address: z.string().refine((value) => isAddress(value), {
       message: 'The provided ETH address is invalid.',
     }),
-    category: z.array(z.enum(addressCategories.map((category) => category.value))),
     type: z.enum(addressTypes.map((type) => type.value)),
   })
 
@@ -62,7 +56,6 @@ const AddAddress = ({ id }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       address: '',
-      category: '',
       type: '',
     },
   })
@@ -120,47 +113,6 @@ const AddAddress = ({ id }) => {
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={'category'}
-                render={() => (
-                  <FormItem>
-                    <div className={'mb-4'}>
-                      <FormLabel className='text-base'>Category</FormLabel>
-                    </div>
-                    {addressCategories.map((item) => (
-                      <FormField
-                        key={item.value}
-                        control={form.control}
-                        name={'category'}
-                        render={({ field }) => {
-                          return (
-                            <FormItem
-                              key={item.value}
-                              className={'flex flex-row items-start space-x-3 space-y-0'}
-                            >
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value?.includes(item.value)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([...field.value, item.value])
-                                      : field.onChange(
-                                          field.value?.filter((value) => value !== item.value)
-                                        )
-                                  }}
-                                />
-                              </FormControl>
-                              <FormLabel className={'font-normal'}>{item.label}</FormLabel>
-                            </FormItem>
-                          )
-                        }}
-                      />
-                    ))}
                     <FormMessage />
                   </FormItem>
                 )}

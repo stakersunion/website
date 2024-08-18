@@ -4,8 +4,9 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Title } from '@/components'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { routes, getRoute } from '@/utils/routes'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import { Button } from '@/components/ui/button'
+import { routes } from '@/utils/routes'
 
 const AdminLayout = ({ children }) => {
   const pathname = usePathname()
@@ -18,28 +19,29 @@ const AdminLayout = ({ children }) => {
   return (
     <div className={'container'}>
       <Title>{currentRoute.title}</Title>
-      <Tabs className={'mb-6'}>
-        <TabsList>
+      <ScrollArea className={'mt-4 mb-1 pb-3 w-full whitespace-nowrap rounded-md'}>
+        <div className={'flex gap-x-2'}>
           {Object.values(routes.admin.children).map((route) => {
             if (route.hidden) return null
-            if (route.title === 'Appeal' && !isPending) return null
             return (
               <Link
                 key={route.path}
                 href={route.path}
               >
-                <TabsTrigger
-                  data-state={currentRoute.path === route.path ? 'active' : 'inactive'}
+                <Button
+                  size={'sm'}
+                  variant={currentRoute.path === route.path ? 'secondary' : 'ghost'}
                   value={route.path}
+                  className={'h-8'}
                 >
                   {route.title}
-                </TabsTrigger>
+                </Button>
               </Link>
             )
           })}
-        </TabsList>
-      </Tabs>
-
+        </div>
+        <ScrollBar orientation={'horizontal'} />
+      </ScrollArea>
       {children}
     </div>
   )

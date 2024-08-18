@@ -24,6 +24,14 @@ const userSchema = mongoose.Schema(
       withdrawalAddress: {
         type: String,
       },
+      poapAssigned: {
+        type: Boolean,
+        default: false,
+      },
+      discordRole: {
+        type: Boolean,
+        default: false,
+      },
     },
     appeal: {
       address: {

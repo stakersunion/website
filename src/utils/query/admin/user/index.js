@@ -24,6 +24,10 @@ const useUpdateUser = ({ id }) => {
           id,
           name: data.name,
           email: data.email,
+          discord: data.discord,
+          withdrawalAddress: data.withdrawalAddress,
+          poapAssigned: data.poapAssigned,
+          discordRole: data.discordRole,
         })
       } catch (error) {
         throw new Error(error)

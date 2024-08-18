@@ -22,10 +22,18 @@ export async function PUT(req) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
   } else {
     await connect()
-    const user = await User.findOneAndUpdate({ id: body.id }, {
-      name: body.name,
-      email: body.email,
-    }, { new: true })
+    const user = await User.findOneAndUpdate(
+      { id: body.id },
+      {
+        'profile.name': body.name,
+        'profile.email': body.email,
+        'profile.discord': body.discord,
+        'profile.withdrawalAddress': body.withdrawalAddress,
+        'profile.poapAssigned': body.poapAssigned,
+        'profile.discordRole': body.discordRole,
+      },
+      { new: true }
+    )
     return NextResponse.json(user, { status: 200 })
   }
 }

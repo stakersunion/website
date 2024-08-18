@@ -41,6 +41,7 @@ const DataTable = ({ columns, data }) => {
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
+                className={row.original.archived && 'opacity-50'}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -28,6 +29,7 @@ const NewsForm = ({ id, callback = () => {} }) => {
     title: z.string(),
     content: z.string(),
     link: z.string().url().or(z.literal('')),
+    archived: z.boolean().optional(),
   })
 
   const form = useForm({
@@ -36,6 +38,7 @@ const NewsForm = ({ id, callback = () => {} }) => {
       title: '',
       content: '',
       link: '',
+      archived: false,
     },
     values: news,
   })
@@ -110,6 +113,24 @@ const NewsForm = ({ id, callback = () => {} }) => {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name={'archived'}
+          render={({ field }) => (
+            <FormItem className={'flex flex-row items-start space-x-3 space-y-0'}>
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className={'space-y-1 leading-none'}>
+                <FormLabel>Archive</FormLabel>
+              </div>
               <FormMessage />
             </FormItem>
           )}

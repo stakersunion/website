@@ -18,6 +18,10 @@ const newsSchema = mongoose.Schema(
       type: String,
       default: 'Read More',
     },
+    archived: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

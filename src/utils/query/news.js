@@ -11,7 +11,7 @@ const useNews = () => {
         throw new Error(error)
       }
     },
-    select: ({ data }) => data,
+    select: ({ data }) => data.filter((news) => !news.archived),
   })
 }
 

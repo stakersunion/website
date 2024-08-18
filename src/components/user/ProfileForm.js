@@ -71,7 +71,7 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
             name={'name'}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Display Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder={'John Smith'}
@@ -101,7 +101,7 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
                 </FormControl>
                 <div className={'flex'}>
                   <FormDescription className={'text-xs'}>
-                    Your preferred contact email.
+                    Your preferred contact email used for notifications. Use an anonymous service!
                   </FormDescription>
                   <FormMessage className={'ml-2 text-xs text-red-500'} />
                 </div>

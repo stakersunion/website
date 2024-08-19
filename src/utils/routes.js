@@ -89,6 +89,13 @@ const routes = {
       icon: faDiscord,
       target: '_blank',
     },
+    farcaster: {
+      title: 'Farcaster',
+      description: 'Join us on Farcaster for the latest updates.',
+      path: 'https://warpcast.com/stakersunion',
+      image: '/icons/farcaster.svg',
+      target: '_blank',
+    }
   },
   account: {
     path: '/account',

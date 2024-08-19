@@ -1,6 +1,7 @@
 'use client'
 
 import { forwardRef } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { cn } from '@/utils/shadcn'
 import {
@@ -113,6 +114,7 @@ const Menu = () => {
                     title={value.title}
                     href={value.path}
                     icon={value.icon}
+                    image={value.image}
                     target={value.target}
                   >
                     {value.description}
@@ -127,7 +129,7 @@ const Menu = () => {
   )
 }
 
-const ListItem = forwardRef(({ className, title, icon, children, ...props }, ref) => {
+const ListItem = forwardRef(({ className, title, icon, image, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
@@ -139,11 +141,22 @@ const ListItem = forwardRef(({ className, title, icon, children, ...props }, ref
           )}
           {...props}
         >
-          <div className={'text-sm font-medium leading-none'}>
-            <FontAwesomeIcon
-              icon={icon}
-              className={'fa-fw mr-2'}
-            />
+          <div className={'flex flex-row text-sm font-medium items-center leading-none'}>
+            {icon && (
+              <FontAwesomeIcon
+                icon={icon}
+                className={'fa-fw mr-2'}
+              />
+            )}
+            {image && (
+              <Image
+                src={image}
+                width={13}
+                height={13}
+                alt={title}
+                className={'mr-2'}
+              />
+            )}
             {title}
           </div>
           <p className={'line-clamp-2 text-sm leading-snug text-muted-foreground'}>{children}</p>

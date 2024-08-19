@@ -1,18 +1,21 @@
+import { EthAddress } from '@/components'
+
 const columns = [
   {
     accessorKey: 'address',
     header: 'Address',
+    cell: ({ row }) => {
+      return (
+        <EthAddress
+          address={row.original.address}
+          length={0}
+        />
+      )
+    },
   },
   {
     accessorKey: 'type',
     header: 'Type',
-  },
-  {
-    accessorKey: 'createdAt',
-    header: 'Created',
-    cell: ({ row }) => {
-      return new Date(row.original.createdAt).toLocaleDateString()
-    },
   },
   {
     id: 'validators',

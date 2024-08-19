@@ -12,7 +12,14 @@ import { Button } from '@/components/ui/button'
 import { EthAddress } from '@/components'
 import { RemoveValidator } from '@/components/admin/user/validators'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsis, faClipboard, faTrash } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import {
+  faEllipsis,
+  faClipboard,
+  faTrash,
+  faShield,
+  faRocket,
+  faProjectDiagram,
+} from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const columnHelper = createColumnHelper()
 
@@ -53,7 +60,40 @@ const columns = ({ id, address }) => [
       columnHelper.accessor('type', {
         header: 'Type',
         cell: ({ row }) => {
-          return row.original.type
+          switch (row.original.type) {
+            case 'solo':
+              return (
+                <div className={'flex flex-row items-center'}>
+                  <FontAwesomeIcon
+                    icon={faShield}
+                    className={'mr-2'}
+                  />{' '}
+                  Solo
+                </div>
+              )
+            case 'rocketpool':
+              return (
+                <div className={'flex flex-row items-center'}>
+                  <FontAwesomeIcon
+                    icon={faRocket}
+                    className={'mr-2'}
+                  />{' '}
+                  Rocket Pool
+                </div>
+              )
+            case 'dvt':
+              return (
+                <div className={'flex flex-row items-center'}>
+                  <FontAwesomeIcon
+                    icon={faProjectDiagram}
+                    className={'mr-2'}
+                  />{' '}
+                  DVT
+                </div>
+              )
+            default:
+              return row.original.type
+          }
         },
       }),
       columnHelper.accessor('status', {

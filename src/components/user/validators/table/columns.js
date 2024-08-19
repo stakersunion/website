@@ -41,7 +41,6 @@ const columns = [
       columnHelper.accessor('type', {
         header: 'Type',
         cell: ({ row }) => {
-          console.log(row.original.type)
           switch (row.original.type) {
             case 'solo':
               return (

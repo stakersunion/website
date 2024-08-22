@@ -66,7 +66,7 @@ const UpdateSplits = () => {
 
   const recipients = () => {
     return verifiedUsers.map((user) => ({
-      address: user.profile.withdrawalAddress || user.addresses[0].address,
+      address: user.profile.withdrawalAddress || user.addresses[0]?.address,
       percentAllocation: calculatePercentAllocation(user),
     }))
   }
@@ -137,7 +137,7 @@ const UpdateSplits = () => {
                     <TableCell>{user.profile.name}</TableCell>
                     <TableCell>
                       <EthAddress
-                        address={user.profile.withdrawalAddress || user.addresses[0].address}
+                        address={user.profile.withdrawalAddress || user.addresses[0]?.address}
                       />
                     </TableCell>
                     <TableCell>{calculateMultiplier(user)}</TableCell>

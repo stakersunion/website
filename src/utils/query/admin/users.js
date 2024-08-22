@@ -15,6 +15,20 @@ const useUsers = () => {
   })
 }
 
+const useVerifiedUsers = () => {
+  return useQuery({
+    queryKey: ['verified-users'],
+    queryFn: async () => {
+      try {
+        return await api.get('/admin/users/verified')
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+    select: ({ data }) => data,
+  })
+}
+
 const useUpdateRole = () => {
   const queryClient = useQueryClient()
   return useMutation({
@@ -34,4 +48,4 @@ const useUpdateRole = () => {
   })
 }
 
-export { useUsers, useUpdateRole }
+export { useUsers, useVerifiedUsers, useUpdateRole }

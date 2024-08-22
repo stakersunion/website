@@ -95,7 +95,7 @@ const routes = {
       path: 'https://warpcast.com/stakersunion',
       image: '/icons/farcaster.svg',
       target: '_blank',
-    }
+    },
   },
   account: {
     path: '/account',
@@ -157,6 +157,13 @@ const routes = {
         },
       },
       news: { path: '/admin/news', title: 'News' },
+      splits: {
+        path: '/admin/splits',
+        title: 'Splits',
+        children: {
+          update: { path: '/admin/splits/update', title: 'Update' },
+        },
+      },
     },
   },
 }

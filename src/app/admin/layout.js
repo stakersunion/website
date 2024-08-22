@@ -42,7 +42,7 @@ const AdminLayout = ({ children }) => {
         </div>
         <ScrollBar orientation={'horizontal'} />
       </ScrollArea>
-      {children}
+      <div className={'pb-10'}>{children}</div>
     </div>
   )
 }

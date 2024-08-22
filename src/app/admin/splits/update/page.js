@@ -1,8 +1,11 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import {
   Table,
@@ -15,12 +18,41 @@ import {
 import { Button } from '@/components/ui/button'
 import { EthAddress } from '@/components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronLeft } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import {
+  faChevronLeft,
+  faCheck,
+  faCircleExclamation,
+  faLoader,
+} from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useVerifiedUsers } from '@/utils/query/admin/users'
 import { routes } from '@/utils/routes'
+import { useUpdateSplits } from '@/utils/query/admin/splits'
+import { createSplitsClient } from '@/utils/splits'
+import { wallet } from '@/utils/wallet'
 
 const UpdateSplits = () => {
   const { data: verifiedUsers, isLoading } = useVerifiedUsers()
+  const [splitsClient, setSplitsClient] = useState(null)
+  const {
+    mutateAsync: updateSplits,
+    isPending,
+    isSuccess,
+    isError,
+  } = useUpdateSplits({ splitsClient })
+  const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(null)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.ethereum) {
+      const initializeSplitsClient = async () => {
+        const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
+        const walletClient = wallet({ account })
+        setSplitsClient(createSplitsClient({ walletClient }))
+      }
+
+      initializeSplitsClient()
+    }
+  }, [])
 
   // TODO: Implement calculateMultiplier
   const calculateMultiplier = (user) => {
@@ -40,7 +72,12 @@ const UpdateSplits = () => {
   }
 
   const handleUpdateSplits = async () => {
-    console.log(recipients())
+    try {
+      const repsonse = await updateSplits(recipients())
+      setSuccess(repsonse)
+    } catch (error) {
+      setError(error)
+    }
   }
 
   return (
@@ -63,6 +100,25 @@ const UpdateSplits = () => {
           <CardTitle>Current Verified Users</CardTitle>
         </CardHeader>
         <CardContent>
+          {isError && (
+            <Alert variant={'destructive'}>
+              <FontAwesomeIcon icon={faCircleExclamation} />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                <ScrollArea className={'pb-4'}>
+                  {error.message}
+                  <ScrollBar orientation={'horizontal'} />
+                </ScrollArea>
+              </AlertDescription>
+            </Alert>
+          )}
+          {isSuccess && (
+            <Alert variant={'success'}>
+              <FontAwesomeIcon icon={faCheck} />
+              <AlertTitle>Success</AlertTitle>
+              <AlertDescription>{success.event.transactionHash}</AlertDescription>
+            </Alert>
+          )}
           {isLoading ? (
             <Skeleton className={'h-[400px]'} />
           ) : (
@@ -93,7 +149,19 @@ const UpdateSplits = () => {
           )}
         </CardContent>
         <CardFooter>
-          <Button onClick={handleUpdateSplits}>Update Splits</Button>
+          <Button
+            onClick={handleUpdateSplits}
+            disabled={isPending}
+            className={'mr-4'}
+          >
+            {isPending && (
+              <FontAwesomeIcon
+                icon={faLoader}
+                className={'animate-spin mr-2'}
+              />
+            )}
+            Update Splits
+          </Button>
         </CardFooter>
       </Card>
     </div>

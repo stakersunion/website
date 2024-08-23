@@ -32,6 +32,14 @@ const userSchema = mongoose.Schema(
         type: Boolean,
         default: false,
       },
+      execution: {
+        type: String,
+        enum: ['geth', 'nethermind', 'besu', 'erigon', 'reth'],
+      },
+      consensus: {
+        type: String,
+        enum: ['lighthouse', 'lodestar', 'nimbus', 'prysm', 'teku'],
+      },
     },
     appeal: {
       address: {

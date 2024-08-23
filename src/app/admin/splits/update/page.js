@@ -56,18 +56,32 @@ const UpdateSplits = () => {
 
   // TODO: Implement calculateMultiplier
   const calculateMultiplier = (user) => {
-    return 1
+    return 1 // For simplicity, every user has a multiplier of 1
   }
 
   const calculatePercentAllocation = (user) => {
     let totalMultiplier = verifiedUsers.length
-    return (calculateMultiplier(user) / totalMultiplier) * 100
+    let percentage = (calculateMultiplier(user) / totalMultiplier) * 100
+    return parseFloat(percentage.toFixed(4))
   }
 
   const recipients = () => {
-    return verifiedUsers.map((user) => ({
+    let allocations = verifiedUsers.map((user) => calculatePercentAllocation(user))
+
+    // Calculate the sum of all allocations to identify the difference from 100.0000
+    let totalAllocated = allocations.reduce((sum, allocation) => sum + allocation, 0)
+    let difference = parseFloat((100.0 - totalAllocated).toFixed(4))
+
+    // Adjust the last user's allocation to correct any rounding errors
+    if (allocations.length > 0) {
+      allocations[allocations.length - 1] = parseFloat(
+        (allocations[allocations.length - 1] + difference).toFixed(4)
+      )
+    }
+
+    return verifiedUsers.map((user, index) => ({
       address: user.profile.withdrawalAddress || user.addresses[0]?.address,
-      percentAllocation: calculatePercentAllocation(user),
+      percentAllocation: allocations[index],
     }))
   }
 

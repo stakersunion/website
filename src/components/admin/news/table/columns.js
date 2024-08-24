@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -21,7 +22,12 @@ import {
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { NewsForm, RemoveNews } from '@/components/admin/news'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsis, faPencil, faTrash } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import {
+  faEllipsis,
+  faPencil,
+  faTrash,
+  faArrowUpRightFromSquare,
+} from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const columns = [
   {
@@ -43,6 +49,22 @@ const columns = [
   {
     header: 'Link',
     accessorKey: 'link',
+    cell: ({ row }) => {
+      const link = row.original.link
+      if (!link) return
+      return (
+        <div className={'flex items-center gap-2'}>
+          {link.length > 15 ? `${link.substring(0, 15)}...` : link}
+          <Link
+            href={link}
+            target={'_blank'}
+            className={'flex items-center gap-2'}
+          >
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className={'w-3 h-3'} />
+          </Link>
+        </div>
+      )
+    },
   },
   {
     header: 'Actions',

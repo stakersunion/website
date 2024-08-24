@@ -72,7 +72,7 @@ const Splits = () => {
                       length={0}
                     />
                   </TableCell>
-                  <TableCell className={'text-right'}>{recipient.percentAllocation}%</TableCell>
+                  <TableCell className={'text-right'}>{recipient.percentAllocation.toFixed(4)}%</TableCell>
                 </TableRow>
               ))}
             </TableBody>

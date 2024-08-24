@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { dataClient } from '@/utils/splits'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const response = await dataClient.getSplitMetadata({
     chainId: process.env.NEXT_PUBLIC_CHAIN_ID,

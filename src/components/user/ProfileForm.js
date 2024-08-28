@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -29,9 +30,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faTools, faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = null }) => {
-  const [section, setSection] = useState('user')
   const { data: profile, isLoading } = useProfile()
   const { mutateAsync: updateProfile, isPending, isSuccess } = useUpdateProfile()
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+  const tab = searchParams.get('tab') || 'user'
 
   const exectionOptions = [
     { value: 'geth', label: 'Geth' },
@@ -93,8 +97,8 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
           <div className={'flex flex-col sm:w-1/5 gap-2'}>
             <Button
               type={'button'}
-              variant={section === 'user' ? 'secondary' : 'ghost'}
-              onClick={() => setSection('user')}
+              variant={tab === 'user' ? 'secondary' : 'ghost'}
+              onClick={() => router.push(`${pathname}?tab=user`)}
               className={'w-full justify-start'}
             >
               <FontAwesomeIcon
@@ -105,8 +109,8 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
             </Button>
             <Button
               type={'button'}
-              variant={section === 'validator' ? 'secondary' : 'ghost'}
-              onClick={() => setSection('validator')}
+              variant={tab === 'validator' ? 'secondary' : 'ghost'}
+              onClick={() => router.push(`${pathname}?tab=validator`)}
               className={'w-full justify-start'}
             >
               <FontAwesomeIcon
@@ -117,7 +121,7 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
             </Button>
           </div>
           <div className={'sm:w-4/5'}>
-            {section === 'user' && (
+            {tab === 'user' && (
               <div className={'space-y-8'}>
                 <div className={'columns-1 md:columns-2 gap-x-6 space-y-6'}>
                   <FormField
@@ -214,7 +218,7 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
                 </div>
               </div>
             )}
-            {section === 'validator' && (
+            {tab === 'validator' && (
               <div className={'columns-1 md:columns-2 gap-x-6 space-y-8'}>
                 <FormField
                   control={form.control}

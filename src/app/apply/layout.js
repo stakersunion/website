@@ -43,7 +43,7 @@ const ApplyLayout = ({ children }) => {
           })}
         </div>
         <Separator className={'my-6'} />
-        {children}
+        <div className={'pb-10'}>{children}</div>
       </SignedIn>
     </div>
   )

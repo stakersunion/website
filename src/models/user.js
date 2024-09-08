@@ -32,6 +32,28 @@ const userSchema = mongoose.Schema(
         type: Boolean,
         default: false,
       },
+      clients: {
+        type: [
+          {
+            execution: {
+              type: String,
+              enum: ['geth', 'nethermind', 'besu', 'erigon', 'reth'],
+              default: '',
+            },
+            consensus: {
+              type: String,
+              enum: ['lighthouse', 'lodestar', 'nimbus', 'prysm', 'teku'],
+              default: '',
+            },
+          },
+        ],
+        default: [
+          {
+            execution: '',
+            consensus: '',
+          },
+        ],
+      },
       execution: {
         type: String,
         enum: ['geth', 'nethermind', 'besu', 'erigon', 'reth'],

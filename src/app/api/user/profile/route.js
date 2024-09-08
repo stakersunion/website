@@ -43,8 +43,7 @@ export async function PUT(req) {
           'profile.email': body.email,
           'profile.discord': body.discord,
           'profile.withdrawalAddress': body.withdrawalAddress,
-          'profile.execution': body.execution,
-          'profile.consensus': body.consensus,
+          'profile.clients': body.clients,
         },
       },
       { new: true }

@@ -23,11 +23,17 @@ import { Button } from '@/components/ui/button'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { isAddress } from 'ethers'
-import { useForm } from 'react-hook-form'
+import { useForm, useFieldArray } from 'react-hook-form'
 import { useProfile, useUpdateProfile } from '@/utils/query/user/profile'
 import { toast } from 'sonner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faTools, faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import {
+  faUser,
+  faTools,
+  faLoader,
+  faPlus,
+  faMinus,
+} from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
 const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = null }) => {
   const { data: profile, isLoading } = useProfile()
@@ -62,8 +68,14 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
       .refine((value) => (value ? isAddress(value) : true), {
         message: 'The provided ETH address is invalid.',
       }),
-    execution: z.enum(exectionOptions.map((client) => client.value)).optional(),
-    consensus: z.enum(consensusOptions.map((client) => client.value)).optional(),
+    clients: z
+      .array(
+        z.object({
+          execution: z.enum(exectionOptions.map((client) => client.value)),
+          consensus: z.enum(consensusOptions.map((client) => client.value)),
+        })
+      )
+      .optional(),
   })
 
   const form = useForm({
@@ -73,10 +85,19 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
       email: '',
       discord: '',
       withdrawalAddress: '',
-      execution: '',
-      consensus: '',
+      clients: [
+        {
+          execution: '',
+          consensus: '',
+        },
+      ],
     },
     values: profile,
+  })
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'clients',
   })
 
   const onSubmit = async (values) => {
@@ -218,74 +239,102 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
                 </div>
               </div>
             )}
-            {tab === 'validator' && (
-              <div className={'columns-1 md:columns-2 gap-x-6 space-y-8'}>
-                <FormField
-                  control={form.control}
-                  name={'execution'}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Execution Client</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder={'Execution Client'} />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {exectionOptions.map((client) => (
-                              <SelectItem
-                                key={client.value}
-                                value={client.value}
+            {tab === 'validator' &&
+              fields.map((item, index) => {
+                return (
+                  <div
+                    className={'flex flex-col sm:flex-row gap-6 mb-6'}
+                    key={`clients-field-${item.id}`}
+                  >
+                    <FormField
+                      control={form.control}
+                      name={`clients.${index}.execution`}
+                      render={({ field }) => {
+                        return (
+                          <FormItem className={'flex flex-1 flex-col'}>
+                            <FormLabel>Execution Client {index !== 0 && `#${index + 1}`}</FormLabel>
+                            <FormControl>
+                              <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
                               >
-                                {client.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={'consensus'}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Consensus Client</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder={'Execution Client'} />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {exectionOptions.map((client) => (
+                                    <SelectItem
+                                      key={client.value}
+                                      value={client.value}
+                                    >
+                                      {client.label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )
+                      }}
+                    />
+                    <FormField
+                      control={form.control}
+                      name={`clients.${index}.consensus`}
+                      render={({ field }) => (
+                        <FormItem className={'flex flex-1 flex-col'}>
+                          <FormLabel>Consensus Client {index !== 0 && `#${index + 1}`}</FormLabel>
                           <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder={'Consensus Client'} />
-                            </SelectTrigger>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder={'Consensus Client'} />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {consensusOptions.map((client) => (
+                                  <SelectItem
+                                    key={client.value}
+                                    value={client.value}
+                                  >
+                                    {client.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           </FormControl>
-                          <SelectContent>
-                            {consensusOptions.map((client) => (
-                              <SelectItem
-                                key={client.value}
-                                value={client.value}
-                              >
-                                {client.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            )}
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className={'sm:self-end flex gap-2 w-24'}>
+                      {index === fields.length - 1 && (
+                        <Button
+                          type={'button'}
+                          onClick={() => append({ execution: '', consensus: '' })}
+                        >
+                          <FontAwesomeIcon icon={faPlus} />
+                          <span className={'sm:hidden inline ml-2'}>Add</span>
+                        </Button>
+                      )}
+                      {fields.length > 1 && (
+                        <Button
+                          type={'button'}
+                          onClick={() => remove(index)}
+                        >
+                          <FontAwesomeIcon icon={faMinus} />
+                          <span className={'sm:hidden inline ml-2'}>Remove</span>
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
           </div>
         </div>
         <div className={'flex pt-6'}>

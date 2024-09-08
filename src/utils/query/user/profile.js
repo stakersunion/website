@@ -25,8 +25,7 @@ const useUpdateProfile = () => {
           email: data.email,
           discord: data.discord,
           withdrawalAddress: data.withdrawalAddress,
-          execution: data.execution,
-          consensus: data.consensus,
+          clients: data.clients,
         })
       } catch (error) {
         throw new Error(error)

@@ -10,8 +10,8 @@ const Balances = () => {
     let balance = balances.activeBalances['0x0000000000000000000000000000000000000000']
     return (
       <p>
-        <span className={'text-6xl font-bold'}>{balance.formattedAmount}</span>
-        <span className={'text-sm font-bold'}>{balance.symbol}</span>
+        <span className={'text-6xl font-bold'}>{balance?.formattedAmount}</span>
+        <span className={'text-sm font-bold'}>{balance?.symbol}</span>
       </p>
     )
   }

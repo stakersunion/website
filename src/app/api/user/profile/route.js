@@ -44,6 +44,7 @@ export async function PUT(req) {
           'profile.discord': body.discord,
           'profile.withdrawalAddress': body.withdrawalAddress,
           'profile.clients': body.clients,
+          'profile.region': body.region,
         },
       },
       { new: true }

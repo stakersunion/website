@@ -54,6 +54,10 @@ const userSchema = mongoose.Schema(
           },
         ],
       },
+      region: {
+        type: String,
+        enum: ['North America', 'South America', 'Europe', 'Asia', 'Africa', 'Oceania'],
+      },
     },
     appeal: {
       address: {

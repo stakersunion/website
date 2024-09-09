@@ -26,6 +26,7 @@ const useUpdateProfile = () => {
           discord: data.discord,
           withdrawalAddress: data.withdrawalAddress,
           clients: data.clients,
+          region: data.region,
         })
       } catch (error) {
         throw new Error(error)

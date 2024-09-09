@@ -37,12 +37,12 @@ const userSchema = mongoose.Schema(
           {
             execution: {
               type: String,
-              enum: ['geth', 'nethermind', 'besu', 'erigon', 'reth'],
+              enum: ['geth', 'nethermind', 'besu', 'erigon', 'reth', ''],
               default: '',
             },
             consensus: {
               type: String,
-              enum: ['lighthouse', 'lodestar', 'nimbus', 'prysm', 'teku'],
+              enum: ['lighthouse', 'lodestar', 'nimbus', 'prysm', 'teku', ''],
               default: '',
             },
           },

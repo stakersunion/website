@@ -43,7 +43,7 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
   const pathname = usePathname()
   const tab = searchParams.get('tab') || 'user'
 
-  const exectionOptions = [
+  const executionOptions = [
     { value: 'geth', label: 'Geth' },
     { value: 'nethermind', label: 'Nethermind' },
     { value: 'besu', label: 'Besu' },
@@ -71,8 +71,8 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
     clients: z
       .array(
         z.object({
-          execution: z.enum(exectionOptions.map((client) => client.value)),
-          consensus: z.enum(consensusOptions.map((client) => client.value)),
+          execution: z.union([z.enum(executionOptions.map((client) => client.value)), z.string().length(0)]).optional(),
+          consensus: z.union([z.enum(consensusOptions.map((client) => client.value)), z.string().length(0)]).optional(),
         })
       )
       .optional(),
@@ -264,7 +264,7 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
                                   </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                  {exectionOptions.map((client) => (
+                                  {executionOptions.map((client) => (
                                     <SelectItem
                                       key={client.value}
                                       value={client.value}

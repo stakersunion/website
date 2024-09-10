@@ -365,7 +365,7 @@ const ProfileForm = ({ callback = () => {}, submitText = 'Save', extraActions = 
           </div>
         </div>
         <div className={'flex pt-6'}>
-          <div className={'flex flex-1'}>
+          <div className={'flex flex-1 justify-end'}>
             <Button
               disabled={isLoading || isPending}
               type={'submit'}

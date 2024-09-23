@@ -6,9 +6,9 @@ import {
   faHandFist,
   faHandshakeAngle,
   faUserTie,
+  faTools,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faDiscord, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
-import path from 'path'
 
 const routes = {
   home: {
@@ -103,7 +103,24 @@ const routes = {
     icon: faUser,
     children: {
       dashboard: { path: '/account/dashboard', title: 'Dashboard' },
-      profile: { path: '/account/profile', title: 'Profile' },
+      profile: {
+        path: '/account/profile',
+        title: 'Profile',
+        children: {
+          user: {
+            path: '/account/profile/user',
+            title: 'User Info',
+            description: 'Set up user information',
+            icon: faUser,
+          },
+          validator: {
+            path: '/account/profile/validator',
+            title: 'Validator Info',
+            description: 'Set up validator information',
+            icon: faTools,
+          },
+        },
+      },
       status: { path: '/account/status', title: 'Status' },
       addresses: { path: '/account/addresses', title: 'Addresses' },
       validators: { path: '/account/validators', title: 'Validators' },
@@ -119,6 +136,20 @@ const routes = {
         path: '/apply/profile',
         title: 'Profile',
         description: 'Set up account information',
+        children: {
+          user: {
+            path: '/apply/profile/user',
+            title: 'User Info',
+            description: 'Set up user information',
+            icon: faUser,
+          },
+          validator: {
+            path: '/apply/profile/validator',
+            title: 'Validator Info',
+            description: 'Set up validator information',
+            icon: faTools,
+          },
+        },
       },
       eligibility: {
         path: '/apply/eligibility',

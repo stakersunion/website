@@ -8,7 +8,7 @@ const Building = () => {
       <FontAwesomeIcon icon={faTrafficCone} />
       <AlertTitle>In progress</AlertTitle>
       <AlertDescription>
-        <p>This section is under active development</p>
+        <p>This section is under active development. Information may be incomplete or incorrect.</p>
       </AlertDescription>
     </Alert>
   )

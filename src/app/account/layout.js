@@ -11,9 +11,10 @@ import { useVerification } from '@/utils/query/user/verification'
 
 const AccountLayout = ({ children }) => {
   const pathname = usePathname()
-  const currentRoute = Object.values(routes.account.children).find(
-    (route) => route.path === pathname
+  const currentRoute = Object.values(routes.account.children).find((route) =>
+    pathname.startsWith(route.path)
   )
+
 
   const { data: verification } = useVerification()
   const isPending = useMemo(() => {

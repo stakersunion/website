@@ -22,8 +22,8 @@ const Location = ({ field, isLoading }) => {
 
   return (
     <div className={'relative w-full'}>
-      <Label className={'mb-2'}>Region</Label>
-      <div className={'absolute flex flex-col top-4 right-4 z-10'}>
+      <Label>Region</Label>
+      <div className={'absolute flex flex-col top-12 right-4 z-10'}>
         <div
           className={
             'flex w-8 h-8 items-center justify-center bg-muted hover:bg-neutral-700 rounded-t-sm transition'
@@ -53,7 +53,7 @@ const Location = ({ field, isLoading }) => {
         </div>
       </div>
       {tooltip && <Badge className={'absolute bottom-4'}>{tooltip}</Badge>}
-      <div className={'rounded-sm overflow-hidden'}>
+      <div className={'rounded-sm overflow-hidden mt-2'}>
         <ComposableMap projection={'geoMercator'} height={400}>
           <ZoomableGroup
             zoom={zoom}

@@ -11,6 +11,16 @@ const nextConfig = {
         destination: '/account/dashboard',
         permanent: true,
       },
+      {
+        source: '/apply/profile',
+        destination: '/apply/profile/user',
+        permanent: true,
+      },
+      {
+        source: '/account/profile',
+        destination: '/account/profile/user',
+        permanent: true,
+      },
     ]
   },
   experimental: {

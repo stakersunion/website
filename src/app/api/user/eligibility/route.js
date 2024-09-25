@@ -108,6 +108,7 @@ export async function PUT(req) {
     }
 
     user.verification.eligibility.status = 'approved'
+    user.addresses.push({ address })
     await user.save()
 
     return NextResponse.json(user, { status: 200 })

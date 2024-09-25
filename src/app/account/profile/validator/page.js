@@ -56,7 +56,6 @@ const ProfileValidator = () => {
 
   const onSubmit = async (values) => {
     await updateProfile(values)
-    router.push(routes.apply.children.eligibility.path)
   }
 
   useEffect(() => {

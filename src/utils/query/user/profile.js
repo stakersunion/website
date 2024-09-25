@@ -25,6 +25,7 @@ const useUpdateProfile = () => {
           email: data.email,
           discord: data.discord,
           withdrawalAddress: data.withdrawalAddress,
+          passportAddress: data.passportAddress,
           clients: data.clients,
           region: data.region,
         })

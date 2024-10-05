@@ -5,13 +5,14 @@ import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Passport } from '@/components/user/profile'
+import { Score, Passport } from '@/components/user/profile'
 import { Add } from '@/components/user/addresses'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { isAddress } from 'ethers'
 import { useForm } from 'react-hook-form'
 import { useProfile, useUpdateProfile } from '@/utils/query/user/profile'
+import { useAddresses } from '@/utils/query/user/address'
 import { toast } from 'sonner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader, faLightbulb } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
@@ -19,21 +20,27 @@ import { routes } from '@/utils/routes'
 
 const ProfilePassport = () => {
   const { data: profile, isLoading: loadingProfile } = useProfile()
+  const { data: addresses, isLoading: loadingAddresses } = useAddresses()
   const { mutateAsync: updateProfile, isPending: updatingProfile, isSuccess } = useUpdateProfile()
 
   const formSchema = z.object({
-    passportAddress: z
-      .string()
-      .optional()
-      .refine((value) => (value ? isAddress(value) : true), {
-        message: 'The provided ETH address is invalid.',
+    passport: z.object({
+      score: z.number().int().min(0).max(100),
+      address: z.string().refine((value) => isAddress(value), {
+        message: 'Invalid address',
       }),
+      expires: z.date().nullable(),
+    }),
   })
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      passportAddress: '',
+      passport: {
+        score: 0,
+        address: '',
+        expires: null,
+      },
     },
     values: profile,
   })
@@ -50,8 +57,11 @@ const ProfilePassport = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Alert className={'flex flex-row mb-6'}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={'space-y-6'}
+      >
+        <Alert className={'flex flex-row'}>
           <FontAwesomeIcon icon={faLightbulb} />
           <div>
             <AlertTitle>Gitcoin Passport</AlertTitle>
@@ -64,7 +74,8 @@ const ProfilePassport = () => {
               >
                 Gitcoin Passport
               </Link>{' '}
-              score for additional verification. Select an address to link your Gitcoin Passport.
+              score for additional verification. Your associated addresses and their Passport scores
+              are displayed below.
             </AlertDescription>
           </div>
           <div className={'ml-2 self-center'}>
@@ -72,7 +83,15 @@ const ProfilePassport = () => {
           </div>
         </Alert>
 
-        <Passport />
+        <Score
+          addresses={addresses}
+          loading={loadingAddresses}
+        />
+
+        <Passport
+          addresses={addresses}
+          loading={loadingAddresses}
+        />
 
         <div className={'flex pt-6'}>
           <div className={'flex flex-1 justify-end'}>

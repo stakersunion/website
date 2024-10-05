@@ -1,49 +1,26 @@
+import { useEffect } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
-import { useFormContext } from 'react-hook-form'
 import { EthAddress } from '@/components'
-import { Add } from '@/components/user/addresses'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader, faRefresh } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faEmptySet } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/light'
-import { useAddresses } from '@/utils/query/user/address'
-import { useSubmitPassport, useScorer } from '@/utils/query/user/scorer'
+import { useScorer } from '@/utils/query/user/scorer'
 import { cn } from '@/utils/shadcn'
 
 const Address = ({ address }) => {
-  const { mutateAsync: submitPassport, isPending: loadingPassport } = useSubmitPassport()
-  const {
-    data: score,
-    isLoading: refreshingPassport,
-    refetch: refreshPassport,
-    isSuccess: passportRefreshed,
-  } = useScorer({
-    address: address.address,
-  })
-  const { watch, setValue } = useFormContext()
+  const { mutateAsync: score, isPending: loadingScore } = useScorer()
 
-  const selectedAddress = watch('passportAddress')
-
-  const handleSelectAddress = () => {
-    setValue('passportAddress', address.address)
+  const loadScore = async () => {
+    await score({ address: address.address })
   }
 
-  const handleRefreshPassport = () => {
-    refreshPassport()
-  }
-
-  console.log(passportRefreshed)
-  const handleSubmitPassport = async () => {
-    await submitPassport({ address: address.address })
-  }
+  useEffect(() => {
+    loadScore()
+  }, [])
 
   return (
-    <div
-      className={cn(
-        'flex flex-col relative border border-muted rounded-lg p-4',
-        selectedAddress === address.address && 'border-white'
-      )}
-    >
+    <div className={'flex flex-col relative border border-muted rounded-lg p-4'}>
       <h3 className={'text-muted-foreground text-xs font-semibold tracking-wider'}>
         {address.type.toUpperCase()}
       </h3>
@@ -70,21 +47,13 @@ const Address = ({ address }) => {
             type={'button'}
             className={'mr-2'}
             variant={'secondary'}
-            onClick={handleRefreshPassport}
-            disabled={refreshingPassport || passportRefreshed}
+            onClick={loadScore}
+            disabled={loadingScore}
           >
             <FontAwesomeIcon
               icon={faRefresh}
-              className={cn(refreshingPassport && 'animate-spin')}
+              className={cn(loadingScore && 'animate-spin')}
             />
-          </Button>
-          <Button
-            size={'sm'}
-            type={'button'}
-            className={'flex-1'}
-            onClick={handleSelectAddress}
-          >
-            Select
           </Button>
         </div>
       ) : (
@@ -93,10 +62,10 @@ const Address = ({ address }) => {
             className={'w-full'}
             size={'sm'}
             onClick={handleSubmitPassport}
-            disabled={loadingPassport}
+            disabled={loadingScore}
             type={'button'}
           >
-            {loadingPassport && (
+            {loadingScore && (
               <FontAwesomeIcon
                 icon={faLoader}
                 className={'animate-spin mr-2'}
@@ -110,10 +79,8 @@ const Address = ({ address }) => {
   )
 }
 
-const Passport = () => {
-  const { data: addresses, isLoading: loadingAddresses } = useAddresses()
-
-  if (loadingAddresses) {
+const Passport = ({ addresses, loading }) => {
+  if (loading) {
     return (
       <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'}>
         <Skeleton className={'h-32'} />
@@ -125,8 +92,15 @@ const Passport = () => {
 
   if (!addresses || addresses.length === 0) {
     return (
-      <div className={'flex flex-col justify-center items-center border border-dashed border-muted rounded-lg p-16'}>
-        <FontAwesomeIcon icon={faEmptySet} className={'text-4xl text-muted-foreground'} />
+      <div
+        className={
+          'flex flex-col justify-center items-center border border-dashed border-muted rounded-lg p-16'
+        }
+      >
+        <FontAwesomeIcon
+          icon={faEmptySet}
+          className={'text-4xl text-muted-foreground'}
+        />
         <p className={'text-lg text-muted-foreground mt-4'}>No addresses found</p>
       </div>
     )

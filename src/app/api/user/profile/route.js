@@ -43,6 +43,7 @@ export async function PUT(req) {
           'profile.email': body.email,
           'profile.discord': body.discord,
           'profile.withdrawalAddress': body.withdrawalAddress,
+          'profile.passportAddress': body.passportAddress,
           'profile.clients': body.clients,
           'profile.region': body.region,
         },

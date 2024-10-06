@@ -7,6 +7,7 @@ import {
   faHandshakeAngle,
   faUserTie,
   faTools,
+  faPassport,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faDiscord, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 
@@ -119,6 +120,12 @@ const routes = {
             description: 'Set up validator information',
             icon: faTools,
           },
+          passport: {
+            path: '/account/profile/passport',
+            title: 'Passport',
+            description: 'Set up passport information',
+            icon: faPassport,
+          }
         },
       },
       status: { path: '/account/status', title: 'Status' },

@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server'
 import { currentUser } from '@clerk/nextjs/server'
 import connect from '@/utils/mongoose'
 import User from '@/models/user'
-const scrapingbee = require('scrapingbee')
+import { GeonodeScraperApi } from 'geonode-scraper-api'
+import { parse } from 'node-html-parser'
 
 export const dynamic = 'force-dynamic'
 
@@ -11,22 +12,23 @@ export async function POST(req) {
   const { signature, type } = await req.json()
 
   async function fetchSignature(signature) {
-    const client = new scrapingbee.ScrapingBeeClient(process.env.SCRAPINGBEE_API_KEY)
+    const scraper = new GeonodeScraperApi(
+      process.env.GEONODE_USERNAME,
+      process.env.GEONODE_PASSWORD
+    )
 
-    const response = await client.get({
-      url: signature,
-      params: {
-        wait_for: '#ContentPlaceHolder1_txtAddressReadonly',
-        extract_rules: {
-          address: '#ContentPlaceHolder1_txtAddressReadonly@value',
-          oath: '#ContentPlaceHolder1_txtSignedMessageReadonly',
-        },
-      },
-    })
+    const config = {
+      js_render: false,
+      response_format: 'html',
+      block_resources: true,
+      HTMLMinifier: { useMinifier: true },
+    }
 
-    var decoder = new TextDecoder()
-    var extract = decoder.decode(response.data)
-    var { address, oath } = JSON.parse(extract)
+    const response = await scraper.scrape(signature, config)
+    const root = parse(response.data)
+
+    const address = root.querySelector('#ContentPlaceHolder1_txtAddressReadonly').attributes.value
+    const oath = root.querySelector('#ContentPlaceHolder1_txtSignedMessageReadonly').innerText
 
     return { address, oath }
   }

@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 import { UploadDropzone } from '@uploadthing/react'
 import { toast } from 'sonner'
 import { useUpdateVerification } from '@/utils/query/user/verification'
-import stripEXIF from '@/utils/stripExif'
 
 const PhotoForm = () => {
   const { mutateAsync: updateVerification, isSuccess, error } = useUpdateVerification()
@@ -22,26 +21,40 @@ const PhotoForm = () => {
   }, [error])
 
   const handleError = (error) => {
-    let errorMessage = error?.message
-    if (errorMessage && errorMessage.includes('FileSizeMismatch')) {
-      errorMessage = 'File size exceeds the limit of 4MB. Please try again.'
-    }
-    toast.error('Error uploading file. Please try again.', {
-      description: errorMessage,
-    })
+    const errorMessage = error?.message?.includes('FileSizeMismatch')
+      ? 'File size exceeds the limit of 4MB. Please try again.'
+      : 'Error uploading file. Please try again.'
+
+    toast.error(errorMessage)
   }
 
   const handleBeforeUpload = async (files) => {
     try {
+      if (typeof window === 'undefined') {
+        toast.error('Image processing is only available in the browser.')
+        return []
+      }
+
       const file = files[0]
       if (!file) {
         toast.error('No file selected. Please try again.')
+        return []
       }
+
+      // Lazy load the stripEXIF function
+      const { default: stripEXIF } = await import('@/utils/stripExif')
       const newFile = await stripEXIF(file)
+
+      if (!(newFile instanceof File)) {
+        toast.error('Processed file is invalid. Please try again.')
+        return []
+      }
+
       toast.success('Image metadata stripped successfully.')
       return [newFile]
     } catch (error) {
       toast.error('Failed to process image. Please try again.')
+      return []
     }
   }
 

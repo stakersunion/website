@@ -1,6 +1,4 @@
-import dynamic from 'next/dynamic'
-
-const heic2any = dynamic(() => import('heic2any'), { ssr: false })
+import heic2any from 'heic2any'
 
 const stripEXIF = async (file) => {
   try {

@@ -2,16 +2,11 @@ import { useMemo } from 'react'
 import { EthAddress } from '@/components'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useFormContext } from 'react-hook-form'
 
 const Score = ({ addresses, loading }) => {
-  const { setValue } = useFormContext()
-
-  if (loading) {
-    return <Skeleton className={'h-[100px]'} />
-  }
 
   const score = useMemo(() => {
+    if (!addresses) return
     let score = {
       score: 0,
       address: '',
@@ -26,9 +21,12 @@ const Score = ({ addresses, loading }) => {
         score.updated = address.passport.updated
       }
     })
-    setValue('passport', score)
     return score
   }, [addresses])
+
+  if (loading) {
+    return <Skeleton className={'h-[100px]'} />
+  }
 
   return (
     <Card>
@@ -67,9 +65,10 @@ const Score = ({ addresses, loading }) => {
         </div>
         <div>
           <p className={'text-sm text-muted-foreground'}>Address</p>
-          <p className={'text-2xl font-bold'}>
-            <EthAddress address={score.address} />
-          </p>
+          <EthAddress
+            address={score.address}
+            className={'text-2xl font-bold'}
+          />
         </div>
       </CardContent>
     </Card>

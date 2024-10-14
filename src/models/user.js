@@ -24,20 +24,6 @@ const userSchema = mongoose.Schema(
       withdrawalAddress: {
         type: String,
       },
-      passport: {
-        score: {
-          type: Number,
-        },
-        address: {
-          type: String,
-        },
-        expires: {
-          type: Date,
-        },
-        updated: {
-          type: Date,
-        },
-      },
       poapAssigned: {
         type: Boolean,
         default: false,

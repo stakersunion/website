@@ -1,4 +1,4 @@
 import Score from '@/components/user/profile/Score'
-import Passport from '@/components/user/profile/Passport'
+import Addresses from '@/components/user/profile/Addresses'
 
-export { Score, Passport }
+export { Score, Addresses }

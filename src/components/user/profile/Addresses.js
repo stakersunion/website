@@ -3,16 +3,23 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { EthAddress } from '@/components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLoader, faRefresh } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
+import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faEmptySet } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/light'
-import { useScorer } from '@/utils/query/user/scorer'
-import { cn } from '@/utils/shadcn'
+import { useSubmitScore, useScore } from '@/utils/query/user/scorer'
 
 const Address = ({ address }) => {
-  const { mutateAsync: score, isPending: loadingScore } = useScorer()
+  const {
+    mutateAsync: submitScore,
+    isPending: submittingScore,
+    isSuccess: scoreSubmitted,
+  } = useSubmitScore()
+  const { data: score, isLoading: loadingScore } = useScore({
+    address: address.address,
+    enabled: scoreSubmitted,
+  })
 
   const loadScore = async () => {
-    await score({ address: address.address })
+    await submitScore({ address: address.address })
   }
 
   useEffect(() => {
@@ -29,57 +36,39 @@ const Address = ({ address }) => {
         className={'text-lg'}
         clipboard={false}
       />
-      {address.passport && (
+      {score && (
         <div>
           <p className={'text-4xl font-bold my-2 flex flex-1 items-start'}>
-            {Math.round(address.passport?.score)}
+            {Math.round(score?.score)}
           </p>
           <p className={'text-xs flex flex-1 items-end'}>
             Expires:{' '}
-            {address.passport?.expires ? new Date(address.passport?.expires).toDateString() : 'N/A'}
+            {score?.expiration_date ? new Date(score?.expiration_date).toDateString() : 'N/A'}
           </p>
         </div>
       )}
-      {address.passport ? (
-        <div className={'flex flex-1 mt-4 items-end'}>
-          <Button
-            size={'sm'}
-            type={'button'}
-            className={'mr-2'}
-            variant={'secondary'}
-            onClick={loadScore}
-            disabled={loadingScore}
-          >
+      <div className={'flex flex-1 mt-4 items-end'}>
+        <Button
+          className={'w-full'}
+          size={'sm'}
+          disabled={loadingScore || submittingScore}
+          onClick={loadScore}
+          type={'button'}
+        >
+          {(loadingScore || submittingScore) && (
             <FontAwesomeIcon
-              icon={faRefresh}
-              className={cn(loadingScore && 'animate-spin')}
+              icon={faLoader}
+              className={'animate-spin mr-2'}
             />
-          </Button>
-        </div>
-      ) : (
-        <div className={'flex flex-1 mt-4 items-end'}>
-          <Button
-            className={'w-full'}
-            size={'sm'}
-            onClick={handleSubmitPassport}
-            disabled={loadingScore}
-            type={'button'}
-          >
-            {loadingScore && (
-              <FontAwesomeIcon
-                icon={faLoader}
-                className={'animate-spin mr-2'}
-              />
-            )}
-            Load Passport Score
-          </Button>
-        </div>
-      )}
+          )}
+          {score ? 'Refresh' : 'Loading'}
+        </Button>
+      </div>
     </div>
   )
 }
 
-const Passport = ({ addresses, loading }) => {
+const Addresses = ({ addresses, loading }) => {
   if (loading) {
     return (
       <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'}>
@@ -118,4 +107,4 @@ const Passport = ({ addresses, loading }) => {
   )
 }
 
-export default Passport
+export default Addresses

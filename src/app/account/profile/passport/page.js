@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Score, Passport } from '@/components/user/profile'
+import { Score, Addresses } from '@/components/user/profile'
 import { Add } from '@/components/user/addresses'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -88,7 +88,7 @@ const ProfilePassport = () => {
           loading={loadingAddresses}
         />
 
-        <Passport
+        <Addresses
           addresses={addresses}
           loading={loadingAddresses}
         />

@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { UploadDropzone } from '@uploadthing/react'
 import { toast } from 'sonner'
 import { useUpdateVerification } from '@/utils/query/user/verification'
+import stripEXIF from '@/utils/stripExif'
 
 const PhotoForm = () => {
   const { mutateAsync: updateVerification, isSuccess, error } = useUpdateVerification()
@@ -30,6 +31,20 @@ const PhotoForm = () => {
     })
   }
 
+  const handleBeforeUpload = async (files) => {
+    try {
+      const file = files[0]
+      if (!file) {
+        toast.error('No file selected. Please try again.')
+      }
+      const newFile = await stripEXIF(file)
+      toast.success('Image metadata stripped successfully.')
+      return [newFile]
+    } catch (error) {
+      toast.error('Failed to process image. Please try again.')
+    }
+  }
+
   return (
     <UploadDropzone
       appearance={{
@@ -42,6 +57,7 @@ const PhotoForm = () => {
       }}
       endpoint={'residential'}
       url={'/api/upload'}
+      onBeforeUploadBegin={handleBeforeUpload}
       onClientUploadComplete={(res) => {
         updateVerification({ photo: res[0].url })
       }}

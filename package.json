@@ -51,6 +51,7 @@
     "ethers": "^6.12.1",
     "fs": "^0.0.1-security",
     "geonode-scraper-api": "^1.0.3",
+    "heic2any": "^0.0.4",
     "ics": "^3.7.6",
     "lucide-react": "^0.378.0",
     "mongoose": "^8.3.4",

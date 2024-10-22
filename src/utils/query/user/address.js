@@ -37,9 +37,29 @@ const useAddAddress = () => {
       }
     },
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ['user'] })
+      queryClient.invalidateQueries({ queryKey: ['user', 'addresses'] })
     },
   })
 }
 
-export { useAddresses, useAddAddress }
+const useRemoveAddress = ({ address }) => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async () => {
+      try {
+        return await api.delete('/user/addresses/remove', { params: { address } })
+      } catch (error) {
+        if (error?.response?.data?.error) {
+          throw new Error(error.response.data.error)
+        } else {
+          throw new Error(error)
+        }
+      }
+    },
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'addresses'] })
+    },
+  })
+}
+
+export { useAddresses, useAddAddress, useRemoveAddress }

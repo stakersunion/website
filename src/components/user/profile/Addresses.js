@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
+import { Remove } from '@/components/user/addresses'
 import { EthAddress } from '@/components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faEmptySet } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/light'
+import { useAddresses } from '@/utils/query/user/address'
 import { useSubmitScore, useScore } from '@/utils/query/user/scorer'
 
 const Address = ({ address }) => {
@@ -63,12 +65,18 @@ const Address = ({ address }) => {
           )}
           {score ? 'Refresh' : 'Loading'}
         </Button>
+        <Remove
+          address={address.address}
+          buttonClassName={'ml-2'}
+        />
       </div>
     </div>
   )
 }
 
-const Addresses = ({ addresses, loading }) => {
+const Addresses = () => {
+  const { data: addresses, isLoading: loading } = useAddresses()
+
   if (loading) {
     return (
       <div className={'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'}>
@@ -90,7 +98,7 @@ const Addresses = ({ addresses, loading }) => {
           icon={faEmptySet}
           className={'text-4xl text-muted-foreground'}
         />
-        <p className={'text-lg text-muted-foreground mt-4'}>No addresses found</p>
+        <p className={'text-sm text-muted-foreground mt-4'}>No addresses found</p>
       </div>
     )
   }

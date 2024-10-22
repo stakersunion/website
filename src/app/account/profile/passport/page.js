@@ -20,7 +20,6 @@ import { routes } from '@/utils/routes'
 
 const ProfilePassport = () => {
   const { data: profile, isLoading: loadingProfile } = useProfile()
-  const { data: addresses, isLoading: loadingAddresses } = useAddresses()
   const { mutateAsync: updateProfile, isPending: updatingProfile, isSuccess } = useUpdateProfile()
 
   const formSchema = z.object({
@@ -83,15 +82,9 @@ const ProfilePassport = () => {
           </div>
         </Alert>
 
-        <Score
-          addresses={addresses}
-          loading={loadingAddresses}
-        />
+        <Score />
 
-        <Addresses
-          addresses={addresses}
-          loading={loadingAddresses}
-        />
+        <Addresses />
 
         <div className={'flex pt-6'}>
           <div className={'flex flex-1 justify-end'}>

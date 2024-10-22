@@ -2,8 +2,10 @@ import { useMemo } from 'react'
 import { EthAddress } from '@/components'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useAddresses } from '@/utils/query/user/address'
 
-const Score = ({ addresses, loading }) => {
+const Score = () => {
+  const { data: addresses, isLoading: loading } = useAddresses()
 
   const score = useMemo(() => {
     if (!addresses) return
@@ -27,6 +29,8 @@ const Score = ({ addresses, loading }) => {
   if (loading) {
     return <Skeleton className={'h-[100px]'} />
   }
+
+  if (!score.address) return
 
   return (
     <Card>

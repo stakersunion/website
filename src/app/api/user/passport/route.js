@@ -75,13 +75,17 @@ export async function GET(req) {
       }
     )
 
+    // Check if address exists first
+    if (!user.addresses.some((a) => a.address === address)) {
+      return NextResponse.json({ error: 'Address not found' }, { status: 404 })
+    }
+    
     user.addresses.find((a) => a.address === address).passport = {
       score: response.data.score,
       expires: response.data.expiration_date,
       updated: new Date(),
     }
 
-    console.log(response.data)
     await user.save()
 
     return NextResponse.json(response.data, { status: 200 })

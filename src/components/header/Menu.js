@@ -65,7 +65,28 @@ const Menu = () => {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Contribute</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className={'grid md:grid-cols-2 gap-3 p-4 md:w-[400px] lg:w-[500px]'}>
+              <ul className={'grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]'}>
+                <li className={'row-span-3'}>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      className={
+                        'flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:bg-muted/80 transition-all'
+                      }
+                      href={routes.contribute.pledge.path}
+                    >
+                      <FontAwesomeIcon
+                        icon={routes.contribute.pledge.icon}
+                        className={'text-6xl'}
+                      />
+                      <div className={'mb-2 mt-4 text-lg font-bold'}>
+                        {routes.contribute.pledge.title}
+                      </div>
+                      <p className='text-sm leading-tight text-muted-foreground'>
+                        {routes.contribute.pledge.description}
+                      </p>
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
                 {Object.entries(routes.contribute).map(([key, value]) => {
                   if (key === 'pledge') return null
                   return (
@@ -80,27 +101,6 @@ const Menu = () => {
                     </ListItem>
                   )
                 })}
-                <li className={'col-span-2'}>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      className={
-                        'flex h-full w-full select-none flex-row items-center rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md hover:bg-muted/80 transition-all'
-                      }
-                      href={routes.contribute.pledge.path}
-                    >
-                      <FontAwesomeIcon
-                        icon={routes.contribute.pledge.icon}
-                        className={'text-4xl mr-4'}
-                      />
-                      <div>
-                        <div className={'text-lg font-bold'}>{routes.contribute.pledge.title}</div>
-                        <p className={'text-sm leading-tight text-muted-foreground'}>
-                          {routes.contribute.pledge.description}
-                        </p>
-                      </div>
-                    </Link>
-                  </NavigationMenuLink>
-                </li>
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>

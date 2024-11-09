@@ -62,6 +62,7 @@
     "nodemailer": "^6.9.13",
     "path": "^0.12.7",
     "react": "^18",
+    "react-csv": "^2.2.2",
     "react-dom": "^18",
     "react-email": "^2.1.4",
     "react-hook-form": "^7.51.4",

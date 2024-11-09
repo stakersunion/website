@@ -7,6 +7,7 @@ import {
   faHandshakeAngle,
   faUserTie,
   faTools,
+  faUserGroup,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faDiscord, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 
@@ -53,18 +54,24 @@ const routes = {
       path: '/#partnerships',
       icon: faHandshakeAngle,
     },
-    pledge: {
-      title: 'Pledge',
-      description: 'Learn about how you can give back by taking the Stakers Union Pledge.',
-      path: '/pledge',
-      icon: faHandHoldingHeart,
-    },
     leadership: {
       title: 'Leadership',
       description: 'Guide our mission. Step up and lead the Stakers Union.',
       path: 'https://docs.stakersunion.com/governance',
       icon: faUserTie,
       target: '_blank',
+    },
+    list: {
+      title: 'Current Members',
+      description: 'View or download a current list of Stakers Union members.',
+      path: '/list',
+      icon: faUserGroup,
+    },
+    pledge: {
+      title: 'Pledge',
+      description: 'Learn about how you can give back by taking the Stakers Union Pledge.',
+      path: '/pledge',
+      icon: faHandHoldingHeart,
     },
   },
   follow: {

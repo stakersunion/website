@@ -2,35 +2,16 @@ import { useMemo } from 'react'
 import { EthAddress } from '@/components'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useAddresses } from '@/utils/query/user/address'
+import { useVerification } from '@/utils/query/user/verification'
 
 const Score = () => {
-  const { data: addresses, isLoading: loading } = useAddresses()
-
-  const score = useMemo(() => {
-    if (!addresses) return
-    let score = {
-      score: 0,
-      address: '',
-      expires: null,
-      updated: null,
-    }
-    addresses.forEach((address) => {
-      if (address.passport?.score > score.score) {
-        score.address = address.address
-        score.score = address.passport.score
-        score.expires = address.passport.expires
-        score.updated = address.passport.updated
-      }
-    })
-    return score
-  }, [addresses])
+  const { data: verification, isLoading: loading } = useVerification()
 
   if (loading) {
     return <Skeleton className={'h-[100px]'} />
   }
 
-  if (!score.address) return
+  if (!verification.passport) return
 
   return (
     <Card>
@@ -43,13 +24,13 @@ const Score = () => {
       <CardContent className={'grid grid-cols-1 lg:grid-cols-3 gap-4'}>
         <div>
           <p className={'text-sm text-muted-foreground'}>Score</p>
-          <p className={'text-8xl font-bold'}>{Math.round(score.score)}</p>
+          <p className={'text-8xl font-bold'}>{Math.round(verification.passport.score)}</p>
         </div>
         <div>
           <p className={'text-sm text-muted-foreground'}>Expires</p>
           <p className={'text-2xl font-bold'}>
-            {score.expires
-              ? new Date(score.expires).toLocaleDateString('en-US', {
+            {verification.passport.expires
+              ? new Date(verification.passport.expires).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
@@ -58,8 +39,8 @@ const Score = () => {
           </p>
           <p className={'mt-2 text-sm text-muted-foreground'}>Last Updated</p>
           <p className={'text-2xl font-bold'}>
-            {score.updated
-              ? new Date(score.updated).toLocaleDateString('en-US', {
+            {verification.passport.updated
+              ? new Date(verification.passport.updated).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
@@ -70,7 +51,7 @@ const Score = () => {
         <div>
           <p className={'text-sm text-muted-foreground'}>Address</p>
           <EthAddress
-            address={score.address}
+            address={verification.passport.address}
             className={'text-2xl font-bold'}
           />
         </div>

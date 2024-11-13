@@ -13,7 +13,7 @@ import {
   consensusOptions,
   regionOptions,
 } from '@/components/user/profile/forms'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useProfile, useUpdateProfile } from '@/utils/query/user/profile'
 import { toast } from 'sonner'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -56,11 +56,14 @@ const ProfileValidator = () => {
 
   const onSubmit = async (values) => {
     await updateProfile(values)
+    router.push(routes.account.children.profile.children.passport.path)
   }
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Profile updated successfully')
+      toast.success('Profile updated successfully', {
+        description: `Redirecting to ${routes.account.children.profile.children.passport.title}`,
+      })
     }
   }, [isSuccess])
 
@@ -93,7 +96,7 @@ const ProfileValidator = () => {
                   className={'mr-2 h-4 w-4 animate-spin'}
                 />
               )}
-              Save
+              Save & Next
             </Button>
           </div>
         </div>

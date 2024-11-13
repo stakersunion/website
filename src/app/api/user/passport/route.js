@@ -79,7 +79,7 @@ export async function GET(req) {
     if (!user.addresses.some((a) => a.address === address)) {
       return NextResponse.json({ error: 'Address not found' }, { status: 404 })
     }
-    
+
     user.addresses.find((a) => a.address === address).passport = {
       score: response.data.score,
       expires: response.data.expiration_date,

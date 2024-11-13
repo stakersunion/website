@@ -45,11 +45,14 @@ const ProfileUser = () => {
 
   const onSubmit = async (values) => {
     await updateProfile(values)
+    router.push(routes.account.children.profile.children.validator.path)
   }
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Profile updated successfully')
+      toast.success('Profile updated successfully', {
+        description: `Redirecting to ${routes.account.children.profile.children.validator.title}`,
+      })
     }
   }, [isSuccess])
 
@@ -73,18 +76,8 @@ const ProfileUser = () => {
                   className={'mr-2 h-4 w-4 animate-spin'}
                 />
               )}
-              Save
+              Save & Next
             </Button>
-            <Link href={routes.account.children.profile.children.validator.path}>
-              <Button
-                disabled={isLoading || isPending}
-                type={'button'}
-                variant={'ghost'}
-                className={'ml-2'}
-              >
-                Next
-              </Button>
-            </Link>
           </div>
         </div>
       </form>

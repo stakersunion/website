@@ -120,6 +120,24 @@ const userSchema = mongoose.Schema(
           enum: ['pending', 'approved', 'rejected', 'ineligible'],
         },
       },
+      passport: {
+        address: {
+          type: String,
+        },
+        score: {
+          type: Number,
+        },
+        expires: {
+          type: Date,
+        },
+        updated: {
+          type: Date,
+        },
+      },
+      version: {
+        type: Number,
+        default: 1,
+      },
     },
     addresses: [
       {

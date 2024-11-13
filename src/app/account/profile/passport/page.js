@@ -19,101 +19,48 @@ import { faLoader, faLightbulb } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/so
 import { routes } from '@/utils/routes'
 
 const ProfilePassport = () => {
-  const { data: profile, isLoading: loadingProfile } = useProfile()
-  const { mutateAsync: updateProfile, isPending: updatingProfile, isSuccess } = useUpdateProfile()
-
-  const formSchema = z.object({
-    passport: z.object({
-      score: z.number().int().min(0).max(100),
-      address: z.string().refine((value) => isAddress(value), {
-        message: 'Invalid address',
-      }),
-      expires: z.date().nullable(),
-    }),
-  })
-
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      passport: {
-        score: 0,
-        address: '',
-        expires: null,
-      },
-    },
-    values: profile,
-  })
-
-  const onSubmit = async (values) => {
-    await updateProfile(values)
-  }
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success('Profile updated successfully')
-    }
-  }, [isSuccess])
-
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className={'space-y-6'}
-      >
-        <Alert className={'flex flex-row'}>
-          <FontAwesomeIcon icon={faLightbulb} />
-          <div>
-            <AlertTitle>Gitcoin Passport</AlertTitle>
-            <AlertDescription>
-              Stakers Union uses your{' '}
-              <Link
-                target={'_blank'}
-                className={'underline underline-offset-2 hover:no-underline'}
-                href={'https://passport.gitcoin.co/'}
-              >
-                Gitcoin Passport
-              </Link>{' '}
-              score for additional verification. Your associated addresses and their Passport scores
-              are displayed below.
-            </AlertDescription>
-          </div>
-          <div className={'ml-2 self-center'}>
-            <Add />
-          </div>
-        </Alert>
-
-        <Score />
-
-        <Addresses />
-
-        <div className={'flex pt-6'}>
-          <div className={'flex flex-1 justify-end'}>
-            <Button
-              disabled={loadingProfile || updatingProfile}
-              type={'submit'}
+    <div className={'space-y-6'}>
+      <Alert className={'flex flex-row'}>
+        <FontAwesomeIcon icon={faLightbulb} />
+        <div>
+          <AlertTitle>Gitcoin Passport</AlertTitle>
+          <AlertDescription>
+            Stakers Union uses your{' '}
+            <Link
+              target={'_blank'}
+              className={'underline underline-offset-2 hover:no-underline'}
+              href={'https://passport.gitcoin.co/'}
             >
-              {updatingProfile && (
-                <FontAwesomeIcon
-                  icon={faLoader}
-                  className={'mr-2 h-4 w-4 animate-spin'}
-                />
-              )}
-              Save
-            </Button>
-            <Link href={routes.account.children.profile.children.validator.path}>
-              <Button
-                disabled={loadingProfile || updatingProfile}
-                type={'button'}
-                variant={'ghost'}
-                className={'ml-2'}
-              >
-                Next
-              </Button>
-            </Link>
-          </div>
+              Gitcoin Passport
+            </Link>{' '}
+            score for additional verification. Your associated addresses and their Passport scores
+            are displayed below.
+          </AlertDescription>
         </div>
-      </form>
-    </Form>
+        <div className={'ml-2 self-center'}>
+          <Add />
+        </div>
+      </Alert>
+
+      <Score />
+
+      <Addresses />
+
+      <div className={'flex pt-6'}>
+        <div className={'flex flex-1 justify-end'}>
+          <Link href={routes.account.children.profile.children.validator.path}>
+            <Button
+              type={'button'}
+              variant={'ghost'}
+              className={'mr-2'}
+            >
+              Previous
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
   )
 }
 

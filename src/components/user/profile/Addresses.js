@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { Remove } from '@/components/user/addresses'
@@ -8,6 +8,7 @@ import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faEmptySet } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/light'
 import { useAddresses } from '@/utils/query/user/address'
 import { useSubmitScore, useScore } from '@/utils/query/user/scorer'
+import { toast } from 'sonner'
 
 const Address = ({ address }) => {
   const {
@@ -19,13 +20,15 @@ const Address = ({ address }) => {
     address: address.address,
     enabled: scoreSubmitted,
   })
+  const scoreLoaded = useRef(false)
 
   const loadScore = async () => {
     await submitScore({ address: address.address })
   }
 
   useEffect(() => {
-    loadScore()
+    if (!scoreLoaded.current) loadScore()
+    return () => (scoreLoaded.current = true)
   }, [])
 
   return (
@@ -63,7 +66,7 @@ const Address = ({ address }) => {
               className={'animate-spin mr-2'}
             />
           )}
-          {score ? 'Refresh' : 'Loading'}
+          {loadingScore || submittingScore ? 'Loading' : 'Refresh'}
         </Button>
         <Remove
           address={address.address}

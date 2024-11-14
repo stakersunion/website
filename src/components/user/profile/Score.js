@@ -11,7 +11,7 @@ const Score = () => {
     return <Skeleton className={'h-[100px]'} />
   }
 
-  if (!verification.passport) return
+  if (!verification.passport.score) return
 
   return (
     <Card>

@@ -9,7 +9,6 @@ export async function DELETE(req) {
   const searchParams = req.nextUrl.searchParams
   const { id } = await currentUser()
   const address = searchParams.get('address')
-  console.log(req)
 
   if (!id) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
@@ -30,6 +29,12 @@ export async function DELETE(req) {
     }
 
     user.addresses.splice(addressIndex, 1)
+
+    // Update the passport score if the address being removed is the one used
+    if (user.verification.passport?.address === address) {
+      user.verification.passport = {}
+    }
+
     await user.save()
 
     return NextResponse.json(user, { status: 200 })

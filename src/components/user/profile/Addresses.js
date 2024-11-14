@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { Remove } from '@/components/user/addresses'
@@ -7,28 +7,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faEmptySet } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/light'
 import { useAddresses } from '@/utils/query/user/address'
-import { useSubmitScore, useScore } from '@/utils/query/user/scorer'
+import { useSubmitScore } from '@/utils/query/user/scorer'
 import { toast } from 'sonner'
 
 const Address = ({ address }) => {
-  const {
-    mutateAsync: submitScore,
-    isPending: submittingScore,
-    isSuccess: scoreSubmitted,
-  } = useSubmitScore()
-  const { data: score, isLoading: loadingScore } = useScore({
-    address: address.address,
-    enabled: scoreSubmitted,
-  })
-  const scoreLoaded = useRef(false)
+  const { mutateAsync: submitScore, data: score, isPending: loading } = useSubmitScore()
 
   const loadScore = async () => {
-    await submitScore({ address: address.address })
+    try {
+      await submitScore({ address: address.address })
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
 
   useEffect(() => {
-    if (!scoreLoaded.current) loadScore()
-    return () => (scoreLoaded.current = true)
+    loadScore()
   }, [])
 
   return (
@@ -41,6 +35,16 @@ const Address = ({ address }) => {
         className={'text-lg'}
         clipboard={false}
       />
+      {loading && (
+        <div>
+          <Skeleton className={'h-10 w-12 mt-4'} />
+          <Skeleton className={'h-3 w-3/5 mt-3'} />
+          <div className={'flex mt-4'}>
+            <Skeleton className={'h-10 w-5/6'} />
+            <Skeleton className={'h-10 w-1/6 ml-2'} />
+          </div>
+        </div>
+      )}
       {score && (
         <div>
           <p className={'text-4xl font-bold my-2 flex flex-1 items-start'}>
@@ -50,29 +54,29 @@ const Address = ({ address }) => {
             Expires:{' '}
             {score?.expiration_date ? new Date(score?.expiration_date).toDateString() : 'N/A'}
           </p>
+          <div className={'flex flex-1 mt-4 items-end'}>
+            <Button
+              className={'w-full'}
+              size={'sm'}
+              disabled={loading}
+              onClick={loadScore}
+              type={'button'}
+            >
+              {loading && (
+                <FontAwesomeIcon
+                  icon={faLoader}
+                  className={'animate-spin mr-2'}
+                />
+              )}
+              {loading ? 'Loading' : 'Refresh'}
+            </Button>
+            <Remove
+              address={address.address}
+              buttonClassName={'ml-2'}
+            />
+          </div>
         </div>
       )}
-      <div className={'flex flex-1 mt-4 items-end'}>
-        <Button
-          className={'w-full'}
-          size={'sm'}
-          disabled={loadingScore || submittingScore}
-          onClick={loadScore}
-          type={'button'}
-        >
-          {(loadingScore || submittingScore) && (
-            <FontAwesomeIcon
-              icon={faLoader}
-              className={'animate-spin mr-2'}
-            />
-          )}
-          {loadingScore || submittingScore ? 'Loading' : 'Refresh'}
-        </Button>
-        <Remove
-          address={address.address}
-          buttonClassName={'ml-2'}
-        />
-      </div>
     </div>
   )
 }

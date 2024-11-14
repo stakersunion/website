@@ -58,6 +58,7 @@ const useRemoveAddress = ({ address }) => {
     },
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ['user', 'addresses'] })
+      queryClient.invalidateQueries({ queryKey: ['user', 'verification'] })
     },
   })
 }

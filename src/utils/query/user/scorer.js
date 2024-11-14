@@ -18,27 +18,9 @@ const useSubmitScore = () => {
     },
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ['user', 'addresses'] })
+      queryClient.invalidateQueries({ queryKey: ['user', 'verification'] })
     },
   })
 }
 
-const useScore = ({ address, enabled }) => {
-  return useQuery({
-    queryKey: ['user', 'addresses', address, 'score'],
-    queryFn: async () => {
-      try {
-        const response = await api.get(`/user/passport?address=${address}`)
-        return response.data
-      } catch (error) {
-        if (error.response && error.response.data) {
-          throw new Error(error.response.data.error || error.message)
-        } else {
-          throw new Error(error.message || 'An unexpected error occurred')
-        }
-      }
-    },
-    enabled,
-  })
-}
-
-export { useSubmitScore, useScore }
+export { useSubmitScore }

@@ -12,10 +12,10 @@ export async function GET() {
       'verification.eligibility.status': 'approved',
       'verification.independent.status': 'approved',
       'appeal.status': 'approved',
-    }).select('profile.address profile.withdrawalAddress verification.independent.schedule')
+    }).select('appeal.address profile.withdrawalAddress verification.independent.schedule')
 
     const users = data.map((user) => ({
-      address: user.profile.address,
+      address: user.appeal.address,
       withdrawalAddress: user.profile.withdrawalAddress,
       joined: user.verification.independent.schedule,
     }))
@@ -29,7 +29,7 @@ export async function GET() {
       'Content-Disposition': 'attachment; filename=appeals.csv',
     }
 
-    return new NextResponse(`address,withdrawal_address,joined_date\n${csvData}`, { headers })
+    return new NextResponse(`appeal_address,withdrawal_address,joined_date\n${csvData}`, { headers })
   } catch (error) {
     console.error(error)
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })

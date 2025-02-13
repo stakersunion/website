@@ -7,8 +7,7 @@ import User from '@/models/user'
 import csv from 'csv-parser'
 import * as cheerio from 'cheerio'
 import axios from 'axios'
-import { HttpProxyAgent, HttpsProxyAgent } from 'hpagent'
-import { parse } from 'node-html-parser'
+import { HttpsProxyAgent } from 'hpagent'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,16 +23,19 @@ export async function PUT(req) {
       keepAlive: false,
     }
 
-    axios.defaults.httpAgent = new HttpProxyAgent(agentConfig)
     axios.defaults.httpsAgent = new HttpsProxyAgent(agentConfig)
 
-    const { data } = await axios.get(signature)
-    const $ = cheerio.load(data)
+    try {
+      const { data } = await axios.get(signature)
+      const $ = cheerio.load(data)
 
-    const address = $('#ContentPlaceHolder1_txtAddressReadonly').attr('value')
-    const oath = $('#ContentPlaceHolder1_txtSignedMessageReadonly').text()
+      const address = $('#ContentPlaceHolder1_txtAddressReadonly').attr('value')
+      const oath = $('#ContentPlaceHolder1_txtSignedMessageReadonly').text()
 
-    return { address, oath }
+      return { address, oath }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async function checkAddressInCsv(filePath, targetAddress) {

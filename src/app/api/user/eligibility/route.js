@@ -5,7 +5,9 @@ import { currentUser } from '@clerk/nextjs/server'
 import connect from '@/utils/mongoose'
 import User from '@/models/user'
 import csv from 'csv-parser'
-import { GeonodeScraperApi } from 'geonode-scraper-api'
+import * as cheerio from 'cheerio'
+import axios from 'axios'
+import { HttpProxyAgent, HttpsProxyAgent } from 'hpagent'
 import { parse } from 'node-html-parser'
 
 export const dynamic = 'force-dynamic'
@@ -15,23 +17,21 @@ export async function PUT(req) {
   const { signature } = await req.json()
 
   async function fetchSignature(signature) {
-    const scraper = new GeonodeScraperApi(
-      process.env.GEONODE_USERNAME,
-      process.env.GEONODE_PASSWORD
-    )
+    const proxy = `http://${process.env.GEONODE_USERNAME}:${process.env.GEONODE_PASSWORD}@${process.env.GEONODE_HOST}:${process.env.GEONODE_PORT}`
 
-    const config = {
-      js_render: false,
-      response_format: 'html',
-      block_resources: true,
-      HTMLMinifier: { useMinifier: true },
+    let agentConfig = {
+      proxy: proxy,
+      keepAlive: false,
     }
 
-    const response = await scraper.scrape(signature, config)
-    const root = parse(response.data)
+    axios.defaults.httpAgent = new HttpProxyAgent(agentConfig)
+    axios.defaults.httpsAgent = new HttpsProxyAgent(agentConfig)
 
-    const address = root.querySelector('#ContentPlaceHolder1_txtAddressReadonly').attributes.value
-    const oath = root.querySelector('#ContentPlaceHolder1_txtSignedMessageReadonly').innerText
+    const { data } = await axios.get(signature)
+    const $ = cheerio.load(data)
+
+    const address = $('#ContentPlaceHolder1_txtAddressReadonly').attr('value')
+    const oath = $('#ContentPlaceHolder1_txtSignedMessageReadonly').text()
 
     return { address, oath }
   }

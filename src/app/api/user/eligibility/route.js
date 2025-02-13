@@ -34,7 +34,7 @@ export async function PUT(req) {
 
       return { address, oath }
     } catch (error) {
-      console.log(error)
+      console.error('Error fetching signature:', error)
     }
   }
 
@@ -116,6 +116,7 @@ export async function PUT(req) {
 
     return NextResponse.json(user, { status: 200 })
   } catch (error) {
+    console.error('Error verifying eligibility:', error)
     return NextResponse.json(
       { error: 'Internal server error', details: error.message },
       { status: 500 }

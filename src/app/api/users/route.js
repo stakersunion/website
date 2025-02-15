@@ -11,10 +11,10 @@ export async function GET() {
     const data = await User.find({
       'verification.eligibility.status': 'approved',
       'verification.independent.status': 'approved',
-    }).select('profile.address profile.withdrawalAddress verification.independent.schedule')
+    }).select('addresses profile.withdrawalAddress verification.independent.schedule')
 
     const users = data.map((user) => ({
-      address: user.profile.address,
+      address: user.addresses[0]?.address,
       withdrawalAddress: user.profile.withdrawalAddress,
       joined: user.verification.independent.schedule,
     }))

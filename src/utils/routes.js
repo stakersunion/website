@@ -132,6 +132,7 @@ const routes = {
       addresses: { path: '/account/addresses', title: 'Addresses' },
       validators: { path: '/account/validators', title: 'Validators' },
       appeal: { path: '/account/appeal', title: 'Appeal' },
+      support: { path: '/account/support', title: 'Support' },
     },
   },
   apply: {

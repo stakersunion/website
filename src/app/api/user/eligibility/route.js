@@ -7,7 +7,6 @@ import User from '@/models/user'
 import csv from 'csv-parser'
 import * as cheerio from 'cheerio'
 import axios from 'axios'
-import { HttpsProxyAgent } from 'hpagent'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,18 +15,19 @@ export async function PUT(req) {
   const { signature } = await req.json()
 
   async function fetchSignature(signature) {
-    const proxy = `http://${process.env.GEONODE_USERNAME}:${process.env.GEONODE_PASSWORD}@${process.env.GEONODE_HOST}:${process.env.GEONODE_PORT}`
-
-    let agentConfig = {
-      proxy: proxy,
-      keepAlive: false,
-    }
-
-    axios.defaults.httpsAgent = new HttpsProxyAgent(agentConfig)
-
     try {
-      const { data } = await axios.get(signature)
-      const $ = cheerio.load(data)
+      const { data } = await axios.post(
+        process.env.ZYTE_API_ENDPOINT,
+        {
+          url: signature,
+          browserHtml: true,
+        },
+        {
+          auth: { username: process.env.ZYTE_API_KEY },
+        }
+      )
+
+      const $ = cheerio.load(data.browserHtml)
 
       const address = $('#ContentPlaceHolder1_txtAddressReadonly').attr('value')
       const oath = $('#ContentPlaceHolder1_txtSignedMessageReadonly').text()

@@ -89,6 +89,7 @@ const Menu = () => {
                 </li>
                 {Object.entries(routes.contribute).map(([key, value]) => {
                   if (key === 'pledge') return null
+                  if (value.hidden) return null
                   return (
                     <ListItem
                       key={key}

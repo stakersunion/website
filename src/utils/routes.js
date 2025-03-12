@@ -8,6 +8,7 @@ import {
   faUserTie,
   faTools,
   faUserGroup,
+  faCheckToSlot,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faDiscord, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 
@@ -66,6 +67,14 @@ const routes = {
       description: 'View or download a current list of Stakers Union members.',
       path: '/list',
       icon: faUserGroup,
+      hidden: true,
+    },
+    vote: {
+      title: 'Vote',
+      description: 'Get involved in governance, vote on Stakers Union proposals.',
+      path: 'https://vote.stakersunion.com',
+      icon: faCheckToSlot,
+      target: '_blank',
     },
     pledge: {
       title: 'Pledge',

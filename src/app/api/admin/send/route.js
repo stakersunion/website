@@ -7,7 +7,7 @@ import { EmailBasic } from '@/emails'
 
 export const dynamic = 'force-dynamic'
 
-const limit = 10
+const limit = 90
 
 export async function GET(req) {
   try {

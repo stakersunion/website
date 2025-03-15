@@ -13,19 +13,19 @@ import {
 import {
   Sheet,
   SheetContent,
-  SheetClose,
   SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { NewsForm, RemoveNews } from '@/components/admin/news'
+import { NewsForm, RemoveNews, QueueNews } from '@/components/admin/news'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faEllipsis,
   faPencil,
   faTrash,
+  faEnvelope,
   faArrowUpRightFromSquare,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 
@@ -60,7 +60,10 @@ const columns = [
             target={'_blank'}
             className={'flex items-center gap-2'}
           >
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className={'w-3 h-3'} />
+            <FontAwesomeIcon
+              icon={faArrowUpRightFromSquare}
+              className={'w-3 h-3'}
+            />
           </Link>
         </div>
       )
@@ -71,12 +74,12 @@ const columns = [
     accessorKey: 'actions',
     cell: ({ row }) => {
       const news = row.original
-      const [open, setOpen] = useState(false)
+      const [edit, setEdit] = useState(false)
 
       return (
         <Sheet
-          open={open}
-          onOpenChange={setOpen}
+          open={edit}
+          onOpenChange={setEdit}
         >
           <SheetContent>
             <SheetHeader>
@@ -85,36 +88,53 @@ const columns = [
             </SheetHeader>
             <NewsForm
               id={news.id}
-              callback={() => setOpen(false)}
+              callback={() => setEdit(false)}
             />
           </SheetContent>
-          <AlertDialog>
-            <DropdownMenu modal={false}>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant={'ghost'}
-                  className={'h-8 w-8 p-0'}
-                >
-                  <FontAwesomeIcon icon={faEllipsis} />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align='end'>
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant={'ghost'}
+                className={'h-8 w-8 p-0'}
+              >
+                <FontAwesomeIcon icon={faEllipsis} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='end'>
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                className={'w-full'}
+                asChild
+              >
+                <SheetTrigger onClick={() => setEdit(true)}>
+                  <FontAwesomeIcon
+                    icon={faPencil}
+                    className={'fa-fw mr-2'}
+                  />
+                  Edit
+                </SheetTrigger>
+              </DropdownMenuItem>
+              <AlertDialog>
                 <DropdownMenuItem
                   className={'w-full'}
                   asChild
+                  onSelect={(e) => e.preventDefault()}
                 >
-                  <SheetTrigger onClick={() => setOpen(true)}>
+                  <AlertDialogTrigger>
                     <FontAwesomeIcon
-                      icon={faPencil}
+                      icon={faEnvelope}
                       className={'fa-fw mr-2'}
                     />
-                    Edit
-                  </SheetTrigger>
+                    Queue Email
+                  </AlertDialogTrigger>
                 </DropdownMenuItem>
+                <QueueNews id={news.id} />
+              </AlertDialog>
+              <AlertDialog>
                 <DropdownMenuItem
                   className={'w-full'}
                   asChild
+                  onSelect={(e) => e.preventDefault()}
                 >
                   <AlertDialogTrigger>
                     <FontAwesomeIcon
@@ -124,10 +144,10 @@ const columns = [
                     Delete
                   </AlertDialogTrigger>
                 </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <RemoveNews id={news.id} />
-          </AlertDialog>
+                <RemoveNews id={news.id} />
+              </AlertDialog>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </Sheet>
       )
     },

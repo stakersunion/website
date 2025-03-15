@@ -8,7 +8,13 @@ const isAdminRoute = createRouteMatcher(['/admin(.*)'])
 
 const isAdminAPIRoute = createRouteMatcher(['/api/admin(.*)'])
 
+const isCronRoute = createRouteMatcher(['/api/admin/send(.*)'])
+
 export default clerkMiddleware((auth, req) => {
+  if (isCronRoute(req)) {
+    return NextResponse.next()
+  }
+
   if (isAdminRoute(req) || isAdminAPIRoute(req)) {
     const admin = auth().sessionClaims.metadata.role === 'admin'
 

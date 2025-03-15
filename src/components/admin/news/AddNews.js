@@ -36,6 +36,7 @@ const AddNews = () => {
     title: z.string(),
     content: z.string(),
     link: z.string().url().or(z.literal('')),
+    linkTitle: z.string().optional(),
   })
 
   const form = useForm({
@@ -44,6 +45,7 @@ const AddNews = () => {
       title: '',
       content: '',
       link: '',
+      linkTitle: '',
     },
   })
 
@@ -130,6 +132,23 @@ const AddNews = () => {
                     <FormControl>
                       <Input
                         placeholder={'News Link'}
+                        disabled={isPending}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={'linkTitle'}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Link Text</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={'Read More'}
                         disabled={isPending}
                         {...field}
                       />

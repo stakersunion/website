@@ -13,7 +13,6 @@ import {
 import {
   Sheet,
   SheetContent,
-  SheetClose,
   SheetDescription,
   SheetHeader,
   SheetTitle,
@@ -126,7 +125,7 @@ const columns = [
                       icon={faEnvelope}
                       className={'fa-fw mr-2'}
                     />
-                    Send
+                    Queue Email
                   </AlertDialogTrigger>
                 </DropdownMenuItem>
                 <QueueNews id={news.id} />

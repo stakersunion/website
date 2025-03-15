@@ -10,18 +10,23 @@ export const dynamic = 'force-dynamic'
 export async function GET(req) {
   const searchParams = req.nextUrl.searchParams
   const limit = searchParams.get('limit') || 10
+  const ids = searchParams.getAll('ids[]')
 
   try {
     // 1. Connect to MongoDB
     await connect()
 
-    // 2. Fetch up to 10 "pending" emails ordered by their creation date
-    const pendingEmails = await Queue.find({ status: 'pending' })
-      .sort({ createdAt: 1 })
-      .limit(limit)
+    let pendingEmails = []
+    if (ids.length) {
+      // 2. Fetch emails by their ids
+      pendingEmails = await Queue.find({ _id: { $in: ids } })
+    } else {
+      // 2. Fetch up to 10 "pending" emails ordered by their creation date
+      pendingEmails = await Queue.find({ status: 'pending' }).sort({ createdAt: 1 }).limit(limit)
 
-    if (!pendingEmails.length) {
-      return NextResponse.json({ message: 'No pending emails to send.' }, { status: 200 })
+      if (!pendingEmails.length) {
+        return NextResponse.json({ message: 'No pending emails to send.' }, { status: 200 })
+      }
     }
 
     // 4. Send each email

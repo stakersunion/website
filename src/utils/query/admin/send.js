@@ -7,7 +7,7 @@ const useSend = () => {
     mutationFn: async (data) => {
       try {
         return await api.get('/admin/send', {
-          params: { limit: data.limit },
+          params: { limit: data.limit, ids: data.ids },
         })
       } catch (error) {
         throw new Error(error)

@@ -45,9 +45,9 @@ const QueueNews = ({ id }) => {
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>Send Email?</AlertDialogTitle>
+        <AlertDialogTitle>Queue Sending Email?</AlertDialogTitle>
         <AlertDialogDescription>
-          This will send an email to all verified users.
+          This will queue sending an email to all verified users.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>

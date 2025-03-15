@@ -44,6 +44,7 @@ import { Input } from '@/components/ui/input'
 const DataTable = ({ columns, data }) => {
   const [statusFilter, setStatusFilter] = useState('pending')
   const [columnFilters, setColumnFilters] = useState([])
+  const [rowSelection, setRowSelection] = useState({})
   const [limit, setLimit] = useState(10)
   const [dialogOpen, setDialogOpen] = useState(false)
   const { mutateAsync: send, isPending: sending } = useSend()
@@ -52,8 +53,10 @@ const DataTable = ({ columns, data }) => {
     columns,
     state: {
       columnFilters,
+      rowSelection,
     },
     onColumnFiltersChange: setColumnFilters,
+    onRowSelectionChange: setRowSelection,
     getFilteredRowModel: getFilteredRowModel(),
     getCoreRowModel: getCoreRowModel(),
   })
@@ -69,7 +72,10 @@ const DataTable = ({ columns, data }) => {
 
   const handleSend = async () => {
     try {
-      let response = await send({ limit })
+      let response = await send({
+        limit,
+        ids: table.getFilteredSelectedRowModel().rows.map((row) => row.original.id),
+      })
       toast.success(response.data.message)
     } catch (error) {
       toast.error(error.message)
@@ -106,7 +112,7 @@ const DataTable = ({ columns, data }) => {
                 icon={faEnvelope}
                 className={'mr-2'}
               />
-              Trigger Send
+              {table.getFilteredSelectedRowModel().rows.length ? 'Send Selected' : 'Trigger Send'}
             </Button>
           </DialogTrigger>
           <DialogContent>

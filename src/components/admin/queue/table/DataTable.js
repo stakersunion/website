@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import {
   flexRender,
   getCoreRowModel,
@@ -8,6 +8,16 @@ import {
   getFilteredRowModel,
 } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from '@/components/ui/dialog'
 import {
   Table,
   TableBody,
@@ -27,12 +37,15 @@ import {
 } from '@/components/ui/select'
 import { useSend } from '@/utils/query/admin/send'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/light'
+import { faEnvelope, faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/light'
 import { toast } from 'sonner'
+import { Input } from '@/components/ui/input'
 
 const DataTable = ({ columns, data }) => {
   const [statusFilter, setStatusFilter] = useState('pending')
   const [columnFilters, setColumnFilters] = useState([])
+  const [limit, setLimit] = useState(10)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const { mutateAsync: send, isPending: sending } = useSend()
   const table = useReactTable({
     data,
@@ -45,12 +58,23 @@ const DataTable = ({ columns, data }) => {
     getCoreRowModel: getCoreRowModel(),
   })
 
+  const recent = useMemo(() => {
+    const oneHourAgo = Date.now() - 60 * 60 * 1000 // 1 hour in milliseconds
+
+    return data.filter((item) => {
+      // Ensure 'status' is 'sent' and 'sentAt' is within last hour
+      return item.status === 'sent' && new Date(item.sentAt).getTime() > oneHourAgo
+    }).length
+  }, [data])
+
   const handleSend = async () => {
     try {
-      let response = await send()
+      let response = await send({ limit })
       toast.success(response.data.message)
     } catch (error) {
       toast.error(error.message)
+    } finally {
+      setDialogOpen(false)
     }
   }
 
@@ -72,18 +96,56 @@ const DataTable = ({ columns, data }) => {
   return (
     <div>
       <div className={'flex justify-end mb-4 gap-4'}>
-        <Button
-          onClick={handleSend}
-          disabled={sending}
+        <Dialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
         >
-          {sending && (
-            <FontAwesomeIcon
-              icon={faLoader}
-              className={'animate-spin mr-2'}
+          <DialogTrigger asChild>
+            <Button>
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className={'mr-2'}
+              />
+              Trigger Send
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>How Many (limit 100/hr)</DialogTitle>
+              <DialogDescription>{recent} emails sent in the last hour.</DialogDescription>
+            </DialogHeader>
+            <Input
+              type={'number'}
+              min={1}
+              max={100}
+              value={limit}
+              onChange={(e) => setLimit(e.target.value)}
             />
-          )}
-          Trigger
-        </Button>
+            <DialogFooter className={'sm:justify-start'}>
+              <DialogClose asChild>
+                <Button
+                  type={'button'}
+                  variant={'secondary'}
+                >
+                  Close
+                </Button>
+              </DialogClose>
+              <Button
+                onClick={handleSend}
+                disabled={sending}
+              >
+                {sending ? (
+                  <FontAwesomeIcon
+                    icon={faLoader}
+                    className={'animate-spin mr-2'}
+                  />
+                ) : null}
+                Send
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         <Select
           onValueChange={handleStatusChange}
           defaultValue={statusFilter}

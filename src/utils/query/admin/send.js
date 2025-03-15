@@ -6,14 +6,16 @@ const useSend = () => {
   return useMutation({
     mutationFn: async (data) => {
       try {
-        return await api.get('/admin/send')
+        return await api.get('/admin/send', {
+          params: { limit: data.limit },
+        })
       } catch (error) {
         throw new Error(error)
       }
     },
     onSettled: () => {
       queryClient.invalidateQueries('queue')
-    }
+    },
   })
 }
 

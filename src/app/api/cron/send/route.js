@@ -7,11 +7,18 @@ import { EmailBasic } from '@/emails'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(req) {
-  const searchParams = req.nextUrl.searchParams
-  const limit = searchParams.get('limit') || 10
+const limit = 80
 
+export async function GET(req) {
   try {
+    // get the bearer token from the header
+    const authToken = (req.headers.get('authorization') || '').split('Bearer ').at(1)
+
+    // if not found OR the bearer token does NOT equal the CRON_SECRET
+    if (!authToken || authToken != process.env.CRON_SECRET) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     // 1. Connect to MongoDB
     await connect()
 

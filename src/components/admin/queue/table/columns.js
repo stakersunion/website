@@ -1,5 +1,6 @@
 'use client'
 
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faClock,
@@ -35,9 +36,14 @@ const columns = [
         failed: faTriangleExclamation,
       }
       return (
-        <div className={'flex items-center'}>
-          <FontAwesomeIcon icon={icons[status]} />
-        </div>
+        <TooltipProvider>
+          <Tooltip className={'flex items-center'}>
+            <TooltipTrigger asChild>
+              <FontAwesomeIcon icon={icons[status]} />
+            </TooltipTrigger>
+            {status === 'failed' && <TooltipContent className={'w-[400px]'}>{row.original.errorMessage}</TooltipContent>}
+          </Tooltip>
+        </TooltipProvider>
       )
     },
   },

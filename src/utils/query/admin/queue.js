@@ -20,7 +20,6 @@ const useCreateQueue = () => {
   return useMutation({
     mutationFn: async (data) => {
       try {
-        console.log(data)
         return await api.post('/admin/queue', data)
       } catch (error) {
         throw new Error(error)

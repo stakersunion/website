@@ -20,7 +20,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { NewsForm, RemoveNews, SendNews } from '@/components/admin/news'
+import { NewsForm, RemoveNews, QueueNews } from '@/components/admin/news'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faEllipsis,
@@ -129,7 +129,7 @@ const columns = [
                     Send
                   </AlertDialogTrigger>
                 </DropdownMenuItem>
-                <SendNews id={news.id} />
+                <QueueNews id={news.id} />
               </AlertDialog>
               <AlertDialog>
                 <DropdownMenuItem

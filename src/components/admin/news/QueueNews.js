@@ -15,7 +15,7 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { routes } from '@/utils/routes'
 
-const SendNews = ({ id }) => {
+const QueueNews = ({ id }) => {
   const { mutateAsync: queue, isPending: queing } = useCreateQueue()
   const { data: news, isLoading: loading } = useNewsItem({ id })
   const router = useRouter()
@@ -58,4 +58,4 @@ const SendNews = ({ id }) => {
   )
 }
 
-export default SendNews
+export default QueueNews

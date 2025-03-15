@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { useDeleteNews } from '@/utils/query/admin/news'
 
-const RemoveAddress = ({ id }) => {
+const RemoveNews = ({ id }) => {
   const { mutate } = useDeleteNews({ id })
 
   return (
@@ -30,4 +30,4 @@ const RemoveAddress = ({ id }) => {
   )
 }
 
-export default RemoveAddress
+export default RemoveNews

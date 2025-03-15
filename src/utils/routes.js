@@ -205,6 +205,7 @@ const routes = {
         },
       },
       news: { path: '/admin/news', title: 'News' },
+      email: { path: '/admin/queue', title: 'Email Queue' },
       splits: {
         path: '/admin/splits',
         title: 'Splits',

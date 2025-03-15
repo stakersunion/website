@@ -11,6 +11,7 @@ const News = () => {
   const { data: verification, isLoading: loadingVerification } = useVerification()
   const { data: news, isLoading: loadingNews } = useNews()
 
+  console.log(news)
   if (loadingVerification || loadingNews) return null
   if (verification?.independent?.status !== 'approved') return null
   else
@@ -61,7 +62,7 @@ const News = () => {
                           variant={'secondary'}
                           className={'text-sm'}
                         >
-                          Read More
+                          {item.linkText || 'Read More'}
                         </Button>
                       </Link>
                     )}

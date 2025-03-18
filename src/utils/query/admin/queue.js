@@ -31,4 +31,22 @@ const useCreateQueue = () => {
   })
 }
 
-export { useQueue, useCreateQueue }
+const useDeleteQueue = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (data) => {
+      try {
+        return await api.delete('/admin/queue', {
+          params: { ids: data.ids },
+        })
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries('queue')
+    },
+  })
+}
+
+export { useQueue, useCreateQueue, useDeleteQueue }

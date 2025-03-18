@@ -60,3 +60,21 @@ export async function POST(req) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
+
+export async function DELETE(req) {
+  try {
+    await connect()
+    const searchParams = req.nextUrl.searchParams
+    const ids = searchParams.getAll('ids[]')
+
+    console.log(searchParams, ids)
+    if (!ids.length) {
+      return NextResponse.json({ error: 'No IDs provided.' }, { status: 400 })
+    }
+    await Queue.deleteMany({ _id: { $in: ids } })
+    return NextResponse.json({ message: 'Queue items deleted successfully.' }, { status: 200 })
+  } catch (error) {
+    console.error('Error deleting queue items:', error)
+    return NextResponse.json({ error: 'Failed to delete queue items' }, { status: 500 })
+  }
+}

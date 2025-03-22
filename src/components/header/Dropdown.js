@@ -22,6 +22,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useProfile } from '@/utils/query/user/profile'
 import { useQueryClient } from '@tanstack/react-query'
 import { useClerk } from '@clerk/nextjs'
+import { toast } from 'sonner'
 import useRole from '@/utils/roles'
 import { routes } from '@/utils/routes'
 import { mainnet } from '@/utils/chains'
@@ -29,6 +30,7 @@ import { mainnet } from '@/utils/chains'
 const Dropdown = () => {
   const { data: profile, isLoading } = useProfile()
   const [ensName, setEnsName] = useState('')
+  const [ensError, setEnsError] = useState(null)
   const queryClient = useQueryClient()
   const { signOut } = useClerk()
   const role = useRole()
@@ -41,10 +43,14 @@ const Dropdown = () => {
   useEffect(() => {
     if (!profile || !profile?.address) return
     const fetchEnsName = async () => {
-      const ensName = await mainnet.getEnsName({
-        address: profile.address,
-      })
-      setEnsName(ensName)
+      try {
+        const ensName = await mainnet.getEnsName({
+          address: profile.address,
+        })
+        setEnsName(ensName)
+      } catch (error) {
+        setEnsError(error)
+      }
     }
     fetchEnsName()
   }, [profile])

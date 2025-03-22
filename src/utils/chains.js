@@ -1,5 +1,9 @@
 import { createPublicClient, http } from 'viem'
-import { mainnet as mainnetChain, gnosis as gnosisChain } from 'viem/chains'
+import {
+  mainnet as mainnetChain,
+  gnosis as gnosisChain,
+  optimism as optimismChain,
+} from 'viem/chains'
 
 const mainnet = createPublicClient({
   chain: mainnetChain,
@@ -11,4 +15,9 @@ const gnosis = createPublicClient({
   transport: http(),
 })
 
-export { mainnet, gnosis }
+const optimism = createPublicClient({
+  chain: optimismChain,
+  transport: http(),
+})
+
+export { mainnet, gnosis, optimism }

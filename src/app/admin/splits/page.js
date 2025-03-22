@@ -23,6 +23,12 @@ const Splits = () => {
     return <Skeleton className={'h-[400px]'} />
   }
 
+  const chainId = {
+    gnosis: process.env.NEXT_PUBLIC_GBC_CHAIN_ID,
+    mainnet: process.env.NEXT_PUBLIC_ETH_CHAIN_ID,
+    optimism: process.env.NEXT_PUBLIC_OP_CHAIN_ID,
+  }
+
   return (
     <div className={'flex flex-col gap-6 pb-10'}>
       <Card className={'h-full'}>
@@ -30,25 +36,32 @@ const Splits = () => {
           <CardTitle>Metadata</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className={'flex flex-row gap-10'}>
-            <div>
-              <p className={'font-semibold text-muted-foreground'}>Type:</p>
-              <p>{data.type}</p>
-            </div>
-            <div className={'flex flex-1 flex-col'}>
-              <p className={'font-semibold text-muted-foreground'}>Address:</p>
-              <EthAddress
-                address={data.address}
-                length={0}
-              />
-            </div>
-            <Link
-              href={`https://app.splits.org/accounts/${data.address}?chainId=${process.env.NEXT_PUBLIC_CHAIN_ID}`}
-              target={'_blank'}
-            >
-              <Button>View on Splits</Button>
-            </Link>
-          </div>
+          {data &&
+            Object.keys(data).map((chain) => {
+              let item = data[chain]
+              console.log(item)
+              return (
+                <div
+                  key={chain}
+                  className={'flex flex-row gap-10'}
+                >
+                  <div>
+                    <p className={'font-semibold text-muted-foreground'}>Chain:</p>
+                    <p className={'capitalize'}>{chain}</p>
+                  </div>
+                  <div className={'flex flex-1 flex-col'}>
+                    <p className={'font-semibold text-muted-foreground'}>Address:</p>
+                    <EthAddress address={item.address} />
+                  </div>
+                  <Link
+                    href={`https://app.splits.org/accounts/${item.address}?chainId=${chainId[chain]}`}
+                    target={'_blank'}
+                  >
+                    <Button>View on Splits</Button>
+                  </Link>
+                </div>
+              )
+            })}
         </CardContent>
       </Card>
       <Card>
@@ -64,7 +77,7 @@ const Splits = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.recipients.map((recipient) => (
+              {data.gnosis.recipients.map((recipient) => (
                 <TableRow key={recipient.recipient.address}>
                   <TableCell>
                     <EthAddress
@@ -72,7 +85,9 @@ const Splits = () => {
                       length={0}
                     />
                   </TableCell>
-                  <TableCell className={'text-right'}>{recipient.percentAllocation.toFixed(4)}%</TableCell>
+                  <TableCell className={'text-right'}>
+                    {recipient.percentAllocation.toFixed(4)}%
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -1,16 +1,33 @@
 import { NextResponse } from 'next/server'
-import { dataClient } from '@/utils/splits'
+import { gnosisDataClient, mainnetDataClient, optimismDataClient } from '@/utils/splits'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const response = await dataClient.getSplitMetadata({
-    chainId: process.env.NEXT_PUBLIC_CHAIN_ID,
-    splitAddress: process.env.NEXT_PUBLIC_SPLIT_ADDRESS,
-  })
-  const data = JSON.parse(
-    JSON.stringify(response, (key, value) => (typeof value === 'bigint' ? value.toString() : value))
-  )
+  try {
+    const gnosis = await gnosisDataClient.getSplitMetadata({
+      chainId: process.env.NEXT_PUBLIC_GBC_CHAIN_ID,
+      splitAddress: process.env.NEXT_PUBLIC_GBC_SPLIT_ADDRESS,
+    })
+    // const mainnet = await mainnetDataClient.getSplitMetadata({
+    //   chainId: process.env.NEXT_PUBLIC_ETH_CHAIN_ID,
+    //   splitAddress: process.env.NEXT_PUBLIC_ETH_SPLIT_ADDRESS,
+    // })
+    // const optimism = await optimismDataClient.getSplitMetadata({
+    //   chainId: process.env.NEXT_PUBLIC_OP_CHAIN_ID,
+    //   splitAddress: process.env.NEXT_PUBLIC_OP_SPLIT_ADDRESS,
+    // })
 
-  return NextResponse.json(data)
+    const gnosisData = JSON.parse(
+      JSON.stringify(gnosis, (key, value) => (typeof value === 'bigint' ? value.toString() : value))
+    )
+
+    return NextResponse.json({
+      gnosis: gnosisData,
+      // mainnet: mainnetData,
+      // optimism: optimismData,
+    })
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
 }

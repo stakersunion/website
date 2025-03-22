@@ -27,7 +27,7 @@ import {
 import { useVerifiedUsers } from '@/utils/query/admin/users'
 import { routes } from '@/utils/routes'
 import { useUpdateSplits } from '@/utils/query/admin/splits'
-import { createSplitsClient } from '@/utils/splits'
+import { createGnosisSplitsClient } from '@/utils/splits'
 import { wallet } from '@/utils/wallet'
 
 const UpdateSplits = () => {
@@ -47,7 +47,7 @@ const UpdateSplits = () => {
       const initializeSplitsClient = async () => {
         const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
         const walletClient = wallet({ account })
-        setSplitsClient(createSplitsClient({ walletClient }))
+        setSplitsClient(createGnosisSplitsClient({ walletClient }))
       }
 
       initializeSplitsClient()

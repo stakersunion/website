@@ -67,7 +67,6 @@ export async function DELETE(req) {
     const searchParams = req.nextUrl.searchParams
     const ids = searchParams.getAll('ids[]')
 
-    console.log(searchParams, ids)
     if (!ids.length) {
       return NextResponse.json({ error: 'No IDs provided.' }, { status: 400 })
     }

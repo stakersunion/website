@@ -55,6 +55,24 @@ const createOptimismSplitsClient = ({ walletClient }) =>
     },
   })
 
+const clients = {
+  gnosis: {
+    dataClient: gnosisDataClient,
+    createSplitsClient: createGnosisSplitsClient,
+    splitAddress: process.env.NEXT_PUBLIC_GBC_SPLIT_ADDRESS,
+  },
+  mainnet: {
+    dataClient: mainnetDataClient,
+    createSplitsClient: createMainnetSplitsClient,
+    splitAddress: process.env.NEXT_PUBLIC_ETH_SPLIT_ADDRESS,
+  },
+  optimism: {
+    dataClient: optimismDataClient,
+    createSplitsClient: createOptimismSplitsClient,
+    splitAddress: process.env.NEXT_PUBLIC_OP_SPLIT_ADDRESS,
+  },
+}
+
 export {
   gnosisDataClient,
   createGnosisSplitsClient,
@@ -62,4 +80,5 @@ export {
   createMainnetSplitsClient,
   optimismDataClient,
   createOptimismSplitsClient,
+  clients,
 }

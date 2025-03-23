@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
-import { dataClient } from '@/utils/splits'
+import { gnosisDataClient } from '@/utils/splits'
 
 export async function GET() {
-  const response = await dataClient.getSplitEarnings({
-    chainId: parseInt(process.env.NEXT_PUBLIC_CHAIN_ID),
-    splitAddress: process.env.NEXT_PUBLIC_SPLIT_ADDRESS,
+  const response = await gnosisDataClient.getSplitEarnings({
+    chainId: parseInt(process.env.NEXT_PUBLIC_GBC_CHAIN_ID),
+    splitAddress: process.env.NEXT_PUBLIC_GBC_SPLIT_ADDRESS,
     erc20TokenList: [],
   })
   const data = JSON.parse(

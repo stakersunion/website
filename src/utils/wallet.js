@@ -1,5 +1,5 @@
 import { createWalletClient, custom } from 'viem'
-import { gnosis, mainnet, optimism } from 'viem/chains'
+import { gnosis, mainnet, optimism, arbitrum } from 'viem/chains'
 
 const gnosisWallet = ({ account }) =>
   createWalletClient({
@@ -22,10 +22,18 @@ const optimismWallet = ({ account }) =>
     transport: custom(window.ethereum),
   })
 
+const arbitrumWallet = ({ account }) =>
+  createWalletClient({
+    account,
+    chain: arbitrum,
+    transport: custom(window.ethereum),
+  })
+
 const wallets = {
   gnosis: gnosisWallet,
   mainnet: mainnetWallet,
   optimism: optimismWallet,
+  arbitrum: arbitrumWallet,
 }
 
-export { gnosisWallet, mainnetWallet, optimismWallet, wallets }
+export { gnosisWallet, mainnetWallet, optimismWallet, arbitrumWallet, wallets }

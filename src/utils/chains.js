@@ -3,6 +3,7 @@ import {
   gnosis as gnosisChain,
   mainnet as mainnetChain,
   optimism as optimismChain,
+  arbitrum as arbitrumChain,
 } from 'viem/chains'
 
 const gnosis = createPublicClient({
@@ -17,6 +18,11 @@ const mainnet = createPublicClient({
 
 const optimism = createPublicClient({
   chain: optimismChain,
+  transport: http(),
+})
+
+const arbitrum = createPublicClient({
+  chain: arbitrumChain,
   transport: http(),
 })
 
@@ -36,6 +42,11 @@ const chains = {
     client: optimism,
     id: process.env.NEXT_PUBLIC_OP_CHAIN_ID,
   },
+  arbitrum: {
+    title: 'Arbitrum',
+    client: arbitrum,
+    id: process.env.NEXT_PUBLIC_ARB_CHAIN_ID,
+  },
 }
 
-export { mainnet, gnosis, optimism, chains }
+export { mainnet, gnosis, optimism, arbitrum, chains }

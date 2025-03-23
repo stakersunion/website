@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server'
-import { gnosisDataClient, mainnetDataClient, optimismDataClient } from '@/utils/splits'
+import {
+  gnosisDataClient,
+  mainnetDataClient,
+  optimismDataClient,
+  arbitrumDataClient,
+} from '@/utils/splits'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,6 +21,10 @@ export async function GET() {
     const optimism = await optimismDataClient.getSplitMetadata({
       chainId: process.env.NEXT_PUBLIC_OP_CHAIN_ID,
       splitAddress: process.env.NEXT_PUBLIC_OP_SPLIT_ADDRESS,
+    })
+    const arbitrum = await arbitrumDataClient.getSplitMetadata({
+      chainId: process.env.NEXT_PUBLIC_ARB_CHAIN_ID,
+      splitAddress: process.env.NEXT_PUBLIC_ARB_SPLIT_ADDRESS,
     })
 
     const gnosisData = JSON.parse(
@@ -34,10 +43,17 @@ export async function GET() {
       )
     )
 
+    const arbitrumData = JSON.parse(
+      JSON.stringify(arbitrum, (key, value) =>
+        typeof value === 'bigint' ? value.toString() : value
+      )
+    )
+
     return NextResponse.json({
       gnosis: gnosisData,
       mainnet: mainnetData,
       optimism: optimismData,
+      arbitrum: arbitrumData,
     })
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })

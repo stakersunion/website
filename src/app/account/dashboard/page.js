@@ -35,15 +35,7 @@ const Home = () => {
             <p className={'text-6xl font-bold'}>0Ξ</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Current Funds</CardTitle>
-            <CardDescription>Current Funds Pending Distribution</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Balances />
-          </CardContent>
-        </Card>
+        <Balances />
       </div>
     </div>
   )

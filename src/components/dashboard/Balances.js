@@ -18,7 +18,7 @@ const Balances = () => {
   const { data: balances, isLoading } = useSplitsBalance()
 
   const activeBalancesByChain = useMemo(() => {
-    if (balances[chain] && Object.keys(balances[chain].activeBalances).length > 0) {
+    if (balances?.[chain] && Object.keys(balances[chain].activeBalances).length > 0) {
       return Object.keys(balances[chain].activeBalances).map((key) => {
         return {
           address: key,
@@ -32,53 +32,52 @@ const Balances = () => {
           address: '0x',
           symbol: '',
           formattedAmount: '0',
-        }
+        },
       ]
     }
   }, [chain])
 
-  if (isLoading) {
-    return <Skeleton className={'h-20'} />
-  } else {
-    let balance = balances[chain]?.activeBalances?.['0x0000000000000000000000000000000000000000']
-    return (
-      <Card>
-        <CardHeader className={'flex flex-row justify-between'}>
-          <div>
-            <CardTitle>Current Funds</CardTitle>
-            <CardDescription>Current Funds Pending Distribution</CardDescription>
-          </div>{' '}
-          <Select
-            value={chain}
-            onValueChange={(value) => setChain(value)}
-          >
-            <SelectTrigger className={'w-[180px]'}>
-              <SelectValue placeholder={'Chain'} />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.keys(chains).map((key) => (
-                <SelectItem
-                  key={key}
-                  value={key}
-                  onSelect={() => setChain(key)}
-                >
-                  {chains[key].title}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </CardHeader>
-        <CardContent className={'flex flex-col gap-y-4'}>
-          {activeBalancesByChain.map((balance) => (
+  return (
+    <Card>
+      <CardHeader className={'flex flex-row justify-between'}>
+        <div>
+          <CardTitle>Current Funds</CardTitle>
+          <CardDescription>Pending Distribution</CardDescription>
+        </div>{' '}
+        <Select
+          value={chain}
+          onValueChange={(value) => setChain(value)}
+        >
+          <SelectTrigger className={'w-[180px]'}>
+            <SelectValue placeholder={'Chain'} />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.keys(chains).map((key) => (
+              <SelectItem
+                key={key}
+                value={key}
+                onSelect={() => setChain(key)}
+              >
+                {chains[key].title}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </CardHeader>
+      <CardContent className={'flex flex-col gap-y-4'}>
+        {isLoading ? (
+          <Skeleton className={'h-20'} />
+        ) : (
+          activeBalancesByChain.map((balance) => (
             <p key={balance.address}>
               <span className={'text-6xl font-bold'}>{balance.formattedAmount}</span>
               <span className={'text-sm font-bold'}>{balance.symbol}</span>
             </p>
-          ))}
-        </CardContent>
-      </Card>
-    )
-  }
+          ))
+        )}
+      </CardContent>
+    </Card>
+  )
 }
 
 export default Balances

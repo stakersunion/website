@@ -35,7 +35,7 @@ const Balances = () => {
         },
       ]
     }
-  }, [chain])
+  }, [chain, isLoading])
 
   return (
     <Card>

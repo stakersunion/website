@@ -9,53 +9,63 @@ import {
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
+  const results = {
+    gnosis: null,
+    mainnet: null,
+    optimism: null,
+    arbitrum: null,
+  }
+
+  const parseData = (data) => {
+    return JSON.parse(
+      JSON.stringify(data, (key, value) => (typeof value === 'bigint' ? value.toString() : value))
+    )
+  }
+
   try {
-    const gnosis = await gnosisDataClient.getSplitMetadata({
+    results.gnosis = await gnosisDataClient.getSplitMetadata({
       chainId: process.env.NEXT_PUBLIC_GBC_CHAIN_ID,
       splitAddress: process.env.NEXT_PUBLIC_GBC_SPLIT_ADDRESS,
     })
-    const mainnet = await mainnetDataClient.getSplitMetadata({
+  } catch (error) {
+    console.error('Gnosis metadata fetch failed:', error.message)
+    results.gnosis = null
+  }
+
+  try {
+    results.mainnet = await mainnetDataClient.getSplitMetadata({
       chainId: process.env.NEXT_PUBLIC_ETH_CHAIN_ID,
       splitAddress: process.env.NEXT_PUBLIC_ETH_SPLIT_ADDRESS,
     })
-    const optimism = await optimismDataClient.getSplitMetadata({
+  } catch (error) {
+    console.error('Mainnet metadata fetch failed:', error.message)
+    results.mainnet = null
+  }
+
+  try {
+    results.optimism = await optimismDataClient.getSplitMetadata({
       chainId: process.env.NEXT_PUBLIC_OP_CHAIN_ID,
       splitAddress: process.env.NEXT_PUBLIC_OP_SPLIT_ADDRESS,
     })
-    const arbitrum = await arbitrumDataClient.getSplitMetadata({
+  } catch (error) {
+    console.error('Optimism metadata fetch failed:', error.message)
+    results.optimism = null
+  }
+
+  try {
+    results.arbitrum = await arbitrumDataClient.getSplitMetadata({
       chainId: process.env.NEXT_PUBLIC_ARB_CHAIN_ID,
       splitAddress: process.env.NEXT_PUBLIC_ARB_SPLIT_ADDRESS,
     })
-
-    const gnosisData = JSON.parse(
-      JSON.stringify(gnosis, (key, value) => (typeof value === 'bigint' ? value.toString() : value))
-    )
-
-    const mainnetData = JSON.parse(
-      JSON.stringify(mainnet, (key, value) =>
-        typeof value === 'bigint' ? value.toString() : value
-      )
-    )
-
-    const optimismData = JSON.parse(
-      JSON.stringify(optimism, (key, value) =>
-        typeof value === 'bigint' ? value.toString() : value
-      )
-    )
-
-    const arbitrumData = JSON.parse(
-      JSON.stringify(arbitrum, (key, value) =>
-        typeof value === 'bigint' ? value.toString() : value
-      )
-    )
-
-    return NextResponse.json({
-      gnosis: gnosisData,
-      mainnet: mainnetData,
-      optimism: optimismData,
-      arbitrum: arbitrumData,
-    })
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    console.error('Arbitrum metadata fetch failed:', error.message)
+    results.arbitrum = null
   }
+
+  return NextResponse.json({
+    gnosis: parseData(results.gnosis),
+    mainnet: parseData(results.mainnet),
+    optimism: parseData(results.optimism),
+    arbitrum: parseData(results.arbitrum),
+  })
 }

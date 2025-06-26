@@ -76,7 +76,7 @@ const Add = ({ buttonClassName = 'self-end' }) => {
       toast.success('Address added')
       setOpen(false)
     } catch (error) {
-      toast.error(error)
+      toast.error(error.message)
     }
   }
 

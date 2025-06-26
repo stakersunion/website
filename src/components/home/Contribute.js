@@ -12,12 +12,12 @@ const Contribute = () => {
   const grants = [
     {
       name: 'Giveth',
-      href: '#',
+      href: 'https://giveth.io/project/stakers-union-a-collective-of-ethereum-solo-stakers',
       logo: '/partners/giveth.svg',
     },
     {
       name: 'Gitcoin',
-      href: '#',
+      href: 'https://explorer.gitcoin.co/#/projects/0xbfa9f72968bba383dfbc1ec001c53c2cee437edbdf9a85a31439d715ca7a039d',
       logo: '/partners/gitcoin.svg',
     },
     {

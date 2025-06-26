@@ -9,9 +9,9 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faUserGear,
   faSignature,
   faSignatureSlash,
+  faLoader,
   faServer,
   faHouse,
   faHouseCircleCheck,
@@ -88,12 +88,11 @@ const Status = ({ setReplace }) => {
         link: routes.apply.children.eligibility.path,
       },
       pending: {
-        icon: faSignature,
+        icon: faLoader,
+        iconClassName: 'animate-spin',
         title: 'Proof of Eligibility Pending',
         description:
-          'You have submitted an address that is pending approval. Please wait while we attempt automatic verification. If this fails, please submit an appeal for manual review.',
-        link: routes.account.children.appeal.path,
-        linkText: 'Submit Appeal',
+          'You have submitted an address that is pending approval. Please wait while we attempt automatic verification.',
       },
       approved: {
         icon: faSignature,
@@ -106,7 +105,9 @@ const Status = ({ setReplace }) => {
         icon: faSignatureSlash,
         title: 'Proof of Eligibility Rejected',
         description:
-          'Your signature has been rejected. Please review the information you have submitted and try again.',
+          'Your signature has been rejected. You can enter another signature to try again or submit an appeal for manual review.',
+        link: routes.account.children.appeal.path,
+        linkText: 'Submit Appeal',
       },
     },
     independent: {
@@ -250,7 +251,10 @@ const Status = ({ setReplace }) => {
 
   return (
     <Alert className={'mb-6'}>
-      <FontAwesomeIcon icon={getContent.icon} />
+      <FontAwesomeIcon
+        icon={getContent.icon}
+        className={getContent?.iconClassName || ''}
+      />
       <div className={'flex flex-wrap items-center'}>
         <div className={'ml-1 mt-1 mr-6 flex-1'}>
           <AlertTitle>{getContent.title}</AlertTitle>
@@ -259,7 +263,10 @@ const Status = ({ setReplace }) => {
         {getContent.extra && getContent.extra}
         {!getContent.extra && getContent.link && (
           <Link href={getContent.link}>
-            <Button className={'mt-2 sm:mt-0 sm:w-auto w-full'}>
+            <Button
+              className={'mt-2 sm:mt-0 sm:w-auto w-full'}
+              variant={getContent?.linkVariant || 'default'}
+            >
               {getContent.linkText || 'Continue Application'}
             </Button>
           </Link>

@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
-import { dataClient } from '@/utils/splits'
+import { gnosisDataClient } from '@/utils/splits'
 
 export async function GET() {
-  const response = await dataClient.getSplitMetadata({
-    chainId: process.env.NEXT_PUBLIC_CHAIN_ID,
-    splitAddress: process.env.NEXT_PUBLIC_SPLIT_ADDRESS,
+  const response = await gnosisDataClient.getSplitMetadata({
+    chainId: parseInt(process.env.NEXT_PUBLIC_GBC_CHAIN_ID),
+    splitAddress: process.env.NEXT_PUBLIC_GBC_SPLIT_ADDRESS,
   })
   const data = JSON.parse(
     JSON.stringify(response, (key, value) => (typeof value === 'bigint' ? value.toString() : value))

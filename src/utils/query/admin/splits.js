@@ -15,14 +15,14 @@ const useSplitsMetadata = () => {
   })
 }
 
-const useUpdateSplits = ({ splitsClient }) => {
+const useUpdateSplits = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationKey: ['admin-splits-update'],
-    mutationFn: async (recipients) => {
+    mutationFn: async ({ client, splitAddress, recipients }) => {
       try {
-        return await splitsClient.updateSplit({
-          splitAddress: process.env.NEXT_PUBLIC_SPLIT_ADDRESS,
+        return await client.updateSplit({
+          splitAddress: splitAddress,
           recipients,
           distributorFeePercent: 0,
           totalAllocationPercent: 100.0,

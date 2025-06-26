@@ -9,6 +9,7 @@ import {
   faBadgeCheck,
   faCircleDollarToSlot,
   faHandshakeAngle,
+  faUserGroup,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useUserCount } from '@/utils/query/users'
 import { routes } from '@/utils/routes'
@@ -74,7 +75,7 @@ const About = () => {
                 <p className={'text-9xl font-bold text-center'}>{users.count}</p>
               )}
             </CardContent>
-            <CardFooter>
+            <CardFooter className={'flex flex-col gap-y-4'}>
               <Link
                 href={routes.apply.path}
                 className={'flex flex-1'}
@@ -85,6 +86,21 @@ const About = () => {
                     className={'mr-2'}
                   />
                   Join the Stakers Union
+                </Button>
+              </Link>
+              <Link
+                href={routes.contribute.list.path}
+                className={'flex flex-1'}
+              >
+                <Button
+                  className={'w-full'}
+                  variant={'ghost'}
+                >
+                  <FontAwesomeIcon
+                    icon={faUserGroup}
+                    className={'mr-2'}
+                  />
+                  Member List
                 </Button>
               </Link>
             </CardFooter>

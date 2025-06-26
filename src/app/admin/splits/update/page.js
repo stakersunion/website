@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
   TableBody,
@@ -22,37 +22,31 @@ import {
   faChevronLeft,
   faCheck,
   faCircleExclamation,
+  faArrowUpRightFromSquare,
   faLoader,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { useVerifiedUsers } from '@/utils/query/admin/users'
 import { routes } from '@/utils/routes'
-import { useUpdateSplits } from '@/utils/query/admin/splits'
-import { createSplitsClient } from '@/utils/splits'
-import { wallet } from '@/utils/wallet'
+import { useSplitsMetadata, useUpdateSplits } from '@/utils/query/admin/splits'
+import { chains } from '@/utils/chains'
+import { clients } from '@/utils/splits'
+import { wallets } from '@/utils/wallet'
 
 const UpdateSplits = () => {
+  const { data: metadata, isLoading: loadingMetadata } = useSplitsMetadata()
   const { data: verifiedUsers, isLoading } = useVerifiedUsers()
-  const [splitsClient, setSplitsClient] = useState(null)
-  const {
-    mutateAsync: updateSplits,
-    isPending,
-    isSuccess,
-    isError,
-  } = useUpdateSplits({ splitsClient })
+  const { mutateAsync: updateSplits, isSuccess, isError } = useUpdateSplits()
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
+  const [updating, setUpdating] = useState(false)
 
-  useEffect(() => {
+  const initializeSplitsClient = async (chain) => {
     if (typeof window !== 'undefined' && window.ethereum) {
-      const initializeSplitsClient = async () => {
-        const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
-        const walletClient = wallet({ account })
-        setSplitsClient(createSplitsClient({ walletClient }))
-      }
-
-      initializeSplitsClient()
+      const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
+      const walletClient = wallets[chain]({ account })
+      return clients[chain].createSplitsClient({ walletClient })
     }
-  }, [])
+  }
 
   // TODO: Implement calculateMultiplier
   const calculateMultiplier = (user) => {
@@ -85,12 +79,22 @@ const UpdateSplits = () => {
     }))
   }
 
-  const handleUpdateSplits = async () => {
+  const handleUpdateSplits = async (chain) => {
     try {
-      const repsonse = await updateSplits(recipients())
+      const client = await initializeSplitsClient(chain)
+      setError(null)
+      setSuccess(null)
+      setUpdating(chain)
+      const repsonse = await updateSplits({
+        client,
+        splitAddress: clients[chain].splitAddress,
+        recipients: recipients(),
+      })
       setSuccess(repsonse)
     } catch (error) {
       setError(error)
+    } finally {
+      setUpdating(false)
     }
   }
 
@@ -109,30 +113,88 @@ const UpdateSplits = () => {
         </div>
       </div>
       <Separator className={'my-6'} />
+      {isError && (
+        <Alert
+          variant={'destructive'}
+          className={'mb-4'}
+        >
+          <FontAwesomeIcon icon={faCircleExclamation} />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            <ScrollArea className={'pb-4'}>
+              {error.message}
+              <ScrollBar orientation={'horizontal'} />
+            </ScrollArea>
+          </AlertDescription>
+        </Alert>
+      )}
+      {isSuccess && (
+        <Alert
+          variant={'success'}
+          className={'mb-4'}
+        >
+          <FontAwesomeIcon icon={faCheck} />
+          <AlertTitle>Success</AlertTitle>
+          <AlertDescription>{success.event.transactionHash}</AlertDescription>
+        </Alert>
+      )}
+      <Card className={'mb-4'}>
+        <CardHeader className={'flex flex-row items-center justify-between'}>
+          <CardTitle>Chain</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {loadingMetadata ? (
+            <Skeleton className={'h-[100px]'} />
+          ) : (
+            Object.keys(chains).map((chain) => (
+              <div
+                key={chain}
+                className={'flex flex-row gap-10 mb-2'}
+              >
+                <div className={'w-[100px]'}>
+                  <p className={'font-semibold text-muted-foreground'}>Chain:</p>
+                  <p className={'capitalize'}>{chain}</p>
+                </div>
+                <div className={'flex flex-1 flex-col'}>
+                  <p className={'font-semibold text-muted-foreground'}>Address:</p>
+                  <EthAddress
+                    address={metadata[chain].address}
+                    length={0}
+                  />
+                </div>
+                <div className={'flex gap-4'}>
+                  <Link
+                    href={`https://app.splits.org/accounts/${metadata[chain].address}?chainId=${chains[chain].id}`}
+                    target={'_blank'}
+                  >
+                    <Button variant={'secondary'}>
+                      <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                    </Button>
+                  </Link>
+                  <Button
+                    onClick={() => handleUpdateSplits(chain)}
+                    disabled={updating === chain}
+                  >
+                    {updating === chain && (
+                      <FontAwesomeIcon
+                        icon={faLoader}
+                        className={'animate-spin mr-2'}
+                      />
+                    )}
+                    Update
+                  </Button>
+                </div>
+              </div>
+            ))
+          )}
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Current Verified Users</CardTitle>
         </CardHeader>
         <CardContent>
-          {isError && (
-            <Alert variant={'destructive'}>
-              <FontAwesomeIcon icon={faCircleExclamation} />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>
-                <ScrollArea className={'pb-4'}>
-                  {error.message}
-                  <ScrollBar orientation={'horizontal'} />
-                </ScrollArea>
-              </AlertDescription>
-            </Alert>
-          )}
-          {isSuccess && (
-            <Alert variant={'success'}>
-              <FontAwesomeIcon icon={faCheck} />
-              <AlertTitle>Success</AlertTitle>
-              <AlertDescription>{success.event.transactionHash}</AlertDescription>
-            </Alert>
-          )}
           {isLoading ? (
             <Skeleton className={'h-[400px]'} />
           ) : (
@@ -162,21 +224,6 @@ const UpdateSplits = () => {
             </Table>
           )}
         </CardContent>
-        <CardFooter>
-          <Button
-            onClick={handleUpdateSplits}
-            disabled={isPending}
-            className={'mr-4'}
-          >
-            {isPending && (
-              <FontAwesomeIcon
-                icon={faLoader}
-                className={'animate-spin mr-2'}
-              />
-            )}
-            Update Splits
-          </Button>
-        </CardFooter>
       </Card>
     </div>
   )

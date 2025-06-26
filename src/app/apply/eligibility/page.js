@@ -64,6 +64,10 @@ const ApplyEligibility = () => {
                         Etherscan Verified Signature
                       </Link>
                     </li>
+                    <li>
+                      If your address is not eligible, submit a signature associated with your
+                      validators to get an option to appeal.
+                    </li>
                   </ol>
                 </AlertDescription>
               </div>

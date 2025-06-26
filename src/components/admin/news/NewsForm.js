@@ -29,6 +29,7 @@ const NewsForm = ({ id, callback = () => {} }) => {
     title: z.string(),
     content: z.string(),
     link: z.string().url().or(z.literal('')),
+    linkTitle: z.string().optional(),
     archived: z.boolean().optional(),
   })
 
@@ -38,6 +39,7 @@ const NewsForm = ({ id, callback = () => {} }) => {
       title: '',
       content: '',
       link: '',
+      linkTitle: '',
       archived: false,
     },
     values: news,
@@ -109,6 +111,23 @@ const NewsForm = ({ id, callback = () => {} }) => {
               <FormControl>
                 <Input
                   placeholder={'News Link'}
+                  disabled={isPending}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name={'linkTitle'}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Link Text</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder={'Button Text'}
                   disabled={isPending}
                   {...field}
                 />

@@ -6,6 +6,20 @@ const useUserCount = () => {
     queryKey: ['user', 'count'],
     queryFn: async () => {
       try {
+        return await api.get('/users/count')
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+    select: ({ data }) => data,
+  })
+}
+
+const useUsers = () => {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      try {
         return await api.get('/users')
       } catch (error) {
         throw new Error(error)
@@ -15,4 +29,4 @@ const useUserCount = () => {
   })
 }
 
-export { useUserCount }
+export { useUserCount, useUsers }

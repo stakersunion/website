@@ -7,7 +7,6 @@ import {
   faHandshakeAngle,
   faUserTie,
   faTools,
-  faPassport,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faDiscord, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 
@@ -54,18 +53,32 @@ const routes = {
       path: '/#partnerships',
       icon: faHandshakeAngle,
     },
-    pledge: {
-      title: 'Pledge',
-      description: 'Learn about how you can give back by taking the Stakers Union Pledge.',
-      path: '/pledge',
-      icon: faHandHoldingHeart,
-    },
     leadership: {
       title: 'Leadership',
       description: 'Guide our mission. Step up and lead the Stakers Union.',
       path: 'https://docs.stakersunion.com/governance',
       icon: faUserTie,
       target: '_blank',
+    },
+    list: {
+      title: 'Current Members',
+      description: 'View or download a current list of Stakers Union members.',
+      path: '/list',
+      icon: faUserGroup,
+      hidden: true,
+    },
+    vote: {
+      title: 'Vote',
+      description: 'Get involved in governance, vote on Stakers Union proposals.',
+      path: 'https://vote.stakersunion.com',
+      icon: faCheckToSlot,
+      target: '_blank',
+    },
+    pledge: {
+      title: 'Pledge',
+      description: 'Learn about how you can give back by taking the Stakers Union Pledge.',
+      path: '/pledge',
+      icon: faHandHoldingHeart,
     },
   },
   follow: {
@@ -132,6 +145,7 @@ const routes = {
       addresses: { path: '/account/addresses', title: 'Addresses' },
       validators: { path: '/account/validators', title: 'Validators' },
       appeal: { path: '/account/appeal', title: 'Appeal' },
+      support: { path: '/account/support', title: 'Support' },
     },
   },
   apply: {
@@ -195,6 +209,7 @@ const routes = {
         },
       },
       news: { path: '/admin/news', title: 'News' },
+      email: { path: '/admin/queue', title: 'Email Queue' },
       splits: {
         path: '/admin/splits',
         title: 'Splits',

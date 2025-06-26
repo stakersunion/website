@@ -5,8 +5,8 @@ import { currentUser } from '@clerk/nextjs/server'
 import connect from '@/utils/mongoose'
 import User from '@/models/user'
 import csv from 'csv-parser'
-import { GeonodeScraperApi } from 'geonode-scraper-api'
-import { parse } from 'node-html-parser'
+import * as cheerio from 'cheerio'
+import axios from 'axios'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,25 +15,27 @@ export async function PUT(req) {
   const { signature } = await req.json()
 
   async function fetchSignature(signature) {
-    const scraper = new GeonodeScraperApi(
-      process.env.GEONODE_USERNAME,
-      process.env.GEONODE_PASSWORD
-    )
+    try {
+      const { data } = await axios.post(
+        process.env.ZYTE_API_ENDPOINT,
+        {
+          url: signature,
+          browserHtml: true,
+        },
+        {
+          auth: { username: process.env.ZYTE_API_KEY },
+        }
+      )
 
-    const config = {
-      js_render: false,
-      response_format: 'html',
-      block_resources: true,
-      HTMLMinifier: { useMinifier: true },
+      const $ = cheerio.load(data.browserHtml)
+
+      const address = $('#ContentPlaceHolder1_txtAddressReadonly').attr('value')
+      const oath = $('#ContentPlaceHolder1_txtSignedMessageReadonly').text()
+
+      return { address, oath }
+    } catch (error) {
+      console.error('Error fetching signature:', error)
     }
-
-    const response = await scraper.scrape(signature, config)
-    const root = parse(response.data)
-
-    const address = root.querySelector('#ContentPlaceHolder1_txtAddressReadonly').attributes.value
-    const oath = root.querySelector('#ContentPlaceHolder1_txtSignedMessageReadonly').innerText
-
-    return { address, oath }
   }
 
   async function checkAddressInCsv(filePath, targetAddress) {
@@ -79,7 +81,13 @@ export async function PUT(req) {
   }
 
   try {
+    await connect()
     const { address, oath } = await fetchSignature(signature)
+    const user = await User.findOne({ id })
+
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
 
     if (!address) {
       return NextResponse.json({ error: 'Address not found' }, { status: 400 })
@@ -96,17 +104,12 @@ export async function PUT(req) {
     const addressExists2 = await checkAddressInCsv(csvPath2, address)
 
     if (!addressExists1 && !addressExists2) {
+      user.verification.eligibility.status = 'rejected'
+      await user.save()
       return NextResponse.json(
         { error: 'Address not found in StakeCat List A or RocketPool' },
         { status: 400 }
       )
-    }
-
-    await connect()
-    const user = await User.findOne({ id })
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
     user.verification.eligibility.status = 'approved'
@@ -115,6 +118,7 @@ export async function PUT(req) {
 
     return NextResponse.json(user, { status: 200 })
   } catch (error) {
+    console.error('Error verifying eligibility:', error)
     return NextResponse.json(
       { error: 'Internal server error', details: error.message },
       { status: 500 }

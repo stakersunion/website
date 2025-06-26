@@ -21,13 +21,41 @@ const PhotoForm = () => {
   }, [error])
 
   const handleError = (error) => {
-    let errorMessage = error?.message
-    if (errorMessage && errorMessage.includes('FileSizeMismatch')) {
-      errorMessage = 'File size exceeds the limit of 4MB. Please try again.'
+    const errorMessage = error?.message?.includes('FileSizeMismatch')
+      ? 'File size exceeds the limit of 4MB. Please try again.'
+      : 'Error uploading file. Please try again.'
+
+    toast.error(errorMessage)
+  }
+
+  const handleBeforeUpload = async (files) => {
+    try {
+      if (typeof window === 'undefined') {
+        toast.error('Image processing is only available in the browser.')
+        return []
+      }
+
+      const file = files[0]
+      if (!file) {
+        toast.error('No file selected. Please try again.')
+        return []
+      }
+
+      // Lazy load the stripEXIF function
+      const { default: stripEXIF } = await import('@/utils/stripExif')
+      const newFile = await stripEXIF(file)
+
+      if (!(newFile instanceof File)) {
+        toast.error('Processed file is invalid. Please try again.')
+        return []
+      }
+
+      toast.success('Image metadata stripped successfully.')
+      return [newFile]
+    } catch (error) {
+      toast.error('Failed to process image. Please try again.')
+      return []
     }
-    toast.error('Error uploading file. Please try again.', {
-      description: errorMessage,
-    })
   }
 
   return (
@@ -42,6 +70,7 @@ const PhotoForm = () => {
       }}
       endpoint={'residential'}
       url={'/api/upload'}
+      onBeforeUploadBegin={handleBeforeUpload}
       onClientUploadComplete={(res) => {
         updateVerification({ photo: res[0].url })
       }}

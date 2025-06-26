@@ -61,7 +61,7 @@ const News = () => {
                           variant={'secondary'}
                           className={'text-sm'}
                         >
-                          Read More
+                          {item.linkText || 'Read More'}
                         </Button>
                       </Link>
                     )}

@@ -7,6 +7,9 @@ import {
   faHandshakeAngle,
   faUserTie,
   faTools,
+  faUserGroup,
+  faCheckToSlot,
+  faPassport,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faDiscord, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 

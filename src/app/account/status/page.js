@@ -65,15 +65,39 @@ const Status = () => {
       status: profile.region,
       link: routes.account.children.profile.children.validator.path,
     },
-    {
-      title: 'Passport',
-      status: profile.passportAddress,
-      link: routes.account.children.profile.children.passport.path,
-    },
   ]
 
   const incompleteProfileElements = () => {
     return profileElements.filter((element) => !element.status)
+  }
+
+  const incompletePassport = () => {
+    if (!verification.passport) {
+      return {
+        message: 'No passport address found',
+        link: routes.account.children.profile.children.passport.path,
+        linkText: 'Add Passport',
+      }
+    } else if (
+      verification.passport.address &&
+      verification.passport.score < process.env.NEXT_PUBLIC_GITCOIN_PASSPORT_MINIMUM
+    ) {
+      return {
+        message: 'Passport score below minimum',
+        link: 'https://app.passport.xyz/',
+        linkText: 'Update Passport',
+        linkTarget: '_blank',
+      }
+    } else if (new Date(verification.passport.expires) < new Date()) {
+      return {
+        message: 'Passport expired',
+        link: 'https://app.passport.xyz/',
+        linkText: 'Update Passport',
+        linkTarget: '_blank',
+      }
+    } else {
+      return false
+    }
   }
 
   return (
@@ -146,7 +170,7 @@ const Status = () => {
             </CardTitle>
             <CardDescription>A summary of incomplete profile elements</CardDescription>
           </CardHeader>
-          <CardContent className={'flex gap-3 flex-wrap md:flex-nowrap'}>
+          <CardContent className={'flex gap-3 flex-wrap md:flex-nowrap md:grid md:grid-cols-3'}>
             {incompleteProfileElements().map((element) => (
               <Alert
                 key={element.title}
@@ -167,6 +191,26 @@ const Status = () => {
                 </Link>
               </Alert>
             ))}
+            {incompletePassport() && (
+              <Alert className={'flex flex-row'}>
+                <div className={'flex flex-1 flex-col mr-2'}>
+                  <AlertTitle>Passport</AlertTitle>
+                  <AlertDescription className={'text-muted-foreground'}>
+                    <FontAwesomeIcon
+                      icon={faMinus}
+                      className={'mr-2'}
+                    />
+                    {incompletePassport().message || 'Incomplete'}
+                  </AlertDescription>
+                </div>
+                <Link
+                  target={incompletePassport().linkTarget}
+                  href={incompletePassport().link}
+                >
+                  <Button size={'sm'}>{incompletePassport().linkText}</Button>
+                </Link>
+              </Alert>
+            )}
           </CardContent>
         </Card>
       )}

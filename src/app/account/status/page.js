@@ -72,7 +72,7 @@ const Status = () => {
   }
 
   const incompletePassport = () => {
-    if (!verification.passport) {
+    if (!verification.passport || !verification.passport.address) {
       return {
         message: 'No passport address found',
         link: routes.account.children.profile.children.passport.path,

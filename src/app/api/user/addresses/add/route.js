@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server'
 import { currentUser } from '@clerk/nextjs/server'
 import connect from '@/utils/mongoose'
 import User from '@/models/user'
-import { GeonodeScraperApi } from 'geonode-scraper-api'
-import { parse } from 'node-html-parser'
+import * as cheerio from 'cheerio'
+import axios from 'axios'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,25 +12,27 @@ export async function POST(req) {
   const { signature, type } = await req.json()
 
   async function fetchSignature(signature) {
-    const scraper = new GeonodeScraperApi(
-      process.env.GEONODE_USERNAME,
-      process.env.GEONODE_PASSWORD
-    )
+    try {
+      const { data } = await axios.post(
+        process.env.ZYTE_API_ENDPOINT,
+        {
+          url: signature,
+          browserHtml: true,
+        },
+        {
+          auth: { username: process.env.ZYTE_API_KEY },
+        }
+      )
 
-    const config = {
-      js_render: false,
-      response_format: 'html',
-      block_resources: true,
-      HTMLMinifier: { useMinifier: true },
+      const $ = cheerio.load(data.browserHtml)
+
+      const address = $('#ContentPlaceHolder1_txtAddressReadonly').attr('value')
+      const oath = $('#ContentPlaceHolder1_txtSignedMessageReadonly').text()
+
+      return { address, oath }
+    } catch (error) {
+      console.error('Error fetching signature:', error)
     }
-
-    const response = await scraper.scrape(signature, config)
-    const root = parse(response.data)
-
-    const address = root.querySelector('#ContentPlaceHolder1_txtAddressReadonly').attributes.value
-    const oath = root.querySelector('#ContentPlaceHolder1_txtSignedMessageReadonly').innerText
-
-    return { address, oath }
   }
 
   if (!id) {

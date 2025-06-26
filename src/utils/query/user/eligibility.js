@@ -17,7 +17,7 @@ const useCheckEligibility = () => {
         }
       }
     },
-    onSuccess: (response) => {
+    onSettled: (response) => {
       queryClient.invalidateQueries({ queryKey: ['user'] })
     },
   })

@@ -81,7 +81,13 @@ export async function PUT(req) {
   }
 
   try {
+    await connect()
     const { address, oath } = await fetchSignature(signature)
+    const user = await User.findOne({ id })
+
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
 
     if (!address) {
       return NextResponse.json({ error: 'Address not found' }, { status: 400 })
@@ -98,17 +104,12 @@ export async function PUT(req) {
     const addressExists2 = await checkAddressInCsv(csvPath2, address)
 
     if (!addressExists1 && !addressExists2) {
+      user.verification.eligibility.status = 'rejected'
+      await user.save()
       return NextResponse.json(
         { error: 'Address not found in StakeCat List A or RocketPool' },
         { status: 400 }
       )
-    }
-
-    await connect()
-    const user = await User.findOne({ id })
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
     user.verification.eligibility.status = 'approved'

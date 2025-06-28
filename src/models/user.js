@@ -120,6 +120,24 @@ const userSchema = mongoose.Schema(
           enum: ['pending', 'approved', 'rejected', 'ineligible'],
         },
       },
+      passport: {
+        address: {
+          type: String,
+        },
+        score: {
+          type: Number,
+        },
+        expires: {
+          type: Date,
+        },
+        updated: {
+          type: Date,
+        },
+      },
+      version: {
+        type: Number,
+        default: 1,
+      },
     },
     addresses: [
       {
@@ -129,11 +147,22 @@ const userSchema = mongoose.Schema(
         },
         type: {
           type: String,
-          enum: ['deposit', 'withdrawal', 'fee-recipient'],
+          enum: ['deposit', 'withdrawal', 'fee-recipient', 'passport', 'other'],
         },
         createdAt: {
           type: Date,
           default: Date.now,
+        },
+        passport: {
+          score: {
+            type: Number,
+          },
+          expires: {
+            type: Date,
+          },
+          updated: {
+            type: Date,
+          },
         },
         validators: [
           {

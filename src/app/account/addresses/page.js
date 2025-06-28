@@ -1,6 +1,6 @@
 'use client'
 
-import { DataTable, columns } from '@/components/user/addresses'
+import { DataTable, columns, Add } from '@/components/user/addresses'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Building } from '@/components/user'
 import { useUser } from '@/utils/query/user'
@@ -19,6 +19,7 @@ const Addresses = () => {
         columns={columns}
         data={user?.addresses || []}
       />
+      <Add />
     </div>
   )
 }

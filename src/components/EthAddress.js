@@ -7,7 +7,7 @@ const EthAddress = ({ address, empty = 'Not set', length = 5, clipboard = true, 
   const [copied, setCopied] = useState(false)
 
   if (!address) {
-    return <p>{empty}</p>
+    return <p className={className}>{empty}</p>
   }
 
   const copyToClipboard = () => {

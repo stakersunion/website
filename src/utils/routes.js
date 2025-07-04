@@ -72,7 +72,7 @@ const routes = {
     vote: {
       title: 'Vote',
       description: 'Get involved in governance, vote on Stakers Union proposals.',
-      path: 'https://vote.stakersunion.com',
+      path: 'https://snapshot.box/#/s:stakersunion.eth',
       icon: faCheckToSlot,
       target: '_blank',
     },

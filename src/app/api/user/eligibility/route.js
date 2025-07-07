@@ -97,6 +97,13 @@ export async function PUT(req) {
       return NextResponse.json({ error: 'Invalid Oath' }, { status: 400 })
     }
 
+    // Store the address associated with the signature
+    user.addresses.push({
+      address,
+      type: 'eligibility',
+    })
+    await user.save()
+
     const csvPath1 = path.join(process.cwd(), 'src/data/Solo-Stakers-A.csv')
     const csvPath2 = path.join(process.cwd(), 'src/data/Rocketpool-Solo-Stakers.csv')
 

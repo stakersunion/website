@@ -129,7 +129,7 @@ const userSchema = mongoose.Schema(
         },
         type: {
           type: String,
-          enum: ['deposit', 'withdrawal', 'fee-recipient'],
+          enum: ['deposit', 'withdrawal', 'fee-recipient', 'eligibility'],
         },
         createdAt: {
           type: Date,

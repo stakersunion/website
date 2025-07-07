@@ -7,6 +7,15 @@ import CalendarFile from '@/components/apply/CalendarFile'
 import Method from '@/components/apply/Method'
 import Schedule from '@/components/apply/Schedule'
 import DAppNode from '@/components/apply/DAppNode'
-import DAppNodeVerification from '@/components/apply/DAppNodeVerification'
 
-export { Status, SignatureForm, ScheduleForm, PhotoForm, NotResidential, CalendarFile, Method, Schedule, DAppNode, DAppNodeVerification }
+export {
+  Status,
+  SignatureForm,
+  ScheduleForm,
+  PhotoForm,
+  NotResidential,
+  CalendarFile,
+  Method,
+  Schedule,
+  DAppNode,
+}

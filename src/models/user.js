@@ -108,6 +108,7 @@ const userSchema = mongoose.Schema(
       },
       independent: {
         schedule: { type: Date },
+        dappNodePublicKey: { type: String },
         status: {
           type: String,
           enum: ['pending', 'approved', 'rejected'],

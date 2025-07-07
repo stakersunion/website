@@ -1,10 +1,13 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faServer } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { cn } from '@/utils/shadcn'
+import { useVerification } from '@/utils/query/user/verification'
 
 const Method = ({ method, setMethod }) => {
+  const { data: verification } = useVerification()
+
   const toggleMethod = (newMethod) => {
     if (newMethod === method) {
       setMethod(null)
@@ -12,6 +15,9 @@ const Method = ({ method, setMethod }) => {
       setMethod(newMethod)
     }
   }
+
+  // If the user has already scheduled a verification, don't show the method selection
+  if (verification?.independent?.schedule) return null
 
   return (
     <div>

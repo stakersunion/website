@@ -60,8 +60,12 @@ export async function POST(req) {
 
     // Find user with matching eligible address
     const user = await User.findOne({
-      'addresses.address': eligibleAddress,
-      'addresses.type': 'eligibility'
+      addresses: {
+        $elemMatch: {
+          address: { $regex: `^${eligibleAddress}$`, $options: 'i' },
+          type: 'eligibility'
+        }
+      }
     })
 
     if (!user) {
@@ -81,7 +85,7 @@ export async function POST(req) {
 
     // Check if DAppNode public key is already in use by another user
     const existingUser = await User.findOne({
-      'verification.eligibility.dappNodePublicKey': dappnodePublicKey,
+      'verification.independent.dappNodePublicKey': dappnodePublicKey,
       _id: { $ne: user._id } // Exclude current user
     })
 
@@ -96,8 +100,9 @@ export async function POST(req) {
     const updatedUser = await User.findByIdAndUpdate(
       user._id,
       {
-        'verification.eligibility.dappNodePublicKey': dappnodePublicKey,
-        'verification.eligibility.status': 'approved'
+        'verification.independent.dappNodePublicKey': dappnodePublicKey,
+        'verification.independent.status': 'approved',
+        'verification.independent.schedule': body.timestamp
       },
       { new: true }
     )

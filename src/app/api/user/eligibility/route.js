@@ -10,6 +10,75 @@ import axios from 'axios'
 
 export const dynamic = 'force-dynamic'
 
+// In-memory cache for CSV data
+let soloStakersCache = null
+let rocketpoolStakersCache = null
+let cacheTimestamp = null
+const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes
+
+async function loadCsvIntoSet(filePath) {
+  return new Promise((resolve, reject) => {
+    const addressSet = new Set()
+    const isSingleColumn = path.basename(filePath).includes('Solo-Stakers-A')
+
+    fs.createReadStream(filePath)
+      .pipe(csv({ separator: isSingleColumn ? ',' : '\t' }))
+      .on('data', (row) => {
+        if (isSingleColumn) {
+          const address = Object.values(row)[0].toLowerCase().trim()
+          addressSet.add(address)
+        } else {
+          const nodeAccount = row['Node Account'] ? row['Node Account'].toLowerCase().trim() : ''
+          const withdrawalAddress = row['Withdrawal Address']
+            ? row['Withdrawal Address'].toLowerCase().trim()
+            : ''
+          if (nodeAccount) addressSet.add(nodeAccount)
+          if (withdrawalAddress) addressSet.add(withdrawalAddress)
+        }
+      })
+      .on('end', () => resolve(addressSet))
+      .on('error', reject)
+  })
+}
+
+async function ensureCache() {
+  const now = Date.now()
+  
+  // Check if cache is valid
+  if (cacheTimestamp && (now - cacheTimestamp) < CACHE_DURATION) {
+    return
+  }
+
+  try {
+    const csvPath1 = path.join(process.cwd(), 'src/data/Solo-Stakers-A.csv')
+    const csvPath2 = path.join(process.cwd(), 'src/data/Rocketpool-Solo-Stakers.csv')
+
+    // Load both CSV files in parallel
+    const [soloStakers, rocketpoolStakers] = await Promise.all([
+      loadCsvIntoSet(csvPath1),
+      loadCsvIntoSet(csvPath2)
+    ])
+
+    soloStakersCache = soloStakers
+    rocketpoolStakersCache = rocketpoolStakers
+    cacheTimestamp = now
+  } catch (error) {
+    console.error('Error loading CSV cache:', error)
+    throw error
+  }
+}
+
+async function checkAddressInCache(address) {
+  await ensureCache()
+  
+  const targetAddress = address.toLowerCase().trim()
+  
+  const existsInSolo = soloStakersCache.has(targetAddress)
+  const existsInRocketpool = rocketpoolStakersCache.has(targetAddress)
+  
+  return { existsInSolo, existsInRocketpool }
+}
+
 export async function PUT(req) {
   const { id } = await currentUser()
   const { signature } = await req.json()
@@ -38,44 +107,6 @@ export async function PUT(req) {
     }
   }
 
-  async function checkAddressInCsv(filePath, targetAddress) {
-    return new Promise((resolve) => {
-      let foundAddress = false
-      const targetAddressLower = targetAddress.toLowerCase().trim()
-      const isSingleColumn = path.basename(filePath).includes('Solo-Stakers-A')
-
-      fs.createReadStream(filePath)
-        .pipe(csv({ separator: isSingleColumn ? ',' : '\t' }))
-        .on('data', (row) => {
-          if (isSingleColumn) {
-            const address = Object.values(row)[0].toLowerCase().trim()
-            if (address === targetAddressLower) {
-              foundAddress = true
-              resolve(true)
-            }
-          } else {
-            const nodeAccount = row['Node Account'] ? row['Node Account'].toLowerCase().trim() : ''
-            const withdrawalAddress = row['Withdrawal Address']
-              ? row['Withdrawal Address'].toLowerCase().trim()
-              : ''
-            if (nodeAccount === targetAddressLower || withdrawalAddress === targetAddressLower) {
-              foundAddress = true
-              resolve(true)
-            }
-          }
-        })
-        .on('end', () => {
-          if (!foundAddress) {
-            resolve(false)
-          }
-        })
-        .on('error', (error) => {
-          console.error('Error reading CSV file:', error)
-          resolve(false)
-        })
-    })
-  }
-
   if (!id) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
   }
@@ -97,13 +128,17 @@ export async function PUT(req) {
       return NextResponse.json({ error: 'Invalid Oath' }, { status: 400 })
     }
 
-    const csvPath1 = path.join(process.cwd(), 'src/data/Solo-Stakers-A.csv')
-    const csvPath2 = path.join(process.cwd(), 'src/data/Rocketpool-Solo-Stakers.csv')
+    // Store the address associated with the signature
+    user.addresses.push({
+      address,
+      type: 'eligibility',
+    })
+    await user.save()
 
-    const addressExists1 = await checkAddressInCsv(csvPath1, address)
-    const addressExists2 = await checkAddressInCsv(csvPath2, address)
+    // Use cached lookup instead of streaming CSV files
+    const { existsInSolo, existsInRocketpool } = await checkAddressInCache(address)
 
-    if (!addressExists1 && !addressExists2) {
+    if (!existsInSolo && !existsInRocketpool) {
       user.verification.eligibility.status = 'rejected'
       await user.save()
       return NextResponse.json(

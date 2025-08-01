@@ -1,10 +1,8 @@
-import fs from 'fs'
-import path from 'path'
 import { NextResponse } from 'next/server'
 import { currentUser } from '@clerk/nextjs/server'
 import connect from '@/utils/mongoose'
 import User from '@/models/user'
-import csv from 'csv-parser'
+import StakeCat from '@/models/stakecat'
 import * as cheerio from 'cheerio'
 import axios from 'axios'
 
@@ -38,42 +36,15 @@ export async function PUT(req) {
     }
   }
 
-  async function checkAddressInCsv(filePath, targetAddress) {
-    return new Promise((resolve) => {
-      let foundAddress = false
+  async function checkAddressInDatabase(targetAddress) {
+    try {
       const targetAddressLower = targetAddress.toLowerCase().trim()
-      const isSingleColumn = path.basename(filePath).includes('Solo-Stakers-A')
-
-      fs.createReadStream(filePath)
-        .pipe(csv({ separator: isSingleColumn ? ',' : '\t' }))
-        .on('data', (row) => {
-          if (isSingleColumn) {
-            const address = Object.values(row)[0].toLowerCase().trim()
-            if (address === targetAddressLower) {
-              foundAddress = true
-              resolve(true)
-            }
-          } else {
-            const nodeAccount = row['Node Account'] ? row['Node Account'].toLowerCase().trim() : ''
-            const withdrawalAddress = row['Withdrawal Address']
-              ? row['Withdrawal Address'].toLowerCase().trim()
-              : ''
-            if (nodeAccount === targetAddressLower || withdrawalAddress === targetAddressLower) {
-              foundAddress = true
-              resolve(true)
-            }
-          }
-        })
-        .on('end', () => {
-          if (!foundAddress) {
-            resolve(false)
-          }
-        })
-        .on('error', (error) => {
-          console.error('Error reading CSV file:', error)
-          resolve(false)
-        })
-    })
+      const address = await StakeCat.findOne({ address: targetAddressLower })
+      return !!address
+    } catch (error) {
+      console.error('Error checking address in database:', error)
+      return false
+    }
   }
 
   if (!id) {
@@ -97,17 +68,13 @@ export async function PUT(req) {
       return NextResponse.json({ error: 'Invalid Oath' }, { status: 400 })
     }
 
-    const csvPath1 = path.join(process.cwd(), 'src/data/Solo-Stakers-A.csv')
-    const csvPath2 = path.join(process.cwd(), 'src/data/Rocketpool-Solo-Stakers.csv')
+    const addressExists = await checkAddressInDatabase(address)
 
-    const addressExists1 = await checkAddressInCsv(csvPath1, address)
-    const addressExists2 = await checkAddressInCsv(csvPath2, address)
-
-    if (!addressExists1 && !addressExists2) {
+    if (!addressExists) {
       user.verification.eligibility.status = 'rejected'
       await user.save()
       return NextResponse.json(
-        { error: 'Address not found in StakeCat List A or RocketPool' },
+        { error: 'Address not found in eligible addresses database' },
         { status: 400 }
       )
     }

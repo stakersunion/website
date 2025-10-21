@@ -11,19 +11,24 @@ const Partners = () => {
       logo: '/partners/obol.svg',
     },
     {
-      name: 'NodeSet',
-      href: 'https://nodeset.io',
-      logo: '/partners/nodeset.svg',
-    },
-    {
       name: 'StakeCat',
       href: 'https://stakecat.space',
       logo: '/partners/stakecat.svg',
     },
     {
+      name: 'Seba',
+      href: 'https://seba.heroglyphs.com/',
+      logo: '/partners/seba.svg',
+    },
+    {
       name: 'EthStaker',
       href: 'https://ethstaker.cc',
       logo: '/partners/ethstaker.svg',
+    },
+    {
+      name: 'NodeSet',
+      href: 'https://nodeset.io',
+      logo: '/partners/nodeset.svg',
     },
   ]
 

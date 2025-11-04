@@ -3,7 +3,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import Providers from '@/app/providers'
 import { Toaster } from '@/components/ui/sonner'
-import { Header } from '@/components/header'
+import { Header, Banner } from '@/components/header'
 import NextTopLoader from 'nextjs-toploader'
 import { Inter as FontSans } from 'next/font/google'
 import { cn } from '@/utils/shadcn'
@@ -32,6 +32,7 @@ export default function RootLayout({ children }) {
             color={'#ffffff'}
             showSpinner={false}
           />
+          <Banner />
           <Header />
           <main>{children}</main>
           <Toaster position={'bottom-left'} />

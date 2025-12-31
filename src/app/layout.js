@@ -32,7 +32,6 @@ export default function RootLayout({ children }) {
             color={'#ffffff'}
             showSpinner={false}
           />
-          <Banner />
           <Header />
           <main>{children}</main>
           <Toaster position={'bottom-left'} />

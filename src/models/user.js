@@ -58,6 +58,24 @@ const userSchema = mongoose.Schema(
         type: String,
         enum: ['North America', 'South America', 'Europe', 'Asia', 'Africa', 'Oceania'],
       },
+      availability: {
+        dvt: {
+          type: Boolean,
+          default: false,
+        },
+        avs: {
+          type: Boolean,
+          default: false,
+        },
+        clientTesting: {
+          type: Boolean,
+          default: false,
+        },
+        preconf: {
+          type: Boolean,
+          default: false,
+        },
+      },
     },
     appeal: {
       address: {

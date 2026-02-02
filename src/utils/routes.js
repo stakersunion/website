@@ -9,6 +9,8 @@ import {
   faTools,
   faUserGroup,
   faCheckToSlot,
+  faChartLine,
+  faSignal,
 } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { faDiscord, faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 
@@ -49,6 +51,12 @@ const routes = {
     },
   },
   contribute: {
+    dashboard: {
+      title: 'Dashboard',
+      description: 'View aggregate statistics and availability of Union members.',
+      path: '/dashboard',
+      icon: faChartLine,
+    },
     partnerships: {
       title: 'Partnerships',
       description: 'Learn more about our partners and how to become one.',
@@ -140,6 +148,7 @@ const routes = {
       status: { path: '/account/status', title: 'Status' },
       addresses: { path: '/account/addresses', title: 'Addresses' },
       validators: { path: '/account/validators', title: 'Validators' },
+      availability: { path: '/account/availability', title: 'Availability', icon: faSignal },
       appeal: { path: '/account/appeal', title: 'Appeal' },
       support: { path: '/account/support', title: 'Support' },
     },

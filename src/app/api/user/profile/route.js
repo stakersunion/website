@@ -35,18 +35,19 @@ export async function PUT(req) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
   } else {
     await connect()
+    // Build update object dynamically to avoid overwriting fields not in request
+    const updateFields = {}
+    if (body.name !== undefined) updateFields['profile.name'] = body.name
+    if (body.email !== undefined) updateFields['profile.email'] = body.email
+    if (body.discord !== undefined) updateFields['profile.discord'] = body.discord
+    if (body.withdrawalAddress !== undefined) updateFields['profile.withdrawalAddress'] = body.withdrawalAddress
+    if (body.clients !== undefined) updateFields['profile.clients'] = body.clients
+    if (body.region !== undefined) updateFields['profile.region'] = body.region
+    if (body.availability !== undefined) updateFields['profile.availability'] = body.availability
+
     const user = await User.findOneAndUpdate(
       { id },
-      {
-        $set: {
-          'profile.name': body.name,
-          'profile.email': body.email,
-          'profile.discord': body.discord,
-          'profile.withdrawalAddress': body.withdrawalAddress,
-          'profile.clients': body.clients,
-          'profile.region': body.region,
-        },
-      },
+      { $set: updateFields },
       { new: true }
     )
     return NextResponse.json(user.profile, { status: 200 })

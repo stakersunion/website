@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLoader } from '@awesome.me/kit-ebf6e3e7b8/icons/sharp/solid'
 import { routes } from '@/utils/routes'
 
-const ApplyProfileUser = () => {
+const ProfileUser = () => {
   const { data: profile, isLoading } = useProfile()
   const { mutateAsync: updateProfile, isPending, isSuccess } = useUpdateProfile()
   const router = useRouter()
@@ -45,11 +45,14 @@ const ApplyProfileUser = () => {
 
   const onSubmit = async (values) => {
     await updateProfile(values)
+    router.push(routes.account.children.profile.children.validator.path)
   }
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Profile updated successfully')
+      toast.success('Profile updated successfully', {
+        description: `Redirecting to ${routes.account.children.profile.children.validator.title}`,
+      })
     }
   }, [isSuccess])
 
@@ -73,18 +76,8 @@ const ApplyProfileUser = () => {
                   className={'mr-2 h-4 w-4 animate-spin'}
                 />
               )}
-              Save
+              Save & Next
             </Button>
-            <Link href={routes.account.children.profile.children.validator.path}>
-              <Button
-                disabled={isLoading || isPending}
-                type={'button'}
-                variant={'ghost'}
-                className={'ml-2'}
-              >
-                Next
-              </Button>
-            </Link>
           </div>
         </div>
       </form>
@@ -92,4 +85,4 @@ const ApplyProfileUser = () => {
   )
 }
 
-export default ApplyProfileUser
+export default ProfileUser

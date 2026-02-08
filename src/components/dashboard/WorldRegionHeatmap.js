@@ -66,6 +66,17 @@ const WorldRegionHeatmap = ({ regions, totalMembers }) => {
   const activeRegion = hoveredRegion || selectedRegion
 
   const maxCount = useMemo(() => Math.max(...Object.values(regions || {}), 0), [regions])
+  const sortedRegions = useMemo(
+    () =>
+      [...regionOrder]
+        .map((region) => ({
+          ...region,
+          count: regions?.[region.key] || 0,
+          percent: totalMembers ? Math.round(((regions?.[region.key] || 0) / totalMembers) * 100) : 0,
+        }))
+        .sort((a, b) => b.percent - a.percent || a.label.localeCompare(b.label)),
+    [regions, totalMembers]
+  )
 
   return (
     <div className={'space-y-4'}>
@@ -130,9 +141,9 @@ const WorldRegionHeatmap = ({ regions, totalMembers }) => {
       </p>
 
       <div className={'grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3'}>
-        {regionOrder.map((region) => {
-          const count = regions?.[region.key] || 0
-          const percent = totalMembers ? Math.round((count / totalMembers) * 100) : 0
+        {sortedRegions.map((region) => {
+          const count = region.count
+          const percent = region.percent
           const isActive = activeRegion === region.key
           const isDimmed = activeRegion && activeRegion !== region.key
 

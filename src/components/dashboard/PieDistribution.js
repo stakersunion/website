@@ -34,9 +34,16 @@ const PieDistribution = ({ items, total, emptyLabel = 'No data reported' }) => {
   const activeKey = hoveredKey || selectedKey
 
   const segments = useMemo(() => {
+    const sortedItems = [...items]
+      .map((item) => ({
+        ...item,
+        count: item.count || 0,
+      }))
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
+
     let currentAngle = 0
-    return items.map((item, index) => {
-      const count = item.count || 0
+    return sortedItems.map((item, index) => {
+      const count = item.count
       const angle = total ? (count / total) * 360 : 0
       const startAngle = currentAngle
       const endAngle = currentAngle + angle

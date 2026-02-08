@@ -20,14 +20,25 @@ const useUpdateProfile = () => {
   return useMutation({
     mutationFn: async (data) => {
       try {
-        return await api.put('/user/profile', {
-          name: data.name,
-          email: data.email,
-          discord: data.discord,
-          withdrawalAddress: data.withdrawalAddress,
-          clients: data.clients,
-          region: data.region,
-        })
+        const payload = {}
+        const setIfProvided = (key) => {
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
+            payload[key] = data[key]
+          }
+        }
+
+        setIfProvided('name')
+        setIfProvided('email')
+        setIfProvided('discord')
+        setIfProvided('withdrawalAddress')
+        setIfProvided('clients')
+        setIfProvided('region')
+        setIfProvided('availability')
+        setIfProvided('languages')
+        setIfProvided('preferredContact')
+        setIfProvided('stack')
+
+        return await api.put('/user/profile', payload)
       } catch (error) {
         throw new Error(error)
       }

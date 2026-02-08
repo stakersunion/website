@@ -5,6 +5,21 @@ import {
   executionOptions,
   consensusOptions,
   regionOptions,
+  languageOptions,
+  contactMethodOptions,
+  osOptions,
+  toolingOptions,
 } from '@/components/user/profile/forms/options'
 
-export { User, Location, Validator, executionOptions, consensusOptions, regionOptions }
+export {
+  User,
+  Location,
+  Validator,
+  executionOptions,
+  consensusOptions,
+  regionOptions,
+  languageOptions,
+  contactMethodOptions,
+  osOptions,
+  toolingOptions,
+}

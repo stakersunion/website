@@ -49,6 +49,12 @@ const routes = {
     },
   },
   contribute: {
+    dashboard: {
+      title: 'Dashboard',
+      description: 'Explore member statistics and availability signals.',
+      path: '/dashboard',
+      icon: faUserGroup,
+    },
     partnerships: {
       title: 'Partnerships',
       description: 'Learn more about our partners and how to become one.',
@@ -134,6 +140,12 @@ const routes = {
             title: 'Validator Info',
             description: 'Set up validator information',
             icon: faTools,
+          },
+          availability: {
+            path: '/account/profile/availability',
+            title: 'Availability',
+            description: 'Set your operator availability signals',
+            icon: faUserGroup,
           },
         },
       },

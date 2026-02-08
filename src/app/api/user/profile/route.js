@@ -35,16 +35,33 @@ export async function PUT(req) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
   } else {
     await connect()
+    const update = {}
+    const setIfProvided = (key, value) => {
+      if (Object.prototype.hasOwnProperty.call(body, key)) {
+        update[`profile.${key}`] = value
+      }
+    }
+
+    setIfProvided('name', body.name)
+    setIfProvided('email', body.email)
+    setIfProvided('discord', body.discord)
+    setIfProvided('withdrawalAddress', body.withdrawalAddress)
+    setIfProvided('clients', body.clients)
+    setIfProvided('region', body.region)
+    setIfProvided('availability', body.availability)
+    setIfProvided('languages', body.languages)
+    setIfProvided('preferredContact', body.preferredContact)
+    setIfProvided('stack', body.stack)
+
+    if (Object.keys(update).length === 0) {
+      return NextResponse.json({ error: 'No updates provided' }, { status: 400 })
+    }
+
     const user = await User.findOneAndUpdate(
       { id },
       {
         $set: {
-          'profile.name': body.name,
-          'profile.email': body.email,
-          'profile.discord': body.discord,
-          'profile.withdrawalAddress': body.withdrawalAddress,
-          'profile.clients': body.clients,
-          'profile.region': body.region,
+          ...update,
         },
       },
       { new: true }

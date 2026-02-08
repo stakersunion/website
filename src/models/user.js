@@ -58,6 +58,89 @@ const userSchema = mongoose.Schema(
         type: String,
         enum: ['North America', 'South America', 'Europe', 'Asia', 'Africa', 'Oceania'],
       },
+      availability: {
+        dvt: {
+          type: Boolean,
+          default: false,
+        },
+        avs: {
+          type: Boolean,
+          default: false,
+        },
+        clientTesting: {
+          type: Boolean,
+          default: false,
+        },
+        preconf: {
+          type: Boolean,
+          default: false,
+        },
+        testnet: {
+          type: Boolean,
+          default: false,
+        },
+        mevRelay: {
+          type: Boolean,
+          default: false,
+        },
+        incidentResponse: {
+          type: Boolean,
+          default: false,
+        },
+        mentorship: {
+          type: Boolean,
+          default: false,
+        },
+      },
+      languages: {
+        common: {
+          type: [String],
+          default: [],
+        },
+        custom: {
+          type: [String],
+          default: [],
+        },
+      },
+      preferredContact: {
+        methods: {
+          type: [String],
+          default: [],
+        },
+        handles: {
+          telegram: {
+            type: String,
+            default: '',
+          },
+          signal: {
+            type: String,
+            default: '',
+          },
+          whatsapp: {
+            type: String,
+            default: '',
+          },
+        },
+      },
+      stack: {
+        os: {
+          type: String,
+          enum: ['linux', 'macos', 'windows', 'bsd', 'other', ''],
+          default: '',
+        },
+        osOther: {
+          type: String,
+          default: '',
+        },
+        tooling: {
+          type: [String],
+          default: [],
+        },
+        toolingCustom: {
+          type: [String],
+          default: [],
+        },
+      },
     },
     appeal: {
       address: {

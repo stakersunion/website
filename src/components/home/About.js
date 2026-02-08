@@ -89,7 +89,7 @@ const About = () => {
                 </Button>
               </Link>
               <Link
-                href={routes.contribute.list.path}
+                href={routes.contribute.dashboard.path}
                 className={'flex flex-1'}
               >
                 <Button
@@ -100,7 +100,7 @@ const About = () => {
                     icon={faUserGroup}
                     className={'mr-2'}
                   />
-                  Member List
+                  Dashboard
                 </Button>
               </Link>
             </CardFooter>
